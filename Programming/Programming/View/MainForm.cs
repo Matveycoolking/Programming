@@ -35,6 +35,9 @@ namespace Programming
                 VaulueListBox.Items.Add(element);
             }
         }
+        /// <summary>
+        /// само перечисление
+        /// </summary>
         private void EnumListbox_SelectedIndexChanged(object sender, EventArgs e)
         {
             switch (EnumListbox.SelectedIndex)
@@ -55,16 +58,21 @@ namespace Programming
                     AddToValues(typeof(Model.Enums.Weekday));
                     break;
                 case 5:
+                    AddToValues(typeof(Model.Enums.TypeOfSmartphone));
                     break;
             }
         }
-
+        /// <summary>
+        /// меняет индекс в текстбоксе со значениями
+        /// </summary>
         private void VaulueListBox_SelectedIndexChanged(object sender, EventArgs e)
         {
             var text = VaulueListBox.SelectedIndex + 1;
             ValueBox.Text = text.ToString();
         }
-
+        /// <summary>
+        /// кнопка для обозначения дня недели
+        /// </summary>
         private void ParseButton_Click(object sender, EventArgs e)
         {
             string inputText = ParseBox.Text.Trim();
@@ -88,7 +96,9 @@ namespace Programming
         {
 
         }
-
+        /// <summary>
+        /// кнопка отвечающая за смену сезона
+        /// </summary>
         private void SeasonButton_Click(object sender, EventArgs e)
         {
             switch (SeasoncomboBox1.SelectedIndex)

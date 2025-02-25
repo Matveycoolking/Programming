@@ -218,7 +218,7 @@
             "Eduaction",
             "TimeOfYear",
             "WeekDay",
-            "Manufactures"});
+            "TypeOfSmartphone"});
             this.EnumListbox.Location = new System.Drawing.Point(6, 50);
             this.EnumListbox.Name = "EnumListbox";
             this.EnumListbox.Size = new System.Drawing.Size(139, 124);
