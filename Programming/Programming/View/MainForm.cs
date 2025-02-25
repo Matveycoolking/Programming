@@ -96,9 +96,23 @@ namespace Programming
                 case 0:
                     tabPage1.BackColor= Color.Green;
                     break;
+                case 1:
+                    tabPage1.BackColor= Color.Yellow;
+                    break;
+                case 2:
+                    MessageBox.Show("БРРР, холодно");
+                    break;
+                case 3:
+                    MessageBox.Show("Ура! Солнце!");
+                    break;
             }
         }
+
+        private void SeasoncomboBox1_SelectedIndexChanged(object sender, EventArgs e)
+        {
+
         }
     }
-}
+    }
+
 
