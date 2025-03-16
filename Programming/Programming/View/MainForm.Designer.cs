@@ -45,6 +45,7 @@
             this.VaulueListBox = new System.Windows.Forms.ListBox();
             this.EnumListbox = new System.Windows.Forms.ListBox();
             this.tabPage2 = new System.Windows.Forms.TabPage();
+            this.pageSetupDialog1 = new System.Windows.Forms.PageSetupDialog();
             this.tabControl1.SuspendLayout();
             this.tabPage1.SuspendLayout();
             this.groupBox2.SuspendLayout();
@@ -273,6 +274,7 @@
         private System.Windows.Forms.Button SeasonButton;
         private System.Windows.Forms.Label label3;
         private System.Windows.Forms.ComboBox SeasoncomboBox1;
+        private System.Windows.Forms.PageSetupDialog pageSetupDialog1;
     }
 }
 
