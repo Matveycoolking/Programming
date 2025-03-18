@@ -46,10 +46,25 @@
             this.EnumListbox = new System.Windows.Forms.ListBox();
             this.tabPage2 = new System.Windows.Forms.TabPage();
             this.pageSetupDialog1 = new System.Windows.Forms.PageSetupDialog();
+            this.groupBox3 = new System.Windows.Forms.GroupBox();
+            this.ListOfRectangles = new System.Windows.Forms.ListBox();
+            this.Height = new System.Windows.Forms.Label();
+            this.HeightBox = new System.Windows.Forms.TextBox();
+            this.W = new System.Windows.Forms.Label();
+            this.WidthBox = new System.Windows.Forms.TextBox();
+            this.label4 = new System.Windows.Forms.Label();
+            this.ColorBox = new System.Windows.Forms.TextBox();
+            this.button1 = new System.Windows.Forms.Button();
+            this.button2 = new System.Windows.Forms.Button();
+            this.label5 = new System.Windows.Forms.Label();
+            this.CountOfRectangle = new System.Windows.Forms.TextBox();
+            this.GenerateReactArray = new System.Windows.Forms.Button();
             this.tabControl1.SuspendLayout();
             this.tabPage1.SuspendLayout();
             this.groupBox2.SuspendLayout();
             this.groupBox1.SuspendLayout();
+            this.tabPage2.SuspendLayout();
+            this.groupBox3.SuspendLayout();
             this.SuspendLayout();
             // 
             // tabControl1
@@ -228,13 +243,137 @@
             // 
             // tabPage2
             // 
+            this.tabPage2.Controls.Add(this.GenerateReactArray);
+            this.tabPage2.Controls.Add(this.CountOfRectangle);
+            this.tabPage2.Controls.Add(this.label5);
+            this.tabPage2.Controls.Add(this.groupBox3);
             this.tabPage2.Location = new System.Drawing.Point(4, 29);
             this.tabPage2.Name = "tabPage2";
             this.tabPage2.Padding = new System.Windows.Forms.Padding(3);
             this.tabPage2.Size = new System.Drawing.Size(897, 454);
             this.tabPage2.TabIndex = 1;
-            this.tabPage2.Text = "tabPage2";
+            this.tabPage2.Text = "Classes";
             this.tabPage2.UseVisualStyleBackColor = true;
+            this.tabPage2.Click += new System.EventHandler(this.tabPage2_Click);
+            // 
+            // groupBox3
+            // 
+            this.groupBox3.Controls.Add(this.button2);
+            this.groupBox3.Controls.Add(this.button1);
+            this.groupBox3.Controls.Add(this.ColorBox);
+            this.groupBox3.Controls.Add(this.label4);
+            this.groupBox3.Controls.Add(this.WidthBox);
+            this.groupBox3.Controls.Add(this.W);
+            this.groupBox3.Controls.Add(this.HeightBox);
+            this.groupBox3.Controls.Add(this.Height);
+            this.groupBox3.Controls.Add(this.ListOfRectangles);
+            this.groupBox3.Location = new System.Drawing.Point(6, 23);
+            this.groupBox3.Name = "groupBox3";
+            this.groupBox3.Size = new System.Drawing.Size(402, 361);
+            this.groupBox3.TabIndex = 0;
+            this.groupBox3.TabStop = false;
+            this.groupBox3.Text = "ListOfRectangles";
+            // 
+            // ListOfRectangles
+            // 
+            this.ListOfRectangles.FormattingEnabled = true;
+            this.ListOfRectangles.ItemHeight = 20;
+            this.ListOfRectangles.Location = new System.Drawing.Point(6, 42);
+            this.ListOfRectangles.Name = "ListOfRectangles";
+            this.ListOfRectangles.Size = new System.Drawing.Size(179, 204);
+            this.ListOfRectangles.TabIndex = 0;
+            // 
+            // Height
+            // 
+            this.Height.AutoSize = true;
+            this.Height.Location = new System.Drawing.Point(231, 42);
+            this.Height.Name = "Height";
+            this.Height.Size = new System.Drawing.Size(60, 20);
+            this.Height.TabIndex = 1;
+            this.Height.Text = "Height:";
+            // 
+            // HeightBox
+            // 
+            this.HeightBox.Location = new System.Drawing.Point(235, 66);
+            this.HeightBox.Name = "HeightBox";
+            this.HeightBox.Size = new System.Drawing.Size(100, 26);
+            this.HeightBox.TabIndex = 2;
+            // 
+            // W
+            // 
+            this.W.AutoSize = true;
+            this.W.Location = new System.Drawing.Point(237, 111);
+            this.W.Name = "W";
+            this.W.Size = new System.Drawing.Size(54, 20);
+            this.W.TabIndex = 3;
+            this.W.Text = "Width:";
+            // 
+            // WidthBox
+            // 
+            this.WidthBox.Location = new System.Drawing.Point(235, 144);
+            this.WidthBox.Name = "WidthBox";
+            this.WidthBox.Size = new System.Drawing.Size(100, 26);
+            this.WidthBox.TabIndex = 4;
+            // 
+            // label4
+            // 
+            this.label4.AutoSize = true;
+            this.label4.Location = new System.Drawing.Point(237, 196);
+            this.label4.Name = "label4";
+            this.label4.Size = new System.Drawing.Size(46, 20);
+            this.label4.TabIndex = 5;
+            this.label4.Text = "Color";
+            // 
+            // ColorBox
+            // 
+            this.ColorBox.Location = new System.Drawing.Point(235, 219);
+            this.ColorBox.Name = "ColorBox";
+            this.ColorBox.Size = new System.Drawing.Size(100, 26);
+            this.ColorBox.TabIndex = 6;
+            // 
+            // button1
+            // 
+            this.button1.Location = new System.Drawing.Point(235, 260);
+            this.button1.Name = "button1";
+            this.button1.Size = new System.Drawing.Size(137, 30);
+            this.button1.TabIndex = 7;
+            this.button1.Text = "Change Params";
+            this.button1.UseVisualStyleBackColor = true;
+            // 
+            // button2
+            // 
+            this.button2.Location = new System.Drawing.Point(235, 309);
+            this.button2.Name = "button2";
+            this.button2.Size = new System.Drawing.Size(137, 30);
+            this.button2.TabIndex = 8;
+            this.button2.Text = "Find Max Width";
+            this.button2.UseVisualStyleBackColor = true;
+            // 
+            // label5
+            // 
+            this.label5.AutoSize = true;
+            this.label5.Location = new System.Drawing.Point(471, 23);
+            this.label5.Name = "label5";
+            this.label5.Size = new System.Drawing.Size(162, 20);
+            this.label5.TabIndex = 2;
+            this.label5.Text = "Generate Rectangles";
+            // 
+            // CountOfRectangle
+            // 
+            this.CountOfRectangle.Location = new System.Drawing.Point(488, 59);
+            this.CountOfRectangle.Name = "CountOfRectangle";
+            this.CountOfRectangle.Size = new System.Drawing.Size(127, 26);
+            this.CountOfRectangle.TabIndex = 9;
+            // 
+            // GenerateReactArray
+            // 
+            this.GenerateReactArray.Location = new System.Drawing.Point(488, 102);
+            this.GenerateReactArray.Name = "GenerateReactArray";
+            this.GenerateReactArray.Size = new System.Drawing.Size(124, 30);
+            this.GenerateReactArray.TabIndex = 9;
+            this.GenerateReactArray.Text = "Generate";
+            this.GenerateReactArray.UseVisualStyleBackColor = true;
+            this.GenerateReactArray.Click += new System.EventHandler(this.GenerateReactArray_Click);
             // 
             // MainForm
             // 
@@ -251,6 +390,10 @@
             this.groupBox2.PerformLayout();
             this.groupBox1.ResumeLayout(false);
             this.groupBox1.PerformLayout();
+            this.tabPage2.ResumeLayout(false);
+            this.tabPage2.PerformLayout();
+            this.groupBox3.ResumeLayout(false);
+            this.groupBox3.PerformLayout();
             this.ResumeLayout(false);
 
         }
@@ -275,6 +418,19 @@
         private System.Windows.Forms.Label label3;
         private System.Windows.Forms.ComboBox SeasoncomboBox1;
         private System.Windows.Forms.PageSetupDialog pageSetupDialog1;
+        private System.Windows.Forms.GroupBox groupBox3;
+        private System.Windows.Forms.Label Height;
+        private System.Windows.Forms.ListBox ListOfRectangles;
+        private System.Windows.Forms.TextBox ColorBox;
+        private System.Windows.Forms.Label label4;
+        private System.Windows.Forms.TextBox WidthBox;
+        private System.Windows.Forms.Label W;
+        private System.Windows.Forms.TextBox HeightBox;
+        private System.Windows.Forms.Button button2;
+        private System.Windows.Forms.Button button1;
+        private System.Windows.Forms.Button GenerateReactArray;
+        private System.Windows.Forms.TextBox CountOfRectangle;
+        private System.Windows.Forms.Label label5;
     }
 }
 

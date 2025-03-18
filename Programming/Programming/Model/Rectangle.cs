@@ -14,7 +14,7 @@ namespace Programming.Model.Enums
         // Поля данные класса
         private float width;
         private float height;
-       // private string name;
+        private string name;
         private string color;
 
         /// <summary>
@@ -22,11 +22,10 @@ namespace Programming.Model.Enums
         /// </summary>
         /// <param name="width">ширина</param>
         /// <param name="height">высота</param>
-        public Rectangle(float width, float height, string color)
+        public Rectangle(float width, float height)
         {
             this.width = width;
             this.height = height;
-            this.color = color;
         }
         /// <summary>
         /// свойства доступ к полям
@@ -49,11 +48,11 @@ namespace Programming.Model.Enums
                 }
                 height = value; }
         }
-        /*public string Name
+        public string Name
         {
             get { return name; }
             set { name = value; }
-        }*/
+        }
         public string Color
         {
             get { return color; }

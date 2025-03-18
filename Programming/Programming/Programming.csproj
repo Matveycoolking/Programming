@@ -46,10 +46,10 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Model\Enums\Film.cs" />
-    <Compile Include="Model\Enums\Race.cs" />
-    <Compile Include="Model\Enums\Rectangle.cs" />
-    <Compile Include="Model\Enums\Time.cs" />
+    <Compile Include="Model\Film.cs" />
+    <Compile Include="Model\Race.cs" />
+    <Compile Include="Model\Rectangle.cs" />
+    <Compile Include="Model\Time.cs" />
     <Compile Include="Model\Enums\Year.cs" />
     <Compile Include="Model\Enums\TypeOfSmartphone.cs" />
     <Compile Include="Model\Enums\EducationForm.cs" />

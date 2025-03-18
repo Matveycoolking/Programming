@@ -2,17 +2,25 @@
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
+using System.Diagnostics;
 using System.Drawing;
 using System.Linq;
 using System.Reflection;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using Programming.Model;
+using Programming.Model.Enums;
 
 namespace Programming
 {
     public partial class MainForm : Form
     {
+        Model.Enums.Rectangle[] rectangles;
+        Model.Enums.Film[] film;
+        bool BGenerated = false;
+        private List<Model.Enums.Film> films = new List<Model.Enums.Film>();
+        bool BGenerate = false;
         public MainForm()
         {
             InitializeComponent();
@@ -122,6 +130,41 @@ namespace Programming
         {
 
         }
+
+        private void tabPage2_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void GenerateReactArray_Click(object sender, EventArgs e)
+        {
+            BGenerate = true;
+            Random rnd = new Random();
+            int amount;
+            if (Int32.TryParse(CountOfRectangle.Text, out amount))
+            {
+                amount = int.Parse(CountOfRectangle.Text);
+                MessageBox.Show(amount.ToString());
+                rectangles = new Model.Enums.Rectangle[amount];
+                System.Diagnostics.Trace.WriteLine("message");
+
+                for (int i = 0; i < amount; i++)
+                {
+                    int j = i + 1;
+                    Model.Enums.Rectangle rec = new Model.Enums.Rectangle((float)rnd.Next(0,500), (float)rnd.Next(0,500));
+                    rec.Name = "Rectangle" + j;
+                    rec.Color = "Red";
+                    rectangles[i] = rec;
+                    ListOfRectangles.Items.Add(rec.Name);
+                    Debug.WriteLine("Send to Debug output");
+                }
+            }
+            else
+            {
+                MessageBox.Show("Uncorrect");
+            }
+        }
+
     }
     }
 
