@@ -284,7 +284,7 @@ namespace Programming
                 var year = int.Parse(YearBox.Text);
                 var genre = GenreBox.Text;
                 var rating = float.Parse(RatingBox.Text);
-                Model.Enums.Film film = new Model.Enums.Film
+                Model.Enums.Film film = new Model.Enums.Film()
                 {
                     Title = title,
                     Durability = durability,
@@ -325,6 +325,52 @@ namespace Programming
                 index = i;
             }
             FilmBox.SelectedIndex = index;
+        }
+
+        private void button1_Click_1(object sender, EventArgs e)
+        {
+            var title = NameBox.Text;
+            var durability = int.Parse(DurabiltyBox.Text);
+            var year = int.Parse(YearBox.Text);
+            var genre = GenreBox.Text;
+            var rating = float.Parse(RatingBox.Text);
+            BGenerated = true;
+            int Amount;
+            if (Int32.TryParse(CountOfRectangle.Text, out Amount))
+            {
+                Amount = int.Parse(FilmBox.Text);
+                MessageBox.Show(Amount.ToString());
+                film = new Model.Enums.Film[Amount];
+                System.Diagnostics.Trace.WriteLine("message");
+
+                for (int i = 0; i < Amount; i++)
+                {
+                    int j = i + 1;
+                    Model.Enums.Film rec = new Model.Enums.Film(title,durability,year,genre,rating);
+                    rec.Title = "Rectangle" + j;
+                    film[i] = rec;
+                    FilmBox.Items.Add(rec.Title);
+                    Debug.WriteLine("Send to Debug output");
+                }
+            }
+            else
+            {
+                MessageBox.Show("Uncorrect");
+            }
+        }
+        void ChangeTextBoxFilm(int index)
+        {
+            var Genre = film[index].Genre;
+            var Title = film[index].Title;
+            var Durability = film[index].Durability;
+            var Rating = film[index].Rating;
+            var Year = film[index].Year;
+
+            Genresbox.Text = Genre.ToString();
+            YearBox.Text = Year.ToString();
+            NameBox.Text = Title.ToString();
+            RatingBox.Text = Rating.ToString();
+            DurabiltyBox.Text = Durability.ToString();
         }
         //230
     }
