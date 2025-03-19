@@ -39,7 +39,7 @@ namespace Programming.Model.Enums
                 } 
                 width = value; }
         }
-        public int Heigh
+        public int Height
         {
             get { return (int)height; }
             set { if (value < 0)

@@ -20,7 +20,6 @@ namespace Programming
         Model.Enums.Film[] film;
         bool BGenerated = false;
         private List<Model.Enums.Film> films = new List<Model.Enums.Film>();
-        bool BGenerate = false;
         public MainForm()
         {
             InitializeComponent();
@@ -138,7 +137,7 @@ namespace Programming
 
         private void GenerateReactArray_Click(object sender, EventArgs e)
         {
-            BGenerate = true;
+            BGenerated = true;
             Random rnd = new Random();
             int amount;
             if (Int32.TryParse(CountOfRectangle.Text, out amount))
@@ -164,7 +163,170 @@ namespace Programming
                 MessageBox.Show("Uncorrect");
             }
         }
+            void ChangeTextBoxtrd(int index)
+        {
+            var Width = rectangles[index].Width;
+            var Height = rectangles[index].Height;
+            var Color = rectangles[index].Color;
 
+            WidthBox.Text = Width.ToString();
+            HeightBox.Text = Height.ToString();
+            ColorBox.Text = Color.ToString();
+        }
+
+     
+        private int FindMaxWidth(Model.Enums.Rectangle[] rectangles)
+        {
+            int maxWidth = 0;
+            int index = 0;
+            for (int i = 0; i < rectangles.Length; i++)
+            {
+                if(maxWidth <  rectangles[i].Width)
+                {
+                    maxWidth = rectangles[i].Width;
+                    index = i;
+                }
+            }
+            return index;
+        }
+        private void button2_Click(object sender, EventArgs e)
+        {
+            if (BGenerated)
+            {
+                ListOfRectangles.SelectedIndex = FindMaxWidth(rectangles);
+            }
+        }
+
+
+        private void AcceptButton_Click(object sender, EventArgs e)
+        {
+            var Height = 0;
+            if (Int32.TryParse(HeightBox.Text, out Height) && BGenerated)
+            {
+                var rec = rectangles[ListOfRectangles.SelectedIndex];
+                rec.Height = Height;
+            }
+            else
+            {
+                MessageBox.Show("Only num:");
+                HeightBox.BackColor = Color.Red;
+            }
+        }
+
+        private void HeightBox_TextChanged(object sender, EventArgs e)
+        {
+            var Height = 0;
+            if (Int32.TryParse(HeightBox.Text, out Height) && BGenerated)
+            {
+                var rec = rectangles[ListOfRectangles.SelectedIndex];
+                rec.Height = Height;
+            }
+            else
+            {
+                MessageBox.Show("Only num:");
+                HeightBox.BackColor = Color.Red;
+            }
+        }
+
+        private void WidthBox_TextChanged(object sender, EventArgs e)
+        {
+            var Width = 0;
+            if (Int32.TryParse(WidthBox.Text, out Width) && BGenerated)
+            {
+                var rec = rectangles[ListOfRectangles.SelectedIndex];
+                rec.Width = Width;
+            }
+            else
+            {
+                MessageBox.Show("Only num:");
+                HeightBox.BackColor = Color.Red;
+            }
+        }
+
+        private void ColorBox_TextChanged(object sender, EventArgs e)
+        {
+            if (BGenerated)
+            {
+                var rec = rectangles[ListOfRectangles.SelectedIndex];
+                var Color = ColorBox.Text;
+                rec.Color = Color;
+            }
+        }
+
+        private void ListOfRectangles_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            ChangeTextBoxtrd(ListOfRectangles.SelectedIndex);
+        }
+
+        
+
+        private void CountOfRectangle_TextChanged(object sender, EventArgs e)
+        {
+
+        }
+
+        private void groupBox4_Enter(object sender, EventArgs e)
+        {
+
+        }
+
+        private void FilmBox4_Enter(object sender, EventArgs e)
+        {
+
+        }
+
+        private void AddFilmBox_Click(object sender, EventArgs e)
+        {
+            try
+            {
+                var title = NameBox.Text;
+                var durability = int.Parse(DurabiltyBox.Text);
+                var year = int.Parse(YearBox.Text);
+                var genre = GenreBox.Text;
+                var rating = float.Parse(RatingBox.Text);
+                Model.Enums.Film film = new Model.Enums.Film
+                {
+                    Title = title,
+                    Durability = durability,
+                    Year = year,
+                    Genre = genre,
+                    Rating = rating
+                };
+                films.Add(film);
+                FilmBox.Items.Add(film.Title);
+                FilmBox.Text = title;
+                NameBox.Text = string.Empty;
+                DurabiltyBox.Text = string.Empty;
+                YearBox.Text = string.Empty;
+                GenreBox.Text = string.Empty;
+                RatingBox.Text = string.Empty;
+            }
+            catch (FormatException)
+            {
+                MessageBox.Show("Пожалуста введи корректные данные");
+
+                NameBox.BackColor = Color.Red;
+                DurabiltyBox.BackColor = Color.Red;
+                YearBox.BackColor = Color.Red;
+                GenreBox.BackColor = Color.Red;
+                RatingBox.BackColor = Color.Red;
+            }
+
+        }
+
+        private void button1_Click(object sender, EventArgs e)
+        {
+            int max = 0;
+            int index = 0;
+            for (int i = 0; i < films.Count; i++)
+            {
+                if (films[i].Rating > max)
+                    max = (int)films[i].Rating;
+                index = i;
+            }
+            FilmBox.SelectedIndex = index;
+        }
+        //230
     }
     }
 
