@@ -25,14 +25,14 @@ namespace Programming.Model.Enums
         /// <param name="_Year">год от 1900 до нашего</param>
         /// <param name="_Genre">жанр</param>
         /// <param name="_Rating">рейтинг от 0 до 1</param>
-       public Film(string _Title, int _Durability, int _Year, string _Genre, float _Rating)
+       /*public Film(string _Title, int _Durability, int _Year, string _Genre, float _Rating)
         {
             this._Title = _Title;
             this._Durability = _Durability;
             this._Year = _Year;
             this._Genre = _Genre;
             this._Rating = _Rating;
-        }
+        }*/
         /// <summary>
         /// доступ к полям
         /// </summary>

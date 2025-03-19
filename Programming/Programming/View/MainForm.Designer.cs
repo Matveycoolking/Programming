@@ -45,9 +45,6 @@
             this.VaulueListBox = new System.Windows.Forms.ListBox();
             this.EnumListbox = new System.Windows.Forms.ListBox();
             this.tabPage2 = new System.Windows.Forms.TabPage();
-            this.label10 = new System.Windows.Forms.Label();
-            this.button1 = new System.Windows.Forms.Button();
-            this.textBox2 = new System.Windows.Forms.TextBox();
             this.FilmBox4 = new System.Windows.Forms.GroupBox();
             this.FindFilmButton = new System.Windows.Forms.Button();
             this.AddFilmBox = new System.Windows.Forms.Button();
@@ -60,8 +57,7 @@
             this.label7 = new System.Windows.Forms.Label();
             this.YearBox = new System.Windows.Forms.TextBox();
             this.label6 = new System.Windows.Forms.Label();
-            this.Genresbox = new System.Windows.Forms.TextBox();
-            this.GenreBox = new System.Windows.Forms.ComboBox();
+            this.textBox1 = new System.Windows.Forms.TextBox();
             this.FilmBox = new System.Windows.Forms.ListBox();
             this.GenerateReactArray = new System.Windows.Forms.Button();
             this.CountOfRectangle = new System.Windows.Forms.TextBox();
@@ -77,6 +73,7 @@
             this.Height = new System.Windows.Forms.Label();
             this.ListOfRectangles = new System.Windows.Forms.ListBox();
             this.pageSetupDialog1 = new System.Windows.Forms.PageSetupDialog();
+            this.GenreBox = new System.Windows.Forms.ComboBox();
             this.tabControl1.SuspendLayout();
             this.tabPage1.SuspendLayout();
             this.groupBox2.SuspendLayout();
@@ -93,7 +90,7 @@
             this.tabControl1.Location = new System.Drawing.Point(12, 26);
             this.tabControl1.Name = "tabControl1";
             this.tabControl1.SelectedIndex = 0;
-            this.tabControl1.Size = new System.Drawing.Size(1024, 544);
+            this.tabControl1.Size = new System.Drawing.Size(905, 487);
             this.tabControl1.TabIndex = 0;
             // 
             // tabPage1
@@ -270,44 +267,15 @@
             this.tabPage2.Location = new System.Drawing.Point(4, 29);
             this.tabPage2.Name = "tabPage2";
             this.tabPage2.Padding = new System.Windows.Forms.Padding(3);
-            this.tabPage2.Size = new System.Drawing.Size(1016, 511);
+            this.tabPage2.Size = new System.Drawing.Size(897, 454);
             this.tabPage2.TabIndex = 1;
             this.tabPage2.Text = "Classes";
             this.tabPage2.UseVisualStyleBackColor = true;
             this.tabPage2.Click += new System.EventHandler(this.tabPage2_Click);
             // 
-            // label10
-            // 
-            this.label10.AutoSize = true;
-            this.label10.Location = new System.Drawing.Point(200, 253);
-            this.label10.Name = "label10";
-            this.label10.Size = new System.Drawing.Size(118, 20);
-            this.label10.TabIndex = 19;
-            this.label10.Text = "Generate Films";
-            // 
-            // button1
-            // 
-            this.button1.Location = new System.Drawing.Point(204, 314);
-            this.button1.Name = "button1";
-            this.button1.Size = new System.Drawing.Size(124, 30);
-            this.button1.TabIndex = 18;
-            this.button1.Text = "Generate";
-            this.button1.UseVisualStyleBackColor = true;
-            this.button1.Click += new System.EventHandler(this.button1_Click_1);
-            // 
-            // textBox2
-            // 
-            this.textBox2.Location = new System.Drawing.Point(204, 276);
-            this.textBox2.Name = "textBox2";
-            this.textBox2.Size = new System.Drawing.Size(127, 26);
-            this.textBox2.TabIndex = 11;
-            // 
             // FilmBox4
             // 
-            this.FilmBox4.Controls.Add(this.label10);
             this.FilmBox4.Controls.Add(this.FindFilmButton);
-            this.FilmBox4.Controls.Add(this.button1);
-            this.FilmBox4.Controls.Add(this.textBox2);
             this.FilmBox4.Controls.Add(this.AddFilmBox);
             this.FilmBox4.Controls.Add(this.Duration);
             this.FilmBox4.Controls.Add(this.DurabiltyBox);
@@ -318,12 +286,12 @@
             this.FilmBox4.Controls.Add(this.label7);
             this.FilmBox4.Controls.Add(this.YearBox);
             this.FilmBox4.Controls.Add(this.label6);
-            this.FilmBox4.Controls.Add(this.Genresbox);
+            this.FilmBox4.Controls.Add(this.textBox1);
             this.FilmBox4.Controls.Add(this.GenreBox);
             this.FilmBox4.Controls.Add(this.FilmBox);
-            this.FilmBox4.Location = new System.Drawing.Point(511, 139);
+            this.FilmBox4.Location = new System.Drawing.Point(511, 186);
             this.FilmBox4.Name = "FilmBox4";
-            this.FilmBox4.Size = new System.Drawing.Size(499, 376);
+            this.FilmBox4.Size = new System.Drawing.Size(428, 272);
             this.FilmBox4.TabIndex = 10;
             this.FilmBox4.TabStop = false;
             this.FilmBox4.Text = "Film";
@@ -433,27 +401,13 @@
             this.label6.TabIndex = 8;
             this.label6.Text = "Genre";
             // 
-            // Genresbox
+            // textBox1
             // 
-            this.Genresbox.Location = new System.Drawing.Point(175, 70);
-            this.Genresbox.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
-            this.Genresbox.Name = "Genresbox";
-            this.Genresbox.Size = new System.Drawing.Size(117, 26);
-            this.Genresbox.TabIndex = 2;
-            // 
-            // GenreBox
-            // 
-            this.GenreBox.FormattingEnabled = true;
-            this.GenreBox.Items.AddRange(new object[] {
-            "BlockBuster",
-            "Comedy",
-            "Thriller",
-            "Drama",
-            "Action"});
-            this.GenreBox.Location = new System.Drawing.Point(175, 25);
-            this.GenreBox.Name = "GenreBox";
-            this.GenreBox.Size = new System.Drawing.Size(205, 28);
-            this.GenreBox.TabIndex = 1;
+            this.textBox1.Location = new System.Drawing.Point(175, 70);
+            this.textBox1.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
+            this.textBox1.Name = "textBox1";
+            this.textBox1.Size = new System.Drawing.Size(117, 26);
+            this.textBox1.TabIndex = 2;
             // 
             // FilmBox
             // 
@@ -466,7 +420,7 @@
             // 
             // GenerateReactArray
             // 
-            this.GenerateReactArray.Location = new System.Drawing.Point(475, 103);
+            this.GenerateReactArray.Location = new System.Drawing.Point(475, 105);
             this.GenerateReactArray.Name = "GenerateReactArray";
             this.GenerateReactArray.Size = new System.Drawing.Size(124, 30);
             this.GenerateReactArray.TabIndex = 9;
@@ -590,6 +544,20 @@
             this.ListOfRectangles.TabIndex = 0;
             this.ListOfRectangles.SelectedIndexChanged += new System.EventHandler(this.ListOfRectangles_SelectedIndexChanged);
             // 
+            // GenreBox
+            // 
+            this.GenreBox.FormattingEnabled = true;
+            this.GenreBox.Items.AddRange(new object[] {
+            "BlockBuster",
+            "Comedy",
+            "Thriller",
+            "Drama",
+            "Action"});
+            this.GenreBox.Location = new System.Drawing.Point(175, 25);
+            this.GenreBox.Name = "GenreBox";
+            this.GenreBox.Size = new System.Drawing.Size(205, 28);
+            this.GenreBox.TabIndex = 1;
+            // 
             // MainForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(9F, 20F);
@@ -650,7 +618,7 @@
         private System.Windows.Forms.ListBox FilmBox;
         private System.Windows.Forms.Button GenerateReactArray;
         private System.Windows.Forms.TextBox CountOfRectangle;
-        private System.Windows.Forms.TextBox Genresbox;
+        private System.Windows.Forms.TextBox textBox1;
         private System.Windows.Forms.TextBox DurabiltyBox;
         private System.Windows.Forms.Label label9;
         private System.Windows.Forms.TextBox RatingBox;
@@ -663,9 +631,6 @@
         private System.Windows.Forms.Button AddFilmBox;
         private System.Windows.Forms.Label Duration;
         private System.Windows.Forms.ComboBox GenreBox;
-        private System.Windows.Forms.Label label10;
-        private System.Windows.Forms.Button button1;
-        private System.Windows.Forms.TextBox textBox2;
     }
 }
 
