@@ -15,7 +15,7 @@ namespace Programming.Model.Enums
         private string _Title;
         private int _Durability;
         private int _Year;
-        private string _Genre;
+        private Genre _Genre;
         private float _Rating;
         /// <summary>
         /// инициализация класса
@@ -60,7 +60,7 @@ namespace Programming.Model.Enums
                 _Year = value; }
         }
 
-        public string Genre
+        public Genre Genre
         {
             get { return _Genre; }
             set { _Genre = value; }

@@ -19,12 +19,12 @@ namespace Programming
         Model.Enums.Rectangle[] rectangles;
         Model.Enums.Film[] film;
         bool BGenerated = false;
-        private List<Model.Enums.Film> films = new List<Model.Enums.Film>();
+        //private List<Model.Enums.Film> films = new List<Model.Enums.Film>();
         public MainForm()
         {
             InitializeComponent();
         }
-
+        // убрать
         private void Choose_Click(object sender, EventArgs e)
         {
 
@@ -99,6 +99,7 @@ namespace Programming
             }
         }
 
+        // убрать
         private void label3_Click(object sender, EventArgs e)
         {
 
@@ -134,7 +135,92 @@ namespace Programming
         {
 
         }
+        /// <summary>
+        /// генерация массива фильмов
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void GenerateFilmArray_Click_Click(object sender, EventArgs e)
+        {
+            BGenerated = true;
+            Random rnd = new Random();
+            int amount;
 
+            if (Int32.TryParse(CountOfFilms.Text, out amount) && amount > 0)
+            {
+                // Инициализация массива films
+                film = new Model.Enums.Film[amount];
+                FilmBox.Items.Clear();
+
+                for (int i = 0; i < amount; i++)
+                {
+                    Genre randomGenre = (Genre)rnd.Next(0, Enum.GetValues(typeof(Genre)).Length);
+
+                    // Создание нового объекта Film
+                    Model.Enums.Film filma = new Model.Enums.Film
+                    {
+                        Title = "Film " + (i + 1),
+                        Durability = rnd.Next(60, 180), // продолжительность от 60 до 180 минут
+                        Year = rnd.Next(1900, DateTime.Now.Year + 1),
+                        Genre = randomGenre,
+                        Rating = rnd.Next(0,10) // рейтинг от 0 до 10
+                    };
+                   
+
+                    Debug.WriteLine("Send to Debug output");
+
+                    // Проверка перед добавлением в массив
+                    if (i < film.Length) // Убедитесь, что индекс в пределах массива
+                    {
+                        film[i] = filma; // Создание нового объекта Film
+                        FilmBox.Items.Add(filma.Title);
+                    }
+                    else
+                    {
+                        MessageBox.Show($"Индекс {i} выходит за пределы массива.");
+                    }
+                }
+            }
+            else
+            {
+                MessageBox.Show("Некорректное количество фильмов.");
+            }
+        }
+        /// <summary>
+        /// отображение изменений
+        /// </summary>
+        /// <param name="index"></param>
+        private void ChangeTextBoxFilm(int index)
+        {
+            var Name = film[index].Title;
+            var Durability = film[index].Durability;
+            var Genre = film[index].Genre;
+            var Rating = film[index].Rating;
+            var Year = film[index].Year;
+
+            NameBox.Text = Name.ToString();
+            DurabiltyBox.Text = Durability.ToString();
+            YearBox.Text = Year.ToString();
+            GenreBox.Text = Genre.ToString();
+            RatingBox.Text = Rating.ToString("F1");
+        }
+        /// <summary>
+        /// переключение между выборами
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void FilmBox_SelectedIndexChanged_1(object sender, EventArgs e)
+        {
+            if (BGenerated && FilmBox.SelectedIndex >= 0)
+            {
+                ChangeTextBoxFilm(FilmBox.SelectedIndex);
+            }
+        }
+        /// <summary>
+        /// массив прямоугольников генерация
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void GenerateReactArray_Click(object sender, EventArgs e)
         {
             BGenerated = true;
@@ -163,7 +249,11 @@ namespace Programming
                 MessageBox.Show("Uncorrect");
             }
         }
-            void ChangeTextBoxtrd(int index)
+        /// <summary>
+        /// отображение изменений
+        /// </summary>
+        /// <param name="index">порядок</param>
+           public void ChangeTextBoxtrd(int index)
         {
             var Width = rectangles[index].Width;
             var Height = rectangles[index].Height;
@@ -173,7 +263,11 @@ namespace Programming
             HeightBox.Text = Height.ToString();
             ColorBox.Text = Color.ToString();
         }
-
+        /// <summary>
+        /// нахождение максимальной ширины
+        /// </summary>
+        /// <param name="rectangles">прямоугольник</param>
+        /// <returns></returns>
      
         private int FindMaxWidth(Model.Enums.Rectangle[] rectangles)
         {
@@ -189,6 +283,11 @@ namespace Programming
             }
             return index;
         }
+        /// <summary>
+        /// заменить название кнопка по нахождению максимальной ширины
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void button2_Click(object sender, EventArgs e)
         {
             if (BGenerated)
@@ -197,7 +296,11 @@ namespace Programming
             }
         }
 
-
+        /// <summary>
+        /// изменение высоты кнопка
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void AcceptButton_Click(object sender, EventArgs e)
         {
             var Height = 0;
@@ -212,7 +315,11 @@ namespace Programming
                 HeightBox.BackColor = Color.Red;
             }
         }
-
+        /// <summary>
+        /// функция по замене удалить
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void HeightBox_TextChanged(object sender, EventArgs e)
         {
             var Height = 0;
@@ -227,6 +334,11 @@ namespace Programming
                 HeightBox.BackColor = Color.Red;
             }
         }
+        /// <summary>
+        /// изменение ширины
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
 
         private void WidthBox_TextChanged(object sender, EventArgs e)
         {
@@ -242,7 +354,11 @@ namespace Programming
                 HeightBox.BackColor = Color.Red;
             }
         }
-
+        /// <summary>
+        /// изменение цвета
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void ColorBox_TextChanged(object sender, EventArgs e)
         {
             if (BGenerated)
@@ -275,59 +391,65 @@ namespace Programming
 
         }
 
-        private void AddFilmBox_Click(object sender, EventArgs e)
-        {
-            try
-            {
-                var title = NameBox.Text;
-                var durability = int.Parse(DurabiltyBox.Text);
-                var year = int.Parse(YearBox.Text);
-                var genre = GenreBox.Text;
-                var rating = float.Parse(RatingBox.Text);
-                Model.Enums.Film film = new Model.Enums.Film
-                {
-                    Title = title,
-                    Durability = durability,
-                    Year = year,
-                    Genre = genre,
-                    Rating = rating
-                };
-                films.Add(film);
-                FilmBox.Items.Add(film.Title);
-                FilmBox.Text = title;
-                NameBox.Text = string.Empty;
-                DurabiltyBox.Text = string.Empty;
-                YearBox.Text = string.Empty;
-                GenreBox.Text = string.Empty;
-                RatingBox.Text = string.Empty;
-            }
-            catch (FormatException)
-            {
-                MessageBox.Show("Пожалуста введи корректные данные");
-
-                NameBox.BackColor = Color.Red;
-                DurabiltyBox.BackColor = Color.Red;
-                YearBox.BackColor = Color.Red;
-                GenreBox.BackColor = Color.Red;
-                RatingBox.BackColor = Color.Red;
-            }
-
-        }
-
+       
+        /// <summary>
+        /// нахождение максимального рейтинга замена названия
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void button1_Click(object sender, EventArgs e)
         {
             int max = 0;
             int index = 0;
-            for (int i = 0; i < films.Count; i++)
+            for (int i = 0; i < film.Length; i++)
             {
-                if (films[i].Rating > max)
-                    max = (int)films[i].Rating;
-                index = i;
+                if (film[i].Rating > max)
+                {
+                    max = (int)film[i].Rating;
+                    index = i;
+                }
+                
             }
             FilmBox.SelectedIndex = index;
         }
-        //230
+        /// <summary>
+        /// изменение года фильма
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void ChangeButtons_Click(object sender, EventArgs e)
+        {
+            var Param = 0;
+            if (Int32.TryParse(YearBox.Text, out Param) && BGenerated)
+            {
+                var fill = film[FilmBox.SelectedIndex];
+                fill.Year = Param;
+                
+            }
+            else
+            {
+                MessageBox.Show("Only num:");
+                
+            }
+        }
+       /// <summary>
+       /// изменение имени фильма
+       /// </summary>
+       /// <param name="sender"></param>
+       /// <param name="e"></param>
+        private void NameBox_TextChanged(object sender, EventArgs e)
+        {
+            if (BGenerated)
+            {
+                var fill = film[FilmBox.SelectedIndex];
+                fill.Title = NameBox.Text; // Присваиваем текст напрямую
+            }
+            else
+            {
+                MessageBox.Show("Only num:");
+            }
+        }
     }
-    }
+ }
 
 

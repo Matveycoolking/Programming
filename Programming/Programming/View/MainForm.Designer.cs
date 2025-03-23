@@ -45,9 +45,11 @@
             this.VaulueListBox = new System.Windows.Forms.ListBox();
             this.EnumListbox = new System.Windows.Forms.ListBox();
             this.tabPage2 = new System.Windows.Forms.TabPage();
+            this.label10 = new System.Windows.Forms.Label();
+            this.GenerateFilmArray_Click = new System.Windows.Forms.Button();
+            this.CountOfFilms = new System.Windows.Forms.TextBox();
             this.FilmBox4 = new System.Windows.Forms.GroupBox();
             this.FindFilmButton = new System.Windows.Forms.Button();
-            this.AddFilmBox = new System.Windows.Forms.Button();
             this.Duration = new System.Windows.Forms.Label();
             this.DurabiltyBox = new System.Windows.Forms.TextBox();
             this.label9 = new System.Windows.Forms.Label();
@@ -57,7 +59,7 @@
             this.label7 = new System.Windows.Forms.Label();
             this.YearBox = new System.Windows.Forms.TextBox();
             this.label6 = new System.Windows.Forms.Label();
-            this.textBox1 = new System.Windows.Forms.TextBox();
+            this.GenreBox = new System.Windows.Forms.TextBox();
             this.FilmBox = new System.Windows.Forms.ListBox();
             this.GenerateReactArray = new System.Windows.Forms.Button();
             this.CountOfRectangle = new System.Windows.Forms.TextBox();
@@ -73,7 +75,7 @@
             this.Height = new System.Windows.Forms.Label();
             this.ListOfRectangles = new System.Windows.Forms.ListBox();
             this.pageSetupDialog1 = new System.Windows.Forms.PageSetupDialog();
-            this.GenreBox = new System.Windows.Forms.ComboBox();
+            this.ChangeButtons = new System.Windows.Forms.Button();
             this.tabControl1.SuspendLayout();
             this.tabPage1.SuspendLayout();
             this.groupBox2.SuspendLayout();
@@ -259,6 +261,9 @@
             // 
             // tabPage2
             // 
+            this.tabPage2.Controls.Add(this.label10);
+            this.tabPage2.Controls.Add(this.GenerateFilmArray_Click);
+            this.tabPage2.Controls.Add(this.CountOfFilms);
             this.tabPage2.Controls.Add(this.FilmBox4);
             this.tabPage2.Controls.Add(this.GenerateReactArray);
             this.tabPage2.Controls.Add(this.CountOfRectangle);
@@ -273,10 +278,36 @@
             this.tabPage2.UseVisualStyleBackColor = true;
             this.tabPage2.Click += new System.EventHandler(this.tabPage2_Click);
             // 
+            // label10
+            // 
+            this.label10.AutoSize = true;
+            this.label10.Location = new System.Drawing.Point(694, 23);
+            this.label10.Name = "label10";
+            this.label10.Size = new System.Drawing.Size(110, 20);
+            this.label10.TabIndex = 13;
+            this.label10.Text = "Generate Film";
+            // 
+            // GenerateFilmArray_Click
+            // 
+            this.GenerateFilmArray_Click.Location = new System.Drawing.Point(680, 105);
+            this.GenerateFilmArray_Click.Name = "GenerateFilmArray_Click";
+            this.GenerateFilmArray_Click.Size = new System.Drawing.Size(124, 30);
+            this.GenerateFilmArray_Click.TabIndex = 12;
+            this.GenerateFilmArray_Click.Text = "Generate";
+            this.GenerateFilmArray_Click.UseVisualStyleBackColor = true;
+            this.GenerateFilmArray_Click.Click += new System.EventHandler(this.GenerateFilmArray_Click_Click);
+            // 
+            // CountOfFilms
+            // 
+            this.CountOfFilms.Location = new System.Drawing.Point(680, 65);
+            this.CountOfFilms.Name = "CountOfFilms";
+            this.CountOfFilms.Size = new System.Drawing.Size(127, 26);
+            this.CountOfFilms.TabIndex = 11;
+            // 
             // FilmBox4
             // 
+            this.FilmBox4.Controls.Add(this.ChangeButtons);
             this.FilmBox4.Controls.Add(this.FindFilmButton);
-            this.FilmBox4.Controls.Add(this.AddFilmBox);
             this.FilmBox4.Controls.Add(this.Duration);
             this.FilmBox4.Controls.Add(this.DurabiltyBox);
             this.FilmBox4.Controls.Add(this.label9);
@@ -286,10 +317,9 @@
             this.FilmBox4.Controls.Add(this.label7);
             this.FilmBox4.Controls.Add(this.YearBox);
             this.FilmBox4.Controls.Add(this.label6);
-            this.FilmBox4.Controls.Add(this.textBox1);
             this.FilmBox4.Controls.Add(this.GenreBox);
             this.FilmBox4.Controls.Add(this.FilmBox);
-            this.FilmBox4.Location = new System.Drawing.Point(511, 186);
+            this.FilmBox4.Location = new System.Drawing.Point(475, 167);
             this.FilmBox4.Name = "FilmBox4";
             this.FilmBox4.Size = new System.Drawing.Size(428, 272);
             this.FilmBox4.TabIndex = 10;
@@ -299,25 +329,14 @@
             // 
             // FindFilmButton
             // 
-            this.FindFilmButton.Location = new System.Drawing.Point(31, 233);
+            this.FindFilmButton.Location = new System.Drawing.Point(18, 188);
             this.FindFilmButton.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
             this.FindFilmButton.Name = "FindFilmButton";
-            this.FindFilmButton.Size = new System.Drawing.Size(112, 38);
+            this.FindFilmButton.Size = new System.Drawing.Size(136, 38);
             this.FindFilmButton.TabIndex = 17;
-            this.FindFilmButton.Text = "Find";
+            this.FindFilmButton.Text = "Find Max Rating";
             this.FindFilmButton.UseVisualStyleBackColor = true;
             this.FindFilmButton.Click += new System.EventHandler(this.button1_Click);
-            // 
-            // AddFilmBox
-            // 
-            this.AddFilmBox.Location = new System.Drawing.Point(31, 188);
-            this.AddFilmBox.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
-            this.AddFilmBox.Name = "AddFilmBox";
-            this.AddFilmBox.Size = new System.Drawing.Size(112, 35);
-            this.AddFilmBox.TabIndex = 16;
-            this.AddFilmBox.Text = "Add";
-            this.AddFilmBox.UseVisualStyleBackColor = true;
-            this.AddFilmBox.Click += new System.EventHandler(this.AddFilmBox_Click);
             // 
             // Duration
             // 
@@ -372,6 +391,7 @@
             this.NameBox.Name = "NameBox";
             this.NameBox.Size = new System.Drawing.Size(117, 26);
             this.NameBox.TabIndex = 11;
+            this.NameBox.TextChanged += new System.EventHandler(this.NameBox_TextChanged);
             // 
             // label7
             // 
@@ -401,13 +421,13 @@
             this.label6.TabIndex = 8;
             this.label6.Text = "Genre";
             // 
-            // textBox1
+            // GenreBox
             // 
-            this.textBox1.Location = new System.Drawing.Point(175, 70);
-            this.textBox1.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
-            this.textBox1.Name = "textBox1";
-            this.textBox1.Size = new System.Drawing.Size(117, 26);
-            this.textBox1.TabIndex = 2;
+            this.GenreBox.Location = new System.Drawing.Point(175, 70);
+            this.GenreBox.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
+            this.GenreBox.Name = "GenreBox";
+            this.GenreBox.Size = new System.Drawing.Size(117, 26);
+            this.GenreBox.TabIndex = 2;
             // 
             // FilmBox
             // 
@@ -417,6 +437,7 @@
             this.FilmBox.Name = "FilmBox";
             this.FilmBox.Size = new System.Drawing.Size(132, 124);
             this.FilmBox.TabIndex = 0;
+            this.FilmBox.SelectedIndexChanged += new System.EventHandler(this.FilmBox_SelectedIndexChanged_1);
             // 
             // GenerateReactArray
             // 
@@ -544,19 +565,16 @@
             this.ListOfRectangles.TabIndex = 0;
             this.ListOfRectangles.SelectedIndexChanged += new System.EventHandler(this.ListOfRectangles_SelectedIndexChanged);
             // 
-            // GenreBox
+            // ChangeButtons
             // 
-            this.GenreBox.FormattingEnabled = true;
-            this.GenreBox.Items.AddRange(new object[] {
-            "BlockBuster",
-            "Comedy",
-            "Thriller",
-            "Drama",
-            "Action"});
-            this.GenreBox.Location = new System.Drawing.Point(175, 25);
-            this.GenreBox.Name = "GenreBox";
-            this.GenreBox.Size = new System.Drawing.Size(205, 28);
-            this.GenreBox.TabIndex = 1;
+            this.ChangeButtons.Location = new System.Drawing.Point(18, 234);
+            this.ChangeButtons.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
+            this.ChangeButtons.Name = "ChangeButtons";
+            this.ChangeButtons.Size = new System.Drawing.Size(136, 38);
+            this.ChangeButtons.TabIndex = 18;
+            this.ChangeButtons.Text = "Change Params";
+            this.ChangeButtons.UseVisualStyleBackColor = true;
+            this.ChangeButtons.Click += new System.EventHandler(this.ChangeButtons_Click);
             // 
             // MainForm
             // 
@@ -618,7 +636,7 @@
         private System.Windows.Forms.ListBox FilmBox;
         private System.Windows.Forms.Button GenerateReactArray;
         private System.Windows.Forms.TextBox CountOfRectangle;
-        private System.Windows.Forms.TextBox textBox1;
+        private System.Windows.Forms.TextBox GenreBox;
         private System.Windows.Forms.TextBox DurabiltyBox;
         private System.Windows.Forms.Label label9;
         private System.Windows.Forms.TextBox RatingBox;
@@ -628,9 +646,11 @@
         private System.Windows.Forms.TextBox YearBox;
         private System.Windows.Forms.Label label6;
         private System.Windows.Forms.Button FindFilmButton;
-        private System.Windows.Forms.Button AddFilmBox;
         private System.Windows.Forms.Label Duration;
-        private System.Windows.Forms.ComboBox GenreBox;
+        private System.Windows.Forms.Label label10;
+        private System.Windows.Forms.Button GenerateFilmArray_Click;
+        private System.Windows.Forms.TextBox CountOfFilms;
+        private System.Windows.Forms.Button ChangeButtons;
     }
 }
 
