@@ -98,12 +98,6 @@ namespace Programming
                 TextOfTheDay.Text = "Нет такого дня нет";
             }
         }
-
-        // убрать
-        private void label3_Click(object sender, EventArgs e)
-        {
-
-        }
         /// <summary>
         /// кнопка отвечающая за смену сезона
         /// </summary>
@@ -126,15 +120,6 @@ namespace Programming
             }
         }
 
-        private void SeasoncomboBox1_SelectedIndexChanged(object sender, EventArgs e)
-        {
-
-        }
-
-        private void tabPage2_Click(object sender, EventArgs e)
-        {
-
-        }
         /// <summary>
         /// генерация массива фильмов
         /// </summary>
@@ -236,7 +221,7 @@ namespace Programming
                 for (int i = 0; i < amount; i++)
                 {
                     int j = i + 1;
-                    Model.Enums.Rectangle rec = new Model.Enums.Rectangle((float)rnd.Next(0,500), (float)rnd.Next(0,500));
+                    Model.Enums.Rectangle rec = new Model.Enums.Rectangle((float)rnd.Next(0,500), (float)rnd.Next(0,500), new Point2D(rnd.Next(0, 500), rnd.Next(0,500)));
                     rec.Name = "Rectangle" + j;
                     rec.Color = "Red";
                     rectangles[i] = rec;
@@ -258,10 +243,18 @@ namespace Programming
             var Width = rectangles[index].Width;
             var Height = rectangles[index].Height;
             var Color = rectangles[index].Color;
+            var X = rectangles[index].Center.X;
+            var Y = rectangles[index].Center.Y;
+            var ID = rectangles[index].ID;
 
             WidthBox.Text = Width.ToString();
             HeightBox.Text = Height.ToString();
             ColorBox.Text = Color.ToString();
+            XBox.Text = X.ToString();
+            YBox.Text = Y.ToString();
+            LableID.Text = ID.ToString();
+            XBox.ReadOnly = true;
+            YBox.ReadOnly = true;
         }
         /// <summary>
         /// нахождение максимальной ширины
@@ -376,20 +369,10 @@ namespace Programming
 
         
 
-        private void CountOfRectangle_TextChanged(object sender, EventArgs e)
-        {
+        
 
-        }
+      
 
-        private void groupBox4_Enter(object sender, EventArgs e)
-        {
-
-        }
-
-        private void FilmBox4_Enter(object sender, EventArgs e)
-        {
-
-        }
 
        
         /// <summary>
@@ -447,6 +430,51 @@ namespace Programming
             else
             {
                 MessageBox.Show("Only num:");
+            }
+        }
+
+        private void CollisionButton_Click(object sender, EventArgs e)
+        {
+            try
+            {
+                // Получаем индекс выбранного прямоугольника
+                var selectedIndex = ListOfRectangles.SelectedIndex;
+
+                // Проверяем, что выбранный индекс не равен -1 (чтобы избежать исключения при отсутствии выбора)
+                if (selectedIndex == -1)
+                {
+                    MessageBox.Show("Пожалуйста, выберите прямоугольник.");
+                    return;
+                }
+
+                // Проверяем, что индекс следующего прямоугольника не выходит за границы массива
+                if (selectedIndex + 1 >= rectangles.Length)
+                {
+                    MessageBox.Show("Нет следующего прямоугольника для проверки столкновения.");
+                    return;
+                }
+
+                // Проверяем столкновение между выбранным и следующим прямоугольником
+                var collisionResult = Model.CollisionManager.IsCollision(rectangles[selectedIndex], rectangles[selectedIndex + 1]);
+                if (collisionResult)
+                {
+                    MessageBox.Show("Есть пересечения");
+                }
+                else
+                {
+                    MessageBox.Show("Пересечений нет");
+                }
+                
+            }
+            catch (IndexOutOfRangeException ex)
+            {
+                // Обработка исключения выхода за границы массива
+                MessageBox.Show("Произошла ошибка: " + ex.Message);
+            }
+            catch (Exception ex)
+            {
+                // Общая обработка других исключений
+                MessageBox.Show("Произошла ошибка: " + ex.Message);
             }
         }
     }

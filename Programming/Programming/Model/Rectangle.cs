@@ -16,36 +16,42 @@ namespace Programming.Model.Enums
         private float height;
         private string name;
         private string color;
+        private static int _allRectanglesCount;
+        private int _id;
 
+        internal Point2D Center { get; private set; }
         /// <summary>
         /// конструктр инициализация
         /// </summary>
         /// <param name="width">ширина</param>
         /// <param name="height">высота</param>
-        public Rectangle(float width, float height)
+        internal Rectangle(float width, float height, Point2D center)
         {
+            Validator.AssertOnPositiveValue(width, nameof(width));
+            Validator.AssertOnPositiveValue(height, nameof(height));
             this.width = width;
             this.height = height;
+            this.Center = center;
+            center = new Point2D(center.X, center.Y); // возможно заменить
+            _allRectanglesCount++;
+            this._id = _allRectanglesCount;
         }
+
+        public int ID => _id;
         /// <summary>
         /// свойства доступ к полям
         /// </summary>
         public int Width
         {
             get { return (int)width; }
-            set { if (value < 0)
-                {
-                    throw new ArgumentOutOfRangeException(nameof(width), "диапозон должен быть положительным");
-                } 
+            set {
+                Validator.AssertOnPositiveValue(value, nameof(width));
                 width = value; }
         }
         public int Height
         {
             get { return (int)height; }
-            set { if (value < 0)
-                {
-                    throw new ArgumentOutOfRangeException(nameof(height), "диапозон должен быть положительным");
-                }
+            set { Validator.AssertOnPositiveValue(value, nameof(height));
                 height = value; }
         }
         public string Name
@@ -57,6 +63,10 @@ namespace Programming.Model.Enums
         {
             get { return color; }
             set { color = value; }
+        }
+        public static int AllRectanglesCount()
+        {
+            return _allRectanglesCount;
         }
     }
 }

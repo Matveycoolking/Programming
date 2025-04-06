@@ -32,8 +32,8 @@
             this.tabPage1 = new System.Windows.Forms.TabPage();
             this.groupBox2 = new System.Windows.Forms.GroupBox();
             this.SeasoncomboBox1 = new System.Windows.Forms.ComboBox();
-            this.SeasonButton = new System.Windows.Forms.Button();
             this.label3 = new System.Windows.Forms.Label();
+            this.SeasonButton = new System.Windows.Forms.Button();
             this.groupBox1 = new System.Windows.Forms.GroupBox();
             this.TextOfTheDay = new System.Windows.Forms.Label();
             this.ParseButton = new System.Windows.Forms.Button();
@@ -49,6 +49,7 @@
             this.GenerateFilmArray_Click = new System.Windows.Forms.Button();
             this.CountOfFilms = new System.Windows.Forms.TextBox();
             this.FilmBox4 = new System.Windows.Forms.GroupBox();
+            this.ChangeButtons = new System.Windows.Forms.Button();
             this.FindFilmButton = new System.Windows.Forms.Button();
             this.Duration = new System.Windows.Forms.Label();
             this.DurabiltyBox = new System.Windows.Forms.TextBox();
@@ -75,7 +76,12 @@
             this.Height = new System.Windows.Forms.Label();
             this.ListOfRectangles = new System.Windows.Forms.ListBox();
             this.pageSetupDialog1 = new System.Windows.Forms.PageSetupDialog();
-            this.ChangeButtons = new System.Windows.Forms.Button();
+            this.label11 = new System.Windows.Forms.Label();
+            this.label12 = new System.Windows.Forms.Label();
+            this.XBox = new System.Windows.Forms.TextBox();
+            this.YBox = new System.Windows.Forms.TextBox();
+            this.LableID = new System.Windows.Forms.Label();
+            this.CollisionButton = new System.Windows.Forms.Button();
             this.tabControl1.SuspendLayout();
             this.tabPage1.SuspendLayout();
             this.groupBox2.SuspendLayout();
@@ -115,8 +121,8 @@
             // groupBox2
             // 
             this.groupBox2.Controls.Add(this.SeasoncomboBox1);
-            this.groupBox2.Controls.Add(this.SeasonButton);
             this.groupBox2.Controls.Add(this.label3);
+            this.groupBox2.Controls.Add(this.SeasonButton);
             this.groupBox2.Location = new System.Drawing.Point(361, 220);
             this.groupBox2.Name = "groupBox2";
             this.groupBox2.Size = new System.Drawing.Size(423, 170);
@@ -132,11 +138,19 @@
             "Autumm",
             "Winter",
             "Summer"});
-            this.SeasoncomboBox1.Location = new System.Drawing.Point(0, 58);
+            this.SeasoncomboBox1.Location = new System.Drawing.Point(6, 56);
             this.SeasoncomboBox1.Name = "SeasoncomboBox1";
             this.SeasoncomboBox1.Size = new System.Drawing.Size(192, 28);
-            this.SeasoncomboBox1.TabIndex = 3;
-            this.SeasoncomboBox1.SelectedIndexChanged += new System.EventHandler(this.SeasoncomboBox1_SelectedIndexChanged);
+            this.SeasoncomboBox1.TabIndex = 7;
+            // 
+            // label3
+            // 
+            this.label3.AutoSize = true;
+            this.label3.Location = new System.Drawing.Point(6, 22);
+            this.label3.Name = "label3";
+            this.label3.Size = new System.Drawing.Size(123, 20);
+            this.label3.TabIndex = 6;
+            this.label3.Text = "Choose Season";
             // 
             // SeasonButton
             // 
@@ -147,15 +161,6 @@
             this.SeasonButton.Text = "Go";
             this.SeasonButton.UseVisualStyleBackColor = true;
             this.SeasonButton.Click += new System.EventHandler(this.SeasonButton_Click);
-            // 
-            // label3
-            // 
-            this.label3.AutoSize = true;
-            this.label3.Location = new System.Drawing.Point(6, 22);
-            this.label3.Name = "label3";
-            this.label3.Size = new System.Drawing.Size(123, 20);
-            this.label3.TabIndex = 0;
-            this.label3.Text = "Choose Season";
             // 
             // groupBox1
             // 
@@ -178,7 +183,6 @@
             this.TextOfTheDay.Size = new System.Drawing.Size(37, 20);
             this.TextOfTheDay.TabIndex = 8;
             this.TextOfTheDay.Text = "Day";
-            this.TextOfTheDay.Click += new System.EventHandler(this.label3_Click);
             // 
             // ParseButton
             // 
@@ -276,7 +280,6 @@
             this.tabPage2.TabIndex = 1;
             this.tabPage2.Text = "Classes";
             this.tabPage2.UseVisualStyleBackColor = true;
-            this.tabPage2.Click += new System.EventHandler(this.tabPage2_Click);
             // 
             // label10
             // 
@@ -325,7 +328,17 @@
             this.FilmBox4.TabIndex = 10;
             this.FilmBox4.TabStop = false;
             this.FilmBox4.Text = "Film";
-            this.FilmBox4.Enter += new System.EventHandler(this.FilmBox4_Enter);
+            // 
+            // ChangeButtons
+            // 
+            this.ChangeButtons.Location = new System.Drawing.Point(18, 234);
+            this.ChangeButtons.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
+            this.ChangeButtons.Name = "ChangeButtons";
+            this.ChangeButtons.Size = new System.Drawing.Size(136, 38);
+            this.ChangeButtons.TabIndex = 18;
+            this.ChangeButtons.Text = "Change Params";
+            this.ChangeButtons.UseVisualStyleBackColor = true;
+            this.ChangeButtons.Click += new System.EventHandler(this.ChangeButtons_Click);
             // 
             // FindFilmButton
             // 
@@ -455,7 +468,6 @@
             this.CountOfRectangle.Name = "CountOfRectangle";
             this.CountOfRectangle.Size = new System.Drawing.Size(127, 26);
             this.CountOfRectangle.TabIndex = 9;
-            this.CountOfRectangle.TextChanged += new System.EventHandler(this.CountOfRectangle_TextChanged);
             // 
             // label5
             // 
@@ -468,6 +480,12 @@
             // 
             // groupBox3
             // 
+            this.groupBox3.Controls.Add(this.CollisionButton);
+            this.groupBox3.Controls.Add(this.LableID);
+            this.groupBox3.Controls.Add(this.YBox);
+            this.groupBox3.Controls.Add(this.XBox);
+            this.groupBox3.Controls.Add(this.label12);
+            this.groupBox3.Controls.Add(this.label11);
             this.groupBox3.Controls.Add(this.FindMaxbutton);
             this.groupBox3.Controls.Add(this.AcceptButton);
             this.groupBox3.Controls.Add(this.ColorBox);
@@ -479,14 +497,14 @@
             this.groupBox3.Controls.Add(this.ListOfRectangles);
             this.groupBox3.Location = new System.Drawing.Point(6, 23);
             this.groupBox3.Name = "groupBox3";
-            this.groupBox3.Size = new System.Drawing.Size(402, 361);
+            this.groupBox3.Size = new System.Drawing.Size(434, 435);
             this.groupBox3.TabIndex = 0;
             this.groupBox3.TabStop = false;
             this.groupBox3.Text = "ListOfRectangles";
             // 
             // FindMaxbutton
             // 
-            this.FindMaxbutton.Location = new System.Drawing.Point(235, 309);
+            this.FindMaxbutton.Location = new System.Drawing.Point(235, 331);
             this.FindMaxbutton.Name = "FindMaxbutton";
             this.FindMaxbutton.Size = new System.Drawing.Size(137, 30);
             this.FindMaxbutton.TabIndex = 8;
@@ -496,7 +514,7 @@
             // 
             // AcceptButton
             // 
-            this.AcceptButton.Location = new System.Drawing.Point(235, 260);
+            this.AcceptButton.Location = new System.Drawing.Point(235, 290);
             this.AcceptButton.Name = "AcceptButton";
             this.AcceptButton.Size = new System.Drawing.Size(137, 30);
             this.AcceptButton.TabIndex = 7;
@@ -565,16 +583,56 @@
             this.ListOfRectangles.TabIndex = 0;
             this.ListOfRectangles.SelectedIndexChanged += new System.EventHandler(this.ListOfRectangles_SelectedIndexChanged);
             // 
-            // ChangeButtons
+            // label11
             // 
-            this.ChangeButtons.Location = new System.Drawing.Point(18, 234);
-            this.ChangeButtons.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
-            this.ChangeButtons.Name = "ChangeButtons";
-            this.ChangeButtons.Size = new System.Drawing.Size(136, 38);
-            this.ChangeButtons.TabIndex = 18;
-            this.ChangeButtons.Text = "Change Params";
-            this.ChangeButtons.UseVisualStyleBackColor = true;
-            this.ChangeButtons.Click += new System.EventHandler(this.ChangeButtons_Click);
+            this.label11.AutoSize = true;
+            this.label11.Location = new System.Drawing.Point(36, 265);
+            this.label11.Name = "label11";
+            this.label11.Size = new System.Drawing.Size(20, 20);
+            this.label11.TabIndex = 9;
+            this.label11.Text = "X";
+            // 
+            // label12
+            // 
+            this.label12.AutoSize = true;
+            this.label12.Location = new System.Drawing.Point(165, 265);
+            this.label12.Name = "label12";
+            this.label12.Size = new System.Drawing.Size(20, 20);
+            this.label12.TabIndex = 14;
+            this.label12.Text = "Y";
+            // 
+            // XBox
+            // 
+            this.XBox.Location = new System.Drawing.Point(6, 298);
+            this.XBox.Name = "XBox";
+            this.XBox.Size = new System.Drawing.Size(100, 26);
+            this.XBox.TabIndex = 15;
+            // 
+            // YBox
+            // 
+            this.YBox.Location = new System.Drawing.Point(129, 298);
+            this.YBox.Name = "YBox";
+            this.YBox.Size = new System.Drawing.Size(100, 26);
+            this.YBox.TabIndex = 16;
+            // 
+            // LableID
+            // 
+            this.LableID.AutoSize = true;
+            this.LableID.Location = new System.Drawing.Point(247, 256);
+            this.LableID.Name = "LableID";
+            this.LableID.Size = new System.Drawing.Size(26, 20);
+            this.LableID.TabIndex = 17;
+            this.LableID.Text = "ID";
+            // 
+            // CollisionButton
+            // 
+            this.CollisionButton.Location = new System.Drawing.Point(235, 378);
+            this.CollisionButton.Name = "CollisionButton";
+            this.CollisionButton.Size = new System.Drawing.Size(137, 38);
+            this.CollisionButton.TabIndex = 18;
+            this.CollisionButton.Text = "CollisionChek";
+            this.CollisionButton.UseVisualStyleBackColor = true;
+            this.CollisionButton.Click += new System.EventHandler(this.CollisionButton_Click);
             // 
             // MainForm
             // 
@@ -618,8 +676,6 @@
         private System.Windows.Forms.Label TextOfTheDay;
         private System.Windows.Forms.GroupBox groupBox2;
         private System.Windows.Forms.Button SeasonButton;
-        private System.Windows.Forms.Label label3;
-        private System.Windows.Forms.ComboBox SeasoncomboBox1;
         private System.Windows.Forms.PageSetupDialog pageSetupDialog1;
         private System.Windows.Forms.GroupBox groupBox3;
         private System.Windows.Forms.Label Height;
@@ -651,6 +707,14 @@
         private System.Windows.Forms.Button GenerateFilmArray_Click;
         private System.Windows.Forms.TextBox CountOfFilms;
         private System.Windows.Forms.Button ChangeButtons;
+        private System.Windows.Forms.Label label3;
+        private System.Windows.Forms.ComboBox SeasoncomboBox1;
+        private System.Windows.Forms.TextBox YBox;
+        private System.Windows.Forms.TextBox XBox;
+        private System.Windows.Forms.Label label12;
+        private System.Windows.Forms.Label label11;
+        private System.Windows.Forms.Label LableID;
+        private System.Windows.Forms.Button CollisionButton;
     }
 }
 

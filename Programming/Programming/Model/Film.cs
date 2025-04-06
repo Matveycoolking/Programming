@@ -18,22 +18,6 @@ namespace Programming.Model.Enums
         private Genre _Genre;
         private float _Rating;
         /// <summary>
-        /// инициализация класса
-        /// </summary>
-        /// <param name="_Title">имя</param>
-        /// <param name="_Durability">продолжительность</param>
-        /// <param name="_Year">год от 1900 до нашего</param>
-        /// <param name="_Genre">жанр</param>
-        /// <param name="_Rating">рейтинг от 0 до 1</param>
-       /*public Film(string _Title, int _Durability, int _Year, string _Genre, float _Rating)
-        {
-            this._Title = _Title;
-            this._Durability = _Durability;
-            this._Year = _Year;
-            this._Genre = _Genre;
-            this._Rating = _Rating;
-        }*/
-        /// <summary>
         /// доступ к полям
         /// </summary>
 
@@ -53,10 +37,7 @@ namespace Programming.Model.Enums
         {
             get { return _Year; }
             set {
-                if (value < 1900 || value > DateTime.Now.Year)
-                {
-                    throw new ArgumentOutOfRangeException(nameof(_Year), "Год выпуска должен быть в диапазоне от 1900 до текущего года.");
-                }
+                Validator.AssertValueInRange(value, 1900, DateTime.Now.Year, nameof(_Year));
                 _Year = value; }
         }
 
@@ -69,10 +50,8 @@ namespace Programming.Model.Enums
         public float Rating
         {
             get { return _Rating; }
-            set { if (value < 0 || value > 10)
-                {
-                    throw new ArgumentOutOfRangeException(nameof(Rating), "Рейтинг должен быть в диапазоне от 0 до 10.");
-                }
+            set {
+                Validator.AssertValueInRange((int)value, 0, 10, nameof(_Rating));
                 _Rating = value; }
         }
     }

@@ -15,10 +15,7 @@ namespace Programming.Model.Enums
             get { return _hours; }
             set
             {
-                if (value < 0 || value > 23)
-                {
-                    throw new ArgumentOutOfRangeException(nameof(Hours), "Часы должны быть в диапазоне от 0 до 23.");
-                }
+                Validator.AssertValueInRange(value, 0, 23, nameof(_hours));
                 _hours = value;
             }
         }
@@ -29,11 +26,7 @@ namespace Programming.Model.Enums
         {
             get { return _minutes; }
             set
-            {
-                if (value < 0 || value > 59)
-                {
-                    throw new ArgumentOutOfRangeException(nameof(Minutes), "Минуты должны быть в диапазоне от 0 до 59.");
-                }
+            {Validator.AssertValueInRange(value,0,59, nameof(_minutes));
                 _minutes = value;
             }
         }
@@ -44,11 +37,7 @@ namespace Programming.Model.Enums
         {
             get { return _seconds; }
             set
-            {
-                if (value < 0 || value > 59)
-                {
-                    throw new ArgumentOutOfRangeException(nameof(Seconds), "Секунды должны быть в диапазоне от 0 до 59.");
-                }
+            {Validator.AssertValueInRange(value, 0, 59, nameof(_seconds));
                 _seconds = value;
             }
         }

@@ -46,9 +46,13 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Model\CollisionManager.cs" />
+    <Compile Include="Model\Contact.cs" />
     <Compile Include="Model\Film.cs" />
+    <Compile Include="Model\Point2D.cs" />
     <Compile Include="Model\Race.cs" />
     <Compile Include="Model\Rectangle.cs" />
+    <Compile Include="Model\Ring.cs" />
     <Compile Include="Model\Time.cs" />
     <Compile Include="Model\Enums\Year.cs" />
     <Compile Include="Model\Enums\TypeOfSmartphone.cs" />
@@ -56,6 +60,7 @@
     <Compile Include="Model\Enums\Color.cs" />
     <Compile Include="Model\Enums\Genre.cs" />
     <Compile Include="Model\Enums\Weekday.cs" />
+    <Compile Include="Model\Validator.cs" />
     <Compile Include="View\MainForm.cs">
       <SubType>Form</SubType>
     </Compile>

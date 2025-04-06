@@ -43,10 +43,8 @@ namespace Programming.Model.Enums
         public int Time
         {
             get { return time; }
-            set {if (value < 0)
-                {
-                    throw new ArgumentOutOfRangeException(nameof(time), "диапозон должен быть положительным");
-                }
+            set {
+                Validator.AssertOnPositiveValue(value, nameof(time));
                 time = value; }
         }
     }
