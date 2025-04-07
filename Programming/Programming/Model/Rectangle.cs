@@ -18,8 +18,9 @@ namespace Programming.Model.Enums
         private string color;
         private static int _allRectanglesCount;
         private int _id;
+       
 
-        internal Point2D Center { get; private set; }
+        internal Point2D Center { get; set; }
         /// <summary>
         /// конструктр инициализация
         /// </summary>
@@ -27,16 +28,15 @@ namespace Programming.Model.Enums
         /// <param name="height">высота</param>
         internal Rectangle(float width, float height, Point2D center)
         {
-            Validator.AssertOnPositiveValue(width, nameof(width));
-            Validator.AssertOnPositiveValue(height, nameof(height));
             this.width = width;
             this.height = height;
             this.Center = center;
             center = new Point2D(center.X, center.Y); // возможно заменить
             _allRectanglesCount++;
             this._id = _allRectanglesCount;
-        }
+            
 
+        }
         public int ID => _id;
         /// <summary>
         /// свойства доступ к полям

@@ -16,6 +16,8 @@ namespace Programming
 {
     public partial class MainForm : Form
     {
+        private List<Model.Enums.Rectangle> _rectangles = new List<Model.Enums.Rectangle>();
+        private Model.Enums.Rectangle _currentRectangle;
         Model.Enums.Rectangle[] rectangles;
         Model.Enums.Film[] film;
         bool BGenerated = false;
@@ -215,6 +217,7 @@ namespace Programming
             {
                 amount = int.Parse(CountOfRectangle.Text);
                 MessageBox.Show(amount.ToString());
+                _rectangles.Clear();
                 rectangles = new Model.Enums.Rectangle[amount];
                 System.Diagnostics.Trace.WriteLine("message");
 
@@ -225,7 +228,11 @@ namespace Programming
                     rec.Name = "Rectangle" + j;
                     rec.Color = "Red";
                     rectangles[i] = rec;
+                    _rectangles.Add(rec);
+                    //_currentRectangle = new Model.Enums.Rectangle(rec.Width,rec.Height,new Point2D(rec.Center.X, rec.Center.Y));
+                    //_rectangles.Add(_currentRectangle);
                     ListOfRectangles.Items.Add(rec.Name);
+                    ListRectangle.Items.Add($"{rec.ID}: (X = {rec.Center.X}; Y = {rec.Center.Y}; W = {rec.Width}; H = {rec.Height})");
                     Debug.WriteLine("Send to Debug output");
                 }
             }
@@ -234,11 +241,20 @@ namespace Programming
                 MessageBox.Show("Uncorrect");
             }
         }
+
+        private void ADDBUTTON_Click(object sender, EventArgs e)
+        {
+            Random rnd = new Random();
+            Model.Enums.Rectangle rec = new Model.Enums.Rectangle((float)rnd.Next(0, 500), (float)rnd.Next(0, 500), new Point2D(rnd.Next(0, 500), rnd.Next(0, 500)));
+            ListRectangle.Items.Add($"{rec.ID}: (X = {rec.Center.X}; Y = {rec.Center.Y}; W = {rec.Width}; H = {rec.Height})");
+            
+            Debug.WriteLine("Send to Debug output");
+        }
         /// <summary>
         /// отображение изменений
         /// </summary>
         /// <param name="index">порядок</param>
-           public void ChangeTextBoxtrd(int index)
+        public void ChangeTextBoxtrd(int index)
         {
             var Width = rectangles[index].Width;
             var Height = rectangles[index].Height;
@@ -248,10 +264,15 @@ namespace Programming
             var ID = rectangles[index].ID;
 
             WidthBox.Text = Width.ToString();
+            WIDTHBOX1.Text = Width.ToString();
             HeightBox.Text = Height.ToString();
+            HEIGHTBOX1.Text = Height.ToString();
             ColorBox.Text = Color.ToString();
             XBox.Text = X.ToString();
+            XBOX1.Text = X.ToString();
             YBox.Text = Y.ToString();
+            YBOX1.Text = Y.ToString();
+            IDBOX1.Text = ID.ToString();
             LableID.Text = ID.ToString();
             XBox.ReadOnly = true;
             YBox.ReadOnly = true;
@@ -367,14 +388,17 @@ namespace Programming
             ChangeTextBoxtrd(ListOfRectangles.SelectedIndex);
         }
 
-        
+        private void Rectangle_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            ChangeTextBoxtrd(ListRectangle.SelectedIndex);
+        }
 
-        
-
-      
 
 
-       
+
+
+
+
         /// <summary>
         /// нахождение максимального рейтинга замена названия
         /// </summary>
@@ -433,50 +457,7 @@ namespace Programming
             }
         }
 
-        private void CollisionButton_Click(object sender, EventArgs e)
-        {
-            try
-            {
-                // Получаем индекс выбранного прямоугольника
-                var selectedIndex = ListOfRectangles.SelectedIndex;
-
-                // Проверяем, что выбранный индекс не равен -1 (чтобы избежать исключения при отсутствии выбора)
-                if (selectedIndex == -1)
-                {
-                    MessageBox.Show("Пожалуйста, выберите прямоугольник.");
-                    return;
-                }
-
-                // Проверяем, что индекс следующего прямоугольника не выходит за границы массива
-                if (selectedIndex + 1 >= rectangles.Length)
-                {
-                    MessageBox.Show("Нет следующего прямоугольника для проверки столкновения.");
-                    return;
-                }
-
-                // Проверяем столкновение между выбранным и следующим прямоугольником
-                var collisionResult = Model.CollisionManager.IsCollision(rectangles[selectedIndex], rectangles[selectedIndex + 1]);
-                if (collisionResult)
-                {
-                    MessageBox.Show("Есть пересечения");
-                }
-                else
-                {
-                    MessageBox.Show("Пересечений нет");
-                }
-                
-            }
-            catch (IndexOutOfRangeException ex)
-            {
-                // Обработка исключения выхода за границы массива
-                MessageBox.Show("Произошла ошибка: " + ex.Message);
-            }
-            catch (Exception ex)
-            {
-                // Общая обработка других исключений
-                MessageBox.Show("Произошла ошибка: " + ex.Message);
-            }
-        }
+       
     }
  }
 

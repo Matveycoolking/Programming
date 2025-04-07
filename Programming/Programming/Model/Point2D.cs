@@ -13,7 +13,7 @@ namespace Programming.Model
 
         public Point2D(int x, int y)
         {
-            // возможно заменить
+            
             Validator.AssertValueInRange(x, 0, 1000, nameof(X)); 
             Validator.AssertValueInRange(y, 0, 1000, nameof(Y));
 
