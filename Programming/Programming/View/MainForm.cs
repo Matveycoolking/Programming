@@ -18,8 +18,9 @@ namespace Programming
     {
         private List<Model.Enums.Rectangle> _rectangles = new List<Model.Enums.Rectangle>();
         private Model.Enums.Rectangle _currentRectangle;
-        Model.Enums.Rectangle[] rectangles;
+        private List<Model.Enums.Rectangle> rectangles = new List<Model.Enums.Rectangle>();
         Model.Enums.Film[] film;
+        private List<Panel> _rectanglePanels = new List<Panel>();
         bool BGenerated = false;
         //private List<Model.Enums.Film> films = new List<Model.Enums.Film>();
         public MainForm()
@@ -190,6 +191,7 @@ namespace Programming
             YearBox.Text = Year.ToString();
             GenreBox.Text = Genre.ToString();
             RatingBox.Text = Rating.ToString("F1");
+
         }
         /// <summary>
         /// переключение между выборами
@@ -215,39 +217,111 @@ namespace Programming
             int amount;
             if (Int32.TryParse(CountOfRectangle.Text, out amount))
             {
+                
+
                 amount = int.Parse(CountOfRectangle.Text);
                 MessageBox.Show(amount.ToString());
                 _rectangles.Clear();
-                rectangles = new Model.Enums.Rectangle[amount];
-                System.Diagnostics.Trace.WriteLine("message");
+                rectangles.Clear();
+               
+                //System.Diagnostics.Trace.WriteLine("message");
 
                 for (int i = 0; i < amount; i++)
                 {
                     int j = i + 1;
-                    Model.Enums.Rectangle rec = new Model.Enums.Rectangle((float)rnd.Next(0,500), (float)rnd.Next(0,500), new Point2D(rnd.Next(0, 500), rnd.Next(0,500)));
-                    rec.Name = "Rectangle" + j;
-                    rec.Color = "Red";
-                    rectangles[i] = rec;
-                    _rectangles.Add(rec);
-                    //_currentRectangle = new Model.Enums.Rectangle(rec.Width,rec.Height,new Point2D(rec.Center.X, rec.Center.Y));
-                    //_rectangles.Add(_currentRectangle);
-                    ListOfRectangles.Items.Add(rec.Name);
-                    ListRectangle.Items.Add($"{rec.ID}: (X = {rec.Center.X}; Y = {rec.Center.Y}; W = {rec.Width}; H = {rec.Height})");
+                    Model.Enums.Rectangle _currentRectangle = new Model.Enums.Rectangle((float)rnd.Next(1, 500), (float)rnd.Next(1, 500), new Point2D(rnd.Next(1, 500), rnd.Next(1, 500)));
+                   // Model.Enums.Rectangle rec = new Model.Enums.Rectangle((float)rnd.Next(0,500), (float)rnd.Next(0,500), new Point2D(rnd.Next(0, 500), rnd.Next(0,500)));
+                    _currentRectangle.Name = "Rectangle" + j;
+                    _currentRectangle.Color = "Red";
+                    rectangles.Add(_currentRectangle);
+                    _rectangles.Add(_currentRectangle);
+                    ListOfRectangles.Items.Add(_currentRectangle.Name);
+                    ListRectangle.Items.Add($"{_currentRectangle.ID}: (X = {_currentRectangle.Center.X}; Y = {_currentRectangle.Center.Y}; W = {_currentRectangle.Width}; H = {_currentRectangle.Height})");
                     Debug.WriteLine("Send to Debug output");
                 }
+                if (ListRectangle.Items.Count > 0)
+                {
+                    ListRectangle.SelectedIndex = 0;
+                    ListOfRectangles.SelectedIndex = 0;
+                } 
             }
             else
             {
                 MessageBox.Show("Uncorrect");
             }
         }
+        private void DELEATBUTTON_Click(object sender, EventArgs e)
+        {
+
+            // Получаем текущий выбранный индекс
+            int selectedIndex = ListRectangle.SelectedIndex;
+            
+            if(selectedIndex == -1)
+    {
+                MessageBox.Show("Не выбран прямоугольник для удаления");
+                return;
+            }
+
+            if (selectedIndex < 0 ||
+        selectedIndex >= _rectangles.Count ||
+        selectedIndex >= rectangles.Count)
+            {
+                MessageBox.Show("Ошибка: недопустимый индекс");
+                return;
+            }
+
+
+            try
+            {
+                // Удаляем из всех коллекций
+                rectangles.RemoveAt(selectedIndex);
+                _rectangles.RemoveAt(selectedIndex);
+                //rectangles.RemoveAt(selectedIndex);
+                ListOfRectangles.Items.RemoveAt(selectedIndex);
+                ListRectangle.Items.RemoveAt(selectedIndex);
+
+                // Очищаем текстовые поля
+                ClearTextBoxes();
+                
+                if(ListRectangle.Items.Count > 0)
+        {
+                    int newIndex = selectedIndex > 0 ? selectedIndex - 1 : 0;
+                    ListRectangle.SelectedIndex = newIndex;
+                    ListOfRectangles.SelectedIndex = newIndex;
+                }
+
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show($"Ошибка при удалении: {ex.Message}");
+            }
+        }
+       
+        private void ClearTextBoxes()
+        {
+            WidthBox.Clear();
+            WIDTHBOX1.Clear();
+            HeightBox.Clear();
+            HEIGHTBOX1.Clear();
+            ColorBox.Clear();
+            XBox.Clear();
+            XBOX1.Clear();
+            YBox.Clear();
+            YBOX1.Clear();
+            IDBOX1.Clear();
+            LableID.Text = "";
+        }
 
         private void ADDBUTTON_Click(object sender, EventArgs e)
         {
             Random rnd = new Random();
-            Model.Enums.Rectangle rec = new Model.Enums.Rectangle((float)rnd.Next(0, 500), (float)rnd.Next(0, 500), new Point2D(rnd.Next(0, 500), rnd.Next(0, 500)));
+            Model.Enums.Rectangle rec = new Model.Enums.Rectangle((float)rnd.Next(1, 500), (float)rnd.Next(1, 500), new Point2D(rnd.Next(1, 500), rnd.Next(1, 500)));
+            rec.Color = "Red";
+            rec.Name = "Rectangle" + (rectangles.Count + 1);
+            rectangles.Add(rec);
+            _rectangles.Add(rec);
             ListRectangle.Items.Add($"{rec.ID}: (X = {rec.Center.X}; Y = {rec.Center.Y}; W = {rec.Width}; H = {rec.Height})");
-            
+            ListOfRectangles.Items.Add(rec.Name);
             Debug.WriteLine("Send to Debug output");
         }
         /// <summary>
@@ -256,26 +330,62 @@ namespace Programming
         /// <param name="index">порядок</param>
         public void ChangeTextBoxtrd(int index)
         {
-            var Width = rectangles[index].Width;
-            var Height = rectangles[index].Height;
-            var Color = rectangles[index].Color;
-            var X = rectangles[index].Center.X;
-            var Y = rectangles[index].Center.Y;
-            var ID = rectangles[index].ID;
+            if (rectangles == null || rectangles.Count == 0)
+            {
+                ClearTextBoxes();
+                return;
+            }
+            if (index < 0 || index >= rectangles.Count)
+            {
+                ClearTextBoxes();
+                return;
+            }
 
-            WidthBox.Text = Width.ToString();
-            WIDTHBOX1.Text = Width.ToString();
-            HeightBox.Text = Height.ToString();
-            HEIGHTBOX1.Text = Height.ToString();
-            ColorBox.Text = Color.ToString();
-            XBox.Text = X.ToString();
-            XBOX1.Text = X.ToString();
-            YBox.Text = Y.ToString();
-            YBOX1.Text = Y.ToString();
-            IDBOX1.Text = ID.ToString();
-            LableID.Text = ID.ToString();
-            XBox.ReadOnly = true;
-            YBox.ReadOnly = true;
+            // Проверяем валидность индекса
+            if (index < 0 || index >= rectangles.Count || rectangles[index] == null)
+            {
+                ClearTextBoxes();
+                return;
+            }
+
+            try
+            {
+                var rectangle = rectangles[index];
+                if (rectangle == null)
+                {
+                    ClearTextBoxes();
+                    return;
+                }
+
+                WidthBox.TextChanged -= WidthBox_TextChanged;
+                HeightBox.TextChanged -= HeightBox_TextChanged;
+                
+
+                WidthBox.Text = rectangle.Width.ToString();
+                WIDTHBOX1.Text = rectangle.Width.ToString();
+                HeightBox.Text = rectangle.Height.ToString();
+                HEIGHTBOX1.Text = rectangle.Height.ToString();
+                ColorBox.Text = rectangle.Color ?? "Red";
+                XBox.Text = rectangle.Center.X.ToString();
+                XBOX1.Text = rectangle.Center.X.ToString();
+                YBox.Text = rectangle.Center.Y.ToString();
+                YBOX1.Text = rectangle.Center.Y.ToString();
+                IDBOX1.Text = rectangle.ID.ToString();
+                LableID.Text = rectangle.ID.ToString();
+                XBox.ReadOnly = true;
+                YBox.ReadOnly = true;
+                IDBOX1.ReadOnly = true;
+
+                // Восстанавливаем обработчики
+                WidthBox.TextChanged += WidthBox_TextChanged;
+                HeightBox.TextChanged += HeightBox_TextChanged;
+                
+            }
+            catch (Exception ex)
+            {
+               
+                ClearTextBoxes();
+            }
         }
         /// <summary>
         /// нахождение максимальной ширины
@@ -283,11 +393,11 @@ namespace Programming
         /// <param name="rectangles">прямоугольник</param>
         /// <returns></returns>
      
-        private int FindMaxWidth(Model.Enums.Rectangle[] rectangles)
+        private int FindMaxWidth(List<Model.Enums.Rectangle> rectangles)
         {
-            int maxWidth = 0;
+            int maxWidth = rectangles[0].Width;
             int index = 0;
-            for (int i = 0; i < rectangles.Length; i++)
+            for (int i = 1; i < rectangles.Count; i++)
             {
                 if(maxWidth <  rectangles[i].Width)
                 {
@@ -310,6 +420,16 @@ namespace Programming
             }
         }
 
+        private void UpdateListBoxItem(int index)
+        {
+            if (index < 0 || index >= rectangles.Count) return;
+
+            var rec = rectangles[index];
+
+            // Обновляем оба ListBox
+            ListRectangle.Items[index] = $"{rec.ID}: (X = {rec.Center.X}; Y = {rec.Center.Y}; W = {rec.Width}; H = {rec.Height})";
+            ListOfRectangles.Items[index] = rec.Name;
+        }
         /// <summary>
         /// изменение высоты кнопка
         /// </summary>
@@ -317,36 +437,36 @@ namespace Programming
         /// <param name="e"></param>
         private void AcceptButton_Click(object sender, EventArgs e)
         {
-            var Height = 0;
-            if (Int32.TryParse(HeightBox.Text, out Height) && BGenerated)
+            var Height = 1;
+            if (Int32.TryParse(HeightBox.Text, out Height) && BGenerated && ListOfRectangles.SelectedIndex != -1)
             {
-                var rec = rectangles[ListOfRectangles.SelectedIndex];
+                int selectedIndex = ListOfRectangles.SelectedIndex;
+                var rec = rectangles[selectedIndex];
                 rec.Height = Height;
+                UpdateListBoxItem(selectedIndex);
             }
             else
             {
-                MessageBox.Show("Only num:");
+                MessageBox.Show("Введите корректное число");
                 HeightBox.BackColor = Color.Red;
             }
-        }
-        /// <summary>
-        /// функция по замене удалить
-        /// </summary>
-        /// <param name="sender"></param>
-        /// <param name="e"></param>
+        }///eweqweqweqweqweqweqweqweqa
+         /// <summary>
+         /// функция по замене удалить
+         /// </summary>
+         /// <param name="sender"></param>
+         /// <param name="e"></param>
         private void HeightBox_TextChanged(object sender, EventArgs e)
         {
-            var Height = 0;
-            if (Int32.TryParse(HeightBox.Text, out Height) && BGenerated)
+            var Height = 1;
+            if (Int32.TryParse(HeightBox.Text, out Height) && BGenerated && ListOfRectangles.SelectedIndex != -1)
             {
-                var rec = rectangles[ListOfRectangles.SelectedIndex];
+                int selectedIndex = ListOfRectangles.SelectedIndex;
+                var rec = rectangles[selectedIndex];
                 rec.Height = Height;
+                UpdateListBoxItem(selectedIndex);
             }
-            else
-            {
-                MessageBox.Show("Only num:");
-                HeightBox.BackColor = Color.Red;
-            }
+
         }
         /// <summary>
         /// изменение ширины
@@ -356,16 +476,13 @@ namespace Programming
 
         private void WidthBox_TextChanged(object sender, EventArgs e)
         {
-            var Width = 0;
-            if (Int32.TryParse(WidthBox.Text, out Width) && BGenerated)
+            var Width = 1;
+            if (Int32.TryParse(WidthBox.Text, out Width) && BGenerated && ListOfRectangles.SelectedIndex != -1)
             {
-                var rec = rectangles[ListOfRectangles.SelectedIndex];
+                int selectedIndex = ListOfRectangles.SelectedIndex;
+                var rec = rectangles[selectedIndex];
                 rec.Width = Width;
-            }
-            else
-            {
-                MessageBox.Show("Only num:");
-                HeightBox.BackColor = Color.Red;
+                UpdateListBoxItem(selectedIndex);
             }
         }
         /// <summary>
@@ -375,17 +492,29 @@ namespace Programming
         /// <param name="e"></param>
         private void ColorBox_TextChanged(object sender, EventArgs e)
         {
-            if (BGenerated)
+            if (BGenerated && ListOfRectangles.SelectedIndex != -1)
             {
-                var rec = rectangles[ListOfRectangles.SelectedIndex];
-                var Color = ColorBox.Text;
-                rec.Color = Color;
+                int selectedIndex = ListOfRectangles.SelectedIndex;
+                var rec = rectangles[selectedIndex];
+                rec.Color = ColorBox.Text;
+                UpdateListBoxItem(selectedIndex);
             }
         }
 
         private void ListOfRectangles_SelectedIndexChanged(object sender, EventArgs e)
         {
-            ChangeTextBoxtrd(ListOfRectangles.SelectedIndex);
+            if (ListOfRectangles.SelectedIndex != -1)
+            {
+                // Синхронизируем выделение в другом ListBox
+                ListRectangle.SelectedIndex = ListOfRectangles.SelectedIndex;
+
+                // Обновляем текстовые поля
+                ChangeTextBoxtrd(ListRectangle.SelectedIndex);
+            }
+            else
+            {
+                ClearTextBoxes();
+            }
         }
 
         private void Rectangle_SelectedIndexChanged(object sender, EventArgs e)

@@ -14,8 +14,8 @@ namespace Programming.Model.Enums
         // Поля данные класса
         private float width;
         private float height;
-        private string name;
-        private string color;
+        private string name = "Rectangle";
+        private string color = "Red";
         private static int _allRectanglesCount;
         private int _id;
        
