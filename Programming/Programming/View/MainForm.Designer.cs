@@ -81,6 +81,7 @@
             this.Height = new System.Windows.Forms.Label();
             this.ListOfRectangles = new System.Windows.Forms.ListBox();
             this.tabPage3 = new System.Windows.Forms.TabPage();
+            this.CanvasPanel = new System.Windows.Forms.Panel();
             this.DELEATBUTTON = new System.Windows.Forms.Button();
             this.ADDBUTTON = new System.Windows.Forms.Button();
             this.label17 = new System.Windows.Forms.Label();
@@ -97,7 +98,7 @@
             this.groupBox4 = new System.Windows.Forms.GroupBox();
             this.ListRectangle = new System.Windows.Forms.ListBox();
             this.pageSetupDialog1 = new System.Windows.Forms.PageSetupDialog();
-            this.panel1 = new System.Windows.Forms.Panel();
+            this.backgroundWorker1 = new System.ComponentModel.BackgroundWorker();
             this.tabControl1.SuspendLayout();
             this.tabPage1.SuspendLayout();
             this.groupBox2.SuspendLayout();
@@ -117,7 +118,7 @@
             this.tabControl1.Location = new System.Drawing.Point(12, 26);
             this.tabControl1.Name = "tabControl1";
             this.tabControl1.SelectedIndex = 0;
-            this.tabControl1.Size = new System.Drawing.Size(905, 487);
+            this.tabControl1.Size = new System.Drawing.Size(1171, 781);
             this.tabControl1.TabIndex = 0;
             // 
             // tabPage1
@@ -253,7 +254,7 @@
             this.Lable1.Size = new System.Drawing.Size(161, 20);
             this.Lable1.TabIndex = 2;
             this.Lable1.Text = "Choose enumaration:";
-            this.Lable1.Click += new System.EventHandler(this.Choose_Click);
+          
             // 
             // VaulueListBox
             // 
@@ -644,7 +645,7 @@
             // 
             // tabPage3
             // 
-            this.tabPage3.Controls.Add(this.panel1);
+            this.tabPage3.Controls.Add(this.CanvasPanel);
             this.tabPage3.Controls.Add(this.DELEATBUTTON);
             this.tabPage3.Controls.Add(this.ADDBUTTON);
             this.tabPage3.Controls.Add(this.label17);
@@ -662,10 +663,17 @@
             this.tabPage3.Location = new System.Drawing.Point(4, 29);
             this.tabPage3.Name = "tabPage3";
             this.tabPage3.Padding = new System.Windows.Forms.Padding(3);
-            this.tabPage3.Size = new System.Drawing.Size(897, 454);
+            this.tabPage3.Size = new System.Drawing.Size(1163, 748);
             this.tabPage3.TabIndex = 2;
             this.tabPage3.Text = "Rectangles";
             this.tabPage3.UseVisualStyleBackColor = true;
+            // 
+            // CanvasPanel
+            // 
+            this.CanvasPanel.Location = new System.Drawing.Point(461, 35);
+            this.CanvasPanel.Name = "CanvasPanel";
+            this.CanvasPanel.Size = new System.Drawing.Size(773, 515);
+            this.CanvasPanel.TabIndex = 12;
             // 
             // DELEATBUTTON
             // 
@@ -796,13 +804,6 @@
             this.ListRectangle.TabIndex = 0;
             this.ListRectangle.SelectedIndexChanged += new System.EventHandler(this.Rectangle_SelectedIndexChanged);
             // 
-            // panel1
-            // 
-            this.panel1.Location = new System.Drawing.Point(540, 35);
-            this.panel1.Name = "panel1";
-            this.panel1.Size = new System.Drawing.Size(351, 407);
-            this.panel1.TabIndex = 12;
-            // 
             // MainForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(9F, 20F);
@@ -902,7 +903,8 @@
         private System.Windows.Forms.TextBox IDBOX1;
         private System.Windows.Forms.Button ADDBUTTON;
         private System.Windows.Forms.Button DELEATBUTTON;
-        private System.Windows.Forms.Panel panel1;
+        private System.Windows.Forms.Panel CanvasPanel;
+        private System.ComponentModel.BackgroundWorker backgroundWorker1;
     }
 }
 

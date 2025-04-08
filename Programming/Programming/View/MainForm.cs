@@ -237,9 +237,11 @@ namespace Programming
                     _rectangles.Add(_currentRectangle);
                     ListOfRectangles.Items.Add(_currentRectangle.Name);
                     ListRectangle.Items.Add($"{_currentRectangle.ID}: (X = {_currentRectangle.Center.X}; Y = {_currentRectangle.Center.Y}; W = {_currentRectangle.Width}; H = {_currentRectangle.Height})");
+                    CreateRectanglePanel(_currentRectangle);
+                    FindCollisions();
                     Debug.WriteLine("Send to Debug output");
                 }
-                if (ListRectangle.Items.Count > 0)
+                if (ListOfRectangles.Items.Count > 0)
                 {
                     ListRectangle.SelectedIndex = 0;
                     ListOfRectangles.SelectedIndex = 0;
@@ -276,7 +278,14 @@ namespace Programming
                 // Удаляем из всех коллекций
                 rectangles.RemoveAt(selectedIndex);
                 _rectangles.RemoveAt(selectedIndex);
-                //rectangles.RemoveAt(selectedIndex);
+                
+                if (selectedIndex < _rectanglePanels.Count)
+                {
+                    CanvasPanel.Controls.Remove(_rectanglePanels[selectedIndex]);
+                    _rectanglePanels[selectedIndex].Dispose();
+                    _rectanglePanels.RemoveAt(selectedIndex);
+                }
+
                 ListOfRectangles.Items.RemoveAt(selectedIndex);
                 ListRectangle.Items.RemoveAt(selectedIndex);
 
@@ -289,6 +298,7 @@ namespace Programming
                     ListRectangle.SelectedIndex = newIndex;
                     ListOfRectangles.SelectedIndex = newIndex;
                 }
+                FindCollisions();
 
             }
             catch (Exception ex)
@@ -315,14 +325,67 @@ namespace Programming
         private void ADDBUTTON_Click(object sender, EventArgs e)
         {
             Random rnd = new Random();
-            Model.Enums.Rectangle rec = new Model.Enums.Rectangle((float)rnd.Next(1, 500), (float)rnd.Next(1, 500), new Point2D(rnd.Next(1, 500), rnd.Next(1, 500)));
+            Model.Enums.Rectangle rec = new Model.Enums.Rectangle((float)rnd.Next(1, 100), (float)rnd.Next(1, 100), new Point2D(rnd.Next(1, 250), rnd.Next(1, 250)));
             rec.Color = "Red";
             rec.Name = "Rectangle" + (rectangles.Count + 1);
             rectangles.Add(rec);
             _rectangles.Add(rec);
             ListRectangle.Items.Add($"{rec.ID}: (X = {rec.Center.X}; Y = {rec.Center.Y}; W = {rec.Width}; H = {rec.Height})");
             ListOfRectangles.Items.Add(rec.Name);
+            CreateRectanglePanel(rec);
+            FindCollisions();
+
+            // Устанавливаем выделение
+            int newIndex = rectangles.Count - 1;
+            ListOfRectangles.SelectedIndex = newIndex;
+            ListRectangle.SelectedIndex = newIndex;
             Debug.WriteLine("Send to Debug output");
+        }
+        private void FindCollisions()
+        {
+            // Сначала все панели делаем зелеными
+            foreach (var panel in _rectanglePanels)
+            {
+                panel.BackColor = Color.FromArgb(127, 127, 255, 127); // Полупрозрачный зеленый
+            }
+
+            // Проверяем пересечения всех пар прямоугольников
+            for (int i = 0; i < rectangles.Count; i++)
+            {
+                for (int j = i + 1; j < rectangles.Count; j++) // Начинаем с i+1 чтобы избежать повторных проверок
+                {
+                    if (CollisionManager.IsCollision(rectangles[i], rectangles[j]))
+                    {
+                        // Перекрашиваем оба пересекающихся прямоугольника в красный
+                        if (i < _rectanglePanels.Count)
+                            _rectanglePanels[i].BackColor = Color.FromArgb(127, 255, 127, 127);
+
+                        if (j < _rectanglePanels.Count)
+                            _rectanglePanels[j].BackColor = Color.FromArgb(127, 255, 127, 127);
+                    }
+                }
+            }
+        }
+
+
+        private void CreateRectanglePanel(Model.Enums.Rectangle rectangle)
+        {
+            Panel panel = new Panel();
+
+            // Устанавливаем свойства панели по данным прямоугольника
+            panel.Width = (int)rectangle.Width;
+            panel.Height = (int)rectangle.Height;
+            panel.Location = new Point((int)rectangle.Center.X - panel.Width / 2,
+                                     (int)rectangle.Center.Y - panel.Height / 2);
+
+           
+            panel.BackColor = Color.FromArgb(127, 127, 255, 127);
+
+            
+            CanvasPanel.Controls.Add(panel);
+            _rectanglePanels.Add(panel);
+
+            
         }
         /// <summary>
         /// отображение изменений
@@ -419,6 +482,21 @@ namespace Programming
                 ListOfRectangles.SelectedIndex = FindMaxWidth(rectangles);
             }
         }
+        private void UpdateRectanglePanel(int index)
+        {
+            if (index < 0 || index >= rectangles.Count || index >= _rectanglePanels.Count)
+                return;
+
+            var rectangle = rectangles[index];
+            var panel = _rectanglePanels[index];
+
+            // Обновляем размеры и положение панели
+            panel.Width = (int)rectangle.Width;
+            panel.Height = (int)rectangle.Height;
+
+            // Обновляем запись в ListBox
+            UpdateListBoxItem(index);
+        }
 
         private void UpdateListBoxItem(int index)
         {
@@ -427,8 +505,11 @@ namespace Programming
             var rec = rectangles[index];
 
             // Обновляем оба ListBox
-            ListRectangle.Items[index] = $"{rec.ID}: (X = {rec.Center.X}; Y = {rec.Center.Y}; W = {rec.Width}; H = {rec.Height})";
-            ListOfRectangles.Items[index] = rec.Name;
+            if (index < ListOfRectangles.Items.Count)
+                ListOfRectangles.Items[index] = rec.Name;
+
+            if (index < ListRectangle.Items.Count)
+                ListRectangle.Items[index] = $"{rec.ID}: (X = {rec.Center.X}; Y = {rec.Center.Y}; W = {rec.Width}; H = {rec.Height})";
         }
         /// <summary>
         /// изменение высоты кнопка
@@ -444,13 +525,15 @@ namespace Programming
                 var rec = rectangles[selectedIndex];
                 rec.Height = Height;
                 UpdateListBoxItem(selectedIndex);
+                UpdateRectanglePanel(selectedIndex);
+                FindCollisions();
             }
             else
             {
                 MessageBox.Show("Введите корректное число");
                 HeightBox.BackColor = Color.Red;
             }
-        }///eweqweqweqweqweqweqweqweqa
+        }
          /// <summary>
          /// функция по замене удалить
          /// </summary>
@@ -465,6 +548,8 @@ namespace Programming
                 var rec = rectangles[selectedIndex];
                 rec.Height = Height;
                 UpdateListBoxItem(selectedIndex);
+                UpdateRectanglePanel(selectedIndex);
+                FindCollisions();
             }
 
         }
@@ -483,6 +568,8 @@ namespace Programming
                 var rec = rectangles[selectedIndex];
                 rec.Width = Width;
                 UpdateListBoxItem(selectedIndex);
+                UpdateRectanglePanel(selectedIndex);
+                FindCollisions();
             }
         }
         /// <summary>
@@ -498,6 +585,7 @@ namespace Programming
                 var rec = rectangles[selectedIndex];
                 rec.Color = ColorBox.Text;
                 UpdateListBoxItem(selectedIndex);
+                FindCollisions();
             }
         }
 
@@ -586,8 +674,9 @@ namespace Programming
             }
         }
 
-       
+        
     }
  }
+
 
 
