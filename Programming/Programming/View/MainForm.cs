@@ -264,14 +264,6 @@ namespace Programming
                 return;
             }
 
-            if (selectedIndex < 0 ||
-        selectedIndex >= _rectangles.Count ||
-        selectedIndex >= rectangles.Count)
-            {
-                MessageBox.Show("Ошибка: недопустимый индекс");
-                return;
-            }
-
 
             try
             {
@@ -393,19 +385,7 @@ namespace Programming
         /// <param name="index">порядок</param>
         public void ChangeTextBoxtrd(int index)
         {
-            if (rectangles == null || rectangles.Count == 0)
-            {
-                ClearTextBoxes();
-                return;
-            }
-            if (index < 0 || index >= rectangles.Count)
-            {
-                ClearTextBoxes();
-                return;
-            }
-
-            // Проверяем валидность индекса
-            if (index < 0 || index >= rectangles.Count || rectangles[index] == null)
+            if (rectangles == null || index < 0 || index >= rectangles.Count)
             {
                 ClearTextBoxes();
                 return;
@@ -414,11 +394,7 @@ namespace Programming
             try
             {
                 var rectangle = rectangles[index];
-                if (rectangle == null)
-                {
-                    ClearTextBoxes();
-                    return;
-                }
+               
 
                 WidthBox.TextChanged -= WidthBox_TextChanged;
                 HeightBox.TextChanged -= HeightBox_TextChanged;
@@ -518,27 +494,33 @@ namespace Programming
         /// <param name="e"></param>
         private void AcceptButton_Click(object sender, EventArgs e)
         {
-            var Height = 1;
-            if (Int32.TryParse(HeightBox.Text, out Height) && BGenerated && ListOfRectangles.SelectedIndex != -1)
+             if (UpdateRectangleProperty(HeightBox.Text, (rec, value) => rec.Height = value))
+    {
+        UpdateListBoxItem(ListOfRectangles.SelectedIndex);
+        UpdateRectanglePanel(ListOfRectangles.SelectedIndex);
+        FindCollisions();
+    }
+        }
+        private bool UpdateRectangleProperty(string input, Action<Model.Enums.Rectangle, int> updateAction)
+        {
+            if (BGenerated && ListOfRectangles.SelectedIndex != -1 && int.TryParse(input, out int value))
             {
                 int selectedIndex = ListOfRectangles.SelectedIndex;
                 var rec = rectangles[selectedIndex];
-                rec.Height = Height;
-                UpdateListBoxItem(selectedIndex);
-                UpdateRectanglePanel(selectedIndex);
-                FindCollisions();
+                updateAction(rec, value); // Здесь мы вызываем лямбда-функцию для обновления свойства
+                return true;
             }
             else
             {
                 MessageBox.Show("Введите корректное число");
-                HeightBox.BackColor = Color.Red;
+                return false;
             }
         }
-         /// <summary>
-         /// функция по замене удалить
-         /// </summary>
-         /// <param name="sender"></param>
-         /// <param name="e"></param>
+        /// <summary>
+        /// функция по замене удалить
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void HeightBox_TextChanged(object sender, EventArgs e)
         {
             var Height = 1;
@@ -603,10 +585,11 @@ namespace Programming
             {
                 ClearTextBoxes();
             }
-        }
+        }   
 
         private void Rectangle_SelectedIndexChanged(object sender, EventArgs e)
         {
+            ListOfRectangles.SelectedIndex = ListRectangle.SelectedIndex;
             ChangeTextBoxtrd(ListRectangle.SelectedIndex);
         }
 
