@@ -8,11 +8,11 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 
-namespace Programming.View.UserControl
+namespace Programming.View.UserControls
 {
-    public partial class RectanglesCollisionControl : UserControl
+    public partial class RectangleCollisionControl : UserControl
     {
-        public RectanglesCollisionControl()
+        public RectangleCollisionControl()
         {
             InitializeComponent();
         }
