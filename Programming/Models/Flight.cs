@@ -22,6 +22,12 @@ namespace Programming.Models
         /// </summary>
         private int _flightTime;
         #endregion
+        /// <summary>
+        /// конструктор
+        /// </summary>
+        /// <param name="DeparturePoint"></param>
+        /// <param name="Destination"></param>
+        /// <param name="FlightTime"></param>
         public Flight(string DeparturePoint, string Destination, int FlightTime)
         {
             this.DeparturePoint = DeparturePoint;

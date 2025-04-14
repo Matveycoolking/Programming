@@ -6,6 +6,9 @@ using System.Threading.Tasks;
 
 namespace Programming.Models.Enums
 {
+    /// <summary>
+    /// фирмы смартфонов
+    /// </summary>
     public enum SmartphoneManufacturers
     {
         Apple,

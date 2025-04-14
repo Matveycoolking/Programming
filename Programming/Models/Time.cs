@@ -23,6 +23,12 @@ namespace Programming.Models
         private int _seconds;
 
         #endregion
+        /// <summary>
+        /// конструктор
+        /// </summary>
+        /// <param name="Hours">час</param>
+        /// <param name="Minutes">минута</param>
+        /// <param name="Seconds">секунды</param>
         public Time(int Hours, int Minutes, int Seconds)
         {
             this.Hours = Hours;

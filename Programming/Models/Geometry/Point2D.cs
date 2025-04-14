@@ -18,6 +18,11 @@ namespace Programming.Models.Geometry
         /// </summary>
         private double _y;
         #endregion
+        /// <summary>
+        /// конструктор
+        /// </summary>
+        /// <param name="X">координата х</param>
+        /// <param name="Y">координата у</param>
         public Point2D(double X, double Y)
         {
             this.X = X;

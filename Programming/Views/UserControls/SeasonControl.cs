@@ -21,6 +21,11 @@ namespace Programming.Views.UserControls
             InitializeComponent();
             SeasonCB.DataSource = Enum.GetValues(typeof(Season));
         }
+        /// <summary>
+        /// выбор сезонов времнё года
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void SeasonButton_Click(object sender, EventArgs e)
         {
             switch (SeasonCB.SelectedIndex)
@@ -39,6 +44,10 @@ namespace Programming.Views.UserControls
                     break;
             }
         }
+        /// <summary>
+        /// изминение сезона
+        /// </summary>
+        /// <param name="season"></param>
         protected virtual void OnSeasonChanged(int season)
         {
             SeasonChanged?.Invoke(this, season);

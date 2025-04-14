@@ -22,6 +22,12 @@ namespace Programming.Models
         /// </summary>
         private int _assessment;
         #endregion
+        /// <summary>
+        /// конструктор
+        /// </summary>
+        /// <param name="Name">имя</param>
+        /// <param name="TeacherLastName">имя учителя</param>
+        /// <param name="Assessment"></param>
         public Discipline(string Name, string TeacherLastName, int Assessment)
         {
             this.Name = Name;

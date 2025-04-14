@@ -65,7 +65,6 @@
             this.ValueListBox.Name = "ValueListBox";
             this.ValueListBox.Size = new System.Drawing.Size(206, 304);
             this.ValueListBox.TabIndex = 8;
-            this.ValueListBox.SelectedIndexChanged += new System.EventHandler(this.ValueListBox_SelectedIndexChanged);
             this.ValueListBox.SelectedValueChanged += new System.EventHandler(this.ValueListBox_SelectedValueChanged);
             // 
             // label2
@@ -94,7 +93,6 @@
             this.EnumListBox.Name = "EnumListBox";
             this.EnumListBox.Size = new System.Drawing.Size(206, 304);
             this.EnumListBox.TabIndex = 6;
-            this.EnumListBox.SelectedIndexChanged += new System.EventHandler(this.EnumListBox_SelectedIndexChanged);
             this.EnumListBox.SelectedValueChanged += new System.EventHandler(this.EnumListBox_SelectedValueChanged);
             // 
             // label1

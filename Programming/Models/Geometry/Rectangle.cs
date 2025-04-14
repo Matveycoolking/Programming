@@ -31,6 +31,13 @@ namespace Programming.Models
         /// </summary>
         private static int _allRectanglesCount;
         #endregion
+        /// <summary>
+        /// конструктор
+        /// </summary>
+        /// <param name="Center">координаты</param>
+        /// <param name="Height">высота</param>
+        /// <param name="Width">ширина</param>
+        /// <param name="Color">цвет</param>
         public Rectangle(Point2D Center, double Height, double Width, string Color)
         {
             this.Center = Center;
@@ -40,6 +47,9 @@ namespace Programming.Models
             _allRectanglesCount++;
             _id = _allRectanglesCount;
         }
+        /// <summary>
+        /// настройка id
+        /// </summary>
         public Rectangle()
         {
             _allRectanglesCount++;
@@ -110,7 +120,10 @@ namespace Programming.Models
         public static int AllRectanglesCount { get => _allRectanglesCount; }
         public static List<Rectangle> Rectangles = new List<Rectangle>();
         #endregion
-
+        /// <summary>
+        /// инициализация
+        /// </summary>
+        /// <returns></returns>
         public override string ToString() => $"{Id}: (X= {Center.X}; Y= {Center.Y}; W= {Width}; H= {Height})";
     }
 }

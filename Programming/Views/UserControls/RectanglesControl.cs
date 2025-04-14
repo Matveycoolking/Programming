@@ -21,6 +21,11 @@ namespace Programming.Views.UserControls
             InitializeComponent();
             RectanglesBox.DataSource = Rectangle.Rectangles;
         }
+       /// <summary>
+       /// выбранный индекс
+       /// </summary>
+       /// <param name="sender"></param>
+       /// <param name="e"></param>
         private void RectanglesBox_SelectedIndexChanged(object sender, EventArgs e)
         {
             try
@@ -33,6 +38,9 @@ namespace Programming.Views.UserControls
             }
             
         }
+       /// <summary>
+       /// повтор текст боксов
+       /// </summary>
         private void UpdatePropertyTextBox()
         {
             if (RectanglesBox.SelectedItem != null)
@@ -45,6 +53,10 @@ namespace Programming.Views.UserControls
             }
 
         }
+       /// <summary>
+       /// повторение информации об прямоугольниках
+       /// </summary>
+       /// <param name="rectangle"></param>
         private void UpdateRectangleInfo(Rectangle rectangle)
         {
             WidthTextBox.Text = _currentRectangle.Width.ToString();
@@ -54,6 +66,9 @@ namespace Programming.Views.UserControls
             YTextBox.Text = _currentRectangle.Center.Y.ToString();
             IdTextBox.Text = _currentRectangle.Id.ToString();
         }
+        /// <summary>
+        /// обнуление информации об прямоугольниках
+        /// </summary>
         private void ClearRectangleInfo()
         {
             WidthTextBox.Text = string.Empty;
@@ -63,6 +78,11 @@ namespace Programming.Views.UserControls
             YTextBox.Text = string.Empty;
             IdTextBox.Text = string.Empty;
         }
+       /// <summary>
+       /// изменен ие длинны текстбоксов
+       /// </summary>
+       /// <param name="sender"></param>
+       /// <param name="e"></param>
         private void LenghtTextBox_TextChanged(object sender, EventArgs e)
         {
             try
@@ -76,6 +96,11 @@ namespace Programming.Views.UserControls
                 LenghtTextBox.BackColor = AppColors.ErrorInput;
             }
         }
+        /// <summary>
+        /// изменение ширины текстбокса
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void WidthTextBox_TextChanged(object sender, EventArgs e)
         {
             try
@@ -89,6 +114,11 @@ namespace Programming.Views.UserControls
                 WidthTextBox.BackColor = AppColors.ErrorInput;
             }
         }
+        /// <summary>
+        /// изменение цвета текстбокса
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void ColorTextBox_TextChanged(object sender, EventArgs e)
         {
             try
@@ -104,6 +134,11 @@ namespace Programming.Views.UserControls
                 ColorTextBox.BackColor = AppColors.ErrorInput;
             }
         }
+       /// <summary>
+       /// нахождение максимальной длины ширины прямоугольника
+       /// </summary>
+       /// <param name="Rectangles"></param>
+       /// <returns></returns>
         private int FindRectangleWithMaxWidth(List<Rectangle> Rectangles)
         {
             double maxWidth = 0;
@@ -118,11 +153,21 @@ namespace Programming.Views.UserControls
             }
             return Index;
         }
+       /// <summary>
+       /// нахождение прямоугольника
+       /// </summary>
+       /// <param name="sender"></param>
+       /// <param name="e"></param>
         private void FindRectangleButton_Click(object sender, EventArgs e)
         {
             RectanglesBox.SelectedIndex = FindRectangleWithMaxWidth(Rectangle.Rectangles);
             _currentRectangle = RectanglesBox.SelectedItem as Rectangle;
         }
+        /// <summary>
+        /// вставить дату
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void InputData(object sender, KeyPressEventArgs e)
         {
             Validator.InterdictionInputData(sender, e);

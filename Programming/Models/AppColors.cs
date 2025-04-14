@@ -40,6 +40,6 @@ namespace Programming.Models
         /// <summary>
         /// Цвет прямоугольника при пересечении
         /// </summary>
-        public static Color RectangleCollision { get => Color.FromArgb(255, 255, 0, 0); }
+        public static Color RectangleCollision { get => Color.FromArgb(255, 255, 127, 127); }
     }
 }

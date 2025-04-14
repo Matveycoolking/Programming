@@ -10,7 +10,12 @@ namespace Programming.Models.Geometry
     public static class RectangleFactory
     {
         private static Random Random = new Random();
-
+        /// <summary>
+        /// создание прямоугольников
+        /// </summary>
+        /// <param name="Padding"></param>
+        /// <param name="panel"></param>
+        /// <returns></returns>
         public static Rectangle Randomize(int Padding, Panel panel)
         {
             int width = Random.Next(10, 350);
@@ -21,6 +26,10 @@ namespace Programming.Models.Geometry
 
             return new Rectangle(new Point2D(x + width / 2,y + height / 2), width, height, "Black");
         }
+        /// <summary>
+        /// рефакторинг рандомных прямоугольников
+        /// </summary>
+        /// <returns></returns>
         public static Rectangle Randomize()
         {
             int width = Random.Next(10, 350);

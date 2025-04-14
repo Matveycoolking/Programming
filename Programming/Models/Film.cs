@@ -30,6 +30,14 @@ namespace Programming.Models
         /// </summary>
         private double _rating;
         #endregion
+        /// <summary>
+        /// конструктор
+        /// </summary>
+        /// <param name="Name"></param>
+        /// <param name="Duration"></param>
+        /// <param name="ReleaseYear"></param>
+        /// <param name="Genre"></param>
+        /// <param name="Rating"></param>
         public Film(string Name, int Duration, int ReleaseYear, string Genre, double Rating)
         {
             this.Name = Name;

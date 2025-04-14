@@ -24,6 +24,12 @@ namespace Programming.Models
         private string _phoneNumber;
 
         #endregion
+        /// <summary>
+        /// конструктор
+        /// </summary>
+        /// <param name="Name">ммя</param>
+        /// <param name="SurName">фамилия</param>
+        /// <param name="PhoneNumber">телефонный номер</param>
         public Contact(string Name, string SurName, string PhoneNumber)
         {
             this.Name = Name;

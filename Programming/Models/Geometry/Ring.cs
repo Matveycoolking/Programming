@@ -18,6 +18,15 @@ namespace Programming.Models.Geometry
         /// </summary>
         private double _innerRadius;
         #endregion
+
+
+
+        /// <summary>
+        /// конструктор
+        /// </summary>
+        /// <param name="OuterRadius">вне радиуса</param>
+        /// <param name="InnerRadius">внутренний радиус</param>
+        /// <param name="Center">координаты</param>
         public Ring(double OuterRadius, double InnerRadius, Point2D Center)
         {
             this.OuterRadius = OuterRadius;

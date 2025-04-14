@@ -18,6 +18,9 @@ namespace Programming.Views.Forms
 {
     public partial class MainForm : Form
     {
+        /// <summary>
+        /// основной создание первых 10 прямоугольников
+        /// </summary>
         public MainForm()
         {
             for (int i = 0; i < 10; i++)
@@ -27,7 +30,11 @@ namespace Programming.Views.Forms
             InitializeComponent();
             SeasonControl.SeasonChanged += SeasonControl_SeasonChanged;
         }
-
+        /// <summary>
+        /// выбор изминений сезона
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void SeasonControl_SeasonChanged(object sender, int e)
         {
             switch (e)

@@ -14,10 +14,22 @@ namespace Programming.Views.UserControls
 
     public partial class MoviesControl : UserControl
     {
+        /// <summary>
+        /// инициализация рандомных значений
+        /// </summary>
         private static Random rnd = new Random();
+        /// <summary>
+        /// список возможных начальных названий фильмов
+        /// </summary>
         private List<string> FilmName = new List<string>() { "Toy Story", "Cast Away", "(500) Days of Summer", "Despicable Me 3", "The Social Network", "The Hunger Games", "Forrest Gump", "Wonder", "Beauty and the Beast", "Titanic", "Harry Potter", "Pirates of the Caribbean" };
+       /// <summary>
+       /// список информаций о фильме
+       /// </summary>
         private List<Film> _films;
         private Film _currentFilm;
+        /// <summary>
+        /// создание первых пяти случайных фильмов в список
+        /// </summary>
         public MoviesControl()
         {
             InitializeComponent();
@@ -31,6 +43,11 @@ namespace Programming.Views.UserControls
 
             FilmBox.DataSource = _films;
         }
+        /// <summary>
+        /// фильмбокс выбранный индекс с возможностью изминений
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void FilmBox_SelectedIndexChanged(object sender, EventArgs e)
         {
             _currentFilm = FilmBox.SelectedItem as Film;
@@ -40,6 +57,11 @@ namespace Programming.Views.UserControls
             GenreTextBox.Text = _currentFilm.Genre.ToString();
             RatingTextBox.Text = _currentFilm.Rating.ToString();
         }
+        /// <summary>
+        /// нахождениее максимального рейтинга среди списка фильмов
+        /// </summary>
+        /// <param name="Films"></param>
+        /// <returns></returns>
         private int FindFilmWithMaxRating(List<Film> Films)
         {
             double maxRating = 0;
@@ -54,11 +76,21 @@ namespace Programming.Views.UserControls
             }
             return Index;
         }
+        /// <summary>
+        /// нахождение фильма кнопка
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void FindFilmButton_Click(object sender, EventArgs e)
         {
             FilmBox.SelectedIndex = FindFilmWithMaxRating(_films);
             _currentFilm = FilmBox.SelectedItem as Film;
         }
+       /// <summary>
+       /// изменение текстбокса фильма названий
+       /// </summary>
+       /// <param name="sender"></param>
+       /// <param name="e"></param>
         private void NameTextBox_TextChanged(object sender, EventArgs e)
         {
             try
@@ -72,6 +104,11 @@ namespace Programming.Views.UserControls
                 NameTextBox.BackColor = AppColors.ErrorInput;
             }
         }
+        /// <summary>
+        /// изменение текстбокса фильма длительность
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void DurationTextBox_TextChanged(object sender, EventArgs e)
         {
             try
@@ -85,6 +122,11 @@ namespace Programming.Views.UserControls
                 DurationTextBox.BackColor = AppColors.ErrorInput;
             }
         }
+        /// <summary>
+        /// изменение текстбокса фильма дата выхода
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void ReleaseYearTextBox_TextChanged(object sender, EventArgs e)
         {
             try
@@ -98,6 +140,11 @@ namespace Programming.Views.UserControls
                 ReleaseYearTextBox.BackColor = AppColors.ErrorInput;
             }
         }
+        /// <summary>
+        /// изменение текстбокса фильма жанров
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void GenreTextBox_TextChanged(object sender, EventArgs e)
         {
             try
@@ -111,6 +158,11 @@ namespace Programming.Views.UserControls
                 GenreTextBox.BackColor = AppColors.ErrorInput;
             }
         }
+        /// <summary>
+        /// изменение текстбокса фильма рейтинга
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void RatingTextBox_TextChanged(object sender, EventArgs e)
         {
             try

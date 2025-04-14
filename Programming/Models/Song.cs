@@ -22,6 +22,12 @@ namespace Programming.Models
         /// </summary>
         private double _duration;
         #endregion
+       /// <summary>
+       /// конструктор
+       /// </summary>
+       /// <param name="Name"></param>
+       /// <param name="Artist"></param>
+       /// <param name="Duration"></param>
         public Song(string Name, string Artist, double Duration)
         {
             this.Name = Name;
