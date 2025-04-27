@@ -62,5 +62,15 @@ namespace Programming.Views.Forms
                     break;
             }
         }
+
+        private void rectanglesControl1_Load(object sender, EventArgs e)
+        {
+
+        }
+
+        private void SeasonControl_Load(object sender, EventArgs e)
+        {
+
+        }
     }
 }
