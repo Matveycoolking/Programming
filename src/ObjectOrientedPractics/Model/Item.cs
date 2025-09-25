@@ -13,6 +13,7 @@ namespace ObjectOrientedPractics.Model
         private string _name;
         private string _info;
         private double _cost;
+        private Category _category;
 
         /// <summary>
         /// Конструктор.
@@ -21,7 +22,8 @@ namespace ObjectOrientedPractics.Model
         /// <param name="name">название</param>
         /// <param name="info">информация</param>
         /// <param name="cost">цена</param>
-        public Item(string name, string info, double cost,  int id = 0)
+        /// <param name="category">категория</param>
+        public Item(string name, string info, double cost, Category category,  int id = 0)
         {
             if (id == 0)
             {
@@ -36,6 +38,7 @@ namespace ObjectOrientedPractics.Model
             _name = name;
             _info = info;
             _cost = cost;
+            _category = category;
         }
         
         /// <summary>
@@ -81,6 +84,15 @@ namespace ObjectOrientedPractics.Model
                 ValueValidator.ValidateCost(value);
                 _cost = value;
             }
+        }
+
+        /// <summary>
+        /// Категория товара
+        /// </summary>
+        public Category Category
+        {
+            get => _category;
+            set => _category = value;
         }
 
     }

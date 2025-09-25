@@ -20,12 +20,24 @@ namespace ObjectOrientedPractics.View.Tabs
         public ItemsTab()
         {
             InitializeComponent();
+
+            InitializeCategoryComboBox();
             UpdateListBox();
 
             NametextBox.Validating += NametextBox_Validating;
             DescriptiontextBox.Validating += DescriptiontextBox_Validating;
             CosttextBox.Validating += CosttextBox_Validating;
         }
+        /// <summary>
+        /// Инициализация ComboBox категорий товаров
+        /// </summary>
+        private void InitializeCategoryComboBox()
+        {
+            // Заполняем ComboBox значениями из перечисления Category
+            CategorycomboBox1.DataSource = Enum.GetValues(typeof(Category));
+            CategorycomboBox1.DropDownStyle = ComboBoxStyle.DropDownList;
+        }
+
         /// <summary>
         /// Валидация и смена цвета у имени.
         /// </summary>
@@ -95,6 +107,7 @@ namespace ObjectOrientedPractics.View.Tabs
             NametextBox.Text = string.Empty;
             DescriptiontextBox.Text = string.Empty;
             CosttextBox.Text = string.Empty;
+            CategorycomboBox1.SelectedIndex = 0;
         }
 
         /// <summary>
@@ -123,6 +136,7 @@ namespace ObjectOrientedPractics.View.Tabs
                 NametextBox.Text = selectedItem.Name;
                 DescriptiontextBox.Text = selectedItem.Info;
                 CosttextBox.Text = selectedItem.Cost.ToString("F2");
+                CategorycomboBox1.SelectedItem = selectedItem.Category;
             }
             else
             {
@@ -147,9 +161,10 @@ namespace ObjectOrientedPractics.View.Tabs
                 string name = NametextBox.Text.Trim();
                 string info = DescriptiontextBox.Text.Trim();
                 double cost = double.Parse(CosttextBox.Text);
+                Category category = (Category)CategorycomboBox1.SelectedItem;
 
                 // Создаем новый товар (валидация внутри конструктора)
-                Item newItem = new Item(name, info, cost);
+                Item newItem = new Item(name, info, cost, category);
                 _items.Add(newItem);
 
                 UpdateListBox(); // Обновляем список
