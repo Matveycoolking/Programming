@@ -10,7 +10,6 @@ namespace ObjectOrientedPractics.Model
     internal class Item
     {
         private readonly int _id;
-        private int _customerId;
         private string _name;
         private string _info;
         private double _cost;
@@ -18,15 +17,15 @@ namespace ObjectOrientedPractics.Model
         /// <summary>
         /// Конструктор.
         /// </summary>
-        /// <param name="id"></param>
-        /// <param name="name"></param>
-        /// <param name="info"></param>
-        /// <param name="cost"></param>
-        public Item(string name, string info, double cost, int customerId = 0,  int id = 0)
+        /// <param name="id">айди</param>
+        /// <param name="name">название</param>
+        /// <param name="info">информация</param>
+        /// <param name="cost">цена</param>
+        public Item(string name, string info, double cost,  int id = 0)
         {
             if (id == 0)
             {
-                _id = IdGenerator.GetNextId();
+                _id = IdGenerator.GetNextItemId();
             }
             else
             {
@@ -34,21 +33,15 @@ namespace ObjectOrientedPractics.Model
             }
 
             ValueValidator.ValidateItemValues(name, info, cost);
-            _customerId = customerId;
             _name = name;
             _info = info;
             _cost = cost;
         }
         
         /// <summary>
-        /// свойства
+        /// автосвойства для Id 
         /// </summary>
         public int Id => _id;
-        /// <summary>
-        /// свойства
-        /// </summary>
-
-        public int CustomerId => _customerId;
 
         /// <summary>
         /// свойсвта с валидацией
@@ -88,14 +81,6 @@ namespace ObjectOrientedPractics.Model
                 ValueValidator.ValidateCost(value);
                 _cost = value;
             }
-        }
-        /// <summary>
-        /// Метод для перезагрузки счётчика;
-        /// </summary>
-        /// <param name="startValue"></param>
-        public void SetCustomerId(int customerId)
-        {
-            _customerId = customerId;
         }
 
     }

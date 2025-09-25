@@ -36,11 +36,11 @@ namespace ObjectOrientedPractics.View.Tabs
             {
                 CustomerslistBox.Items.Add(customer);
             }
-            CustomerslistBox.DisplayMember = "FullName";
-            CustomerslistBox.ValueMember = "Id";
+            CustomerslistBox.DisplayMember = "FullName";// что выводит в листбоксе
+            CustomerslistBox.ValueMember = "Id";//как хранит
         }
         /// <summary>
-        /// очищает листбокс.
+        /// очищает полей ввода.
         /// </summary>
         private void ClearFields()
         {
@@ -152,9 +152,6 @@ namespace ObjectOrientedPractics.View.Tabs
             }
         }
 
-        private void panel2_Paint(object sender, PaintEventArgs e)
-        {
-
-        }
+        
     }
 }

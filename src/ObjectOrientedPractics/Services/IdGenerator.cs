@@ -8,16 +8,41 @@ namespace ObjectOrientedPractics.Services
 {
     internal class IdGenerator
     {
-        private static int _currentId = 1;
+        private static int _currentItemId = 1;
+        private static int _currentCustomerId = 1;
 
-        public static int GetNextId()
+        /// <summary>
+        /// переход к след айди.
+        /// </summary>
+        /// <returns></returns>
+        public static int GetNextItemId()
         {
-            return _currentId++;
+            return _currentItemId++;
         }
+        /// <summary>
+        /// переход к след айди
+        /// </summary>
+        /// <returns></returns>
+        public static int GetNextCustomerId()
+        {
+            return _currentCustomerId++;
+        }
+        /// <summary>
+        /// перезапуск айди
+        /// </summary>
+        /// <param name="startValue">начальное значение</param>
+        public static void ResetItemId(int startValue = 1)
+        {
+            _currentItemId = startValue;
+        }
+        /// <summary>
+        /// перезапуск айди
+        /// </summary>
+        /// <param name="startValue">начальное значение</param>
 
-        public static void Reset(int startValue = 1)
+        public static void ResetCustomerId(int startValue = 1)
         {
-            _currentId = startValue;
+            _currentCustomerId = startValue;
         }
-    }
+     }
 }

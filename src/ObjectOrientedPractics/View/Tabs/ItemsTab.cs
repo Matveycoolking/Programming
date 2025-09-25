@@ -184,5 +184,13 @@ namespace ObjectOrientedPractics.View.Tabs
                 MessageBox.Show("Выберите товар для удаления.", "Ошибка", MessageBoxButtons.OK, MessageBoxIcon.Warning);
             }
         }
+
+       
+
+        
+
+        
+
+        
     }
 }

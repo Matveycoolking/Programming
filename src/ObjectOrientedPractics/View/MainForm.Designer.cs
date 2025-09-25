@@ -108,7 +108,7 @@
         private TabControl tabControl1;
         private TabPage tabPage1;
         private TabPage CustomresTab;
-        private View.Tabs.ItemsTab itemsTab1;
         private View.Tabs.CustomersTab customersTab1;
+        private View.Tabs.ItemsTab itemsTab1;
     }
 }

@@ -24,7 +24,7 @@ namespace ObjectOrientedPractics.Model
         {
             if ( id == 0 )
             {
-                _id = IdGenerator.GetNextId();
+                _id = IdGenerator.GetNextCustomerId();
             }
             else
             {
@@ -59,7 +59,7 @@ namespace ObjectOrientedPractics.Model
             get => _address;
             set
             {
-                ValueValidator.AssertStringOnLength(_address, 200, nameof(Address));
+                ValueValidator.AssertStringOnLength(value, 200, nameof(Address));
                 _address = value;
             }
         }
