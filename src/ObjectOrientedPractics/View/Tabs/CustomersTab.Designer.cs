@@ -38,21 +38,21 @@
             Addresslabelc = new Label();
             IdtextBoxc = new TextBox();
             FullNametextBoxc = new TextBox();
-            AddresstextBoxc = new TextBox();
             panel2 = new Panel();
             tableLayoutPanel1 = new TableLayoutPanel();
             splitContainer1 = new SplitContainer();
             panel1 = new Panel();
+            panel5 = new Panel();
+            addressControl1 = new ObjectOrientedPractics.View.Controls.AddressControl();
             panel4 = new Panel();
-            panel3 = new Panel();
             panel2.SuspendLayout();
             tableLayoutPanel1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)splitContainer1).BeginInit();
             splitContainer1.Panel1.SuspendLayout();
             splitContainer1.SuspendLayout();
             panel1.SuspendLayout();
+            panel5.SuspendLayout();
             panel4.SuspendLayout();
-            panel3.SuspendLayout();
             SuspendLayout();
             // 
             // Customerlabel
@@ -148,15 +148,6 @@
             FullNametextBoxc.Size = new Size(581, 31);
             FullNametextBoxc.TabIndex = 9;
             // 
-            // AddresstextBoxc
-            // 
-            AddresstextBoxc.Dock = DockStyle.Fill;
-            AddresstextBoxc.Location = new Point(0, 0);
-            AddresstextBoxc.Multiline = true;
-            AddresstextBoxc.Name = "AddresstextBoxc";
-            AddresstextBoxc.Size = new Size(597, 159);
-            AddresstextBoxc.TabIndex = 10;
-            // 
             // panel2
             // 
             panel2.Controls.Add(AddbuttonC);
@@ -197,13 +188,13 @@
             // 
             splitContainer1.Panel1.Controls.Add(panel1);
             splitContainer1.Size = new Size(726, 530);
-            splitContainer1.SplitterDistance = 269;
+            splitContainer1.SplitterDistance = 429;
             splitContainer1.TabIndex = 14;
             // 
             // panel1
             // 
+            panel1.Controls.Add(panel5);
             panel1.Controls.Add(panel4);
-            panel1.Controls.Add(panel3);
             panel1.Controls.Add(FullNamelabelc);
             panel1.Controls.Add(Idlabelc);
             panel1.Controls.Add(Addresslabelc);
@@ -211,8 +202,25 @@
             panel1.Dock = DockStyle.Fill;
             panel1.Location = new Point(0, 0);
             panel1.Name = "panel1";
-            panel1.Size = new Size(726, 269);
+            panel1.Size = new Size(726, 429);
             panel1.TabIndex = 13;
+            // 
+            // panel5
+            // 
+            panel5.Anchor = AnchorStyles.Top | AnchorStyles.Left | AnchorStyles.Right;
+            panel5.Controls.Add(addressControl1);
+            panel5.Location = new Point(9, 149);
+            panel5.Name = "panel5";
+            panel5.Size = new Size(714, 359);
+            panel5.TabIndex = 13;
+            // 
+            // addressControl1
+            // 
+            addressControl1.Dock = DockStyle.Fill;
+            addressControl1.Location = new Point(0, 0);
+            addressControl1.Name = "addressControl1";
+            addressControl1.Size = new Size(714, 359);
+            addressControl1.TabIndex = 0;
             // 
             // panel4
             // 
@@ -222,16 +230,6 @@
             panel4.Name = "panel4";
             panel4.Size = new Size(581, 38);
             panel4.TabIndex = 12;
-            // 
-            // panel3
-            // 
-            panel3.Anchor = AnchorStyles.Top | AnchorStyles.Bottom | AnchorStyles.Left | AnchorStyles.Right;
-            panel3.AutoSize = true;
-            panel3.Controls.Add(AddresstextBoxc);
-            panel3.Location = new Point(122, 107);
-            panel3.Name = "panel3";
-            panel3.Size = new Size(597, 159);
-            panel3.TabIndex = 11;
             // 
             // CustomersTab
             // 
@@ -248,10 +246,9 @@
             splitContainer1.ResumeLayout(false);
             panel1.ResumeLayout(false);
             panel1.PerformLayout();
+            panel5.ResumeLayout(false);
             panel4.ResumeLayout(false);
             panel4.PerformLayout();
-            panel3.ResumeLayout(false);
-            panel3.PerformLayout();
             ResumeLayout(false);
         }
 
@@ -267,12 +264,12 @@
         private Label Addresslabelc;
         private TextBox IdtextBoxc;
         private TextBox FullNametextBoxc;
-        private TextBox AddresstextBoxc;
         private Panel panel2;
         private TableLayoutPanel tableLayoutPanel1;
         private Panel panel1;
-        private Panel panel3;
         private Panel panel4;
         private SplitContainer splitContainer1;
+        private Controls.AddressControl addressControl1;
+        private Panel panel5;
     }
 }

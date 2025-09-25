@@ -1,4 +1,5 @@
 ﻿using ObjectOrientedPractics.Model;
+using ObjectOrientedPractics.View.Controls;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -15,16 +16,19 @@ namespace ObjectOrientedPractics.View.Tabs
     public partial class CustomersTab : UserControl
     {
         List<Customer> _customers = new List<Customer>();
+        private AddressControl _addressControl = new AddressControl();
         /// <summary>
         /// конструктор.
         /// </summary>
         public CustomersTab()
         {
             InitializeComponent();
+            InitializeAddressControl();
+
             UpdateListBox();
 
             FullNametextBoxc.Validating += FullNametextBox_Validating;
-            AddresstextBoxc.Validating += AddresstextBox_Validating;
+            
         }
         /// <summary>
         /// метод для обновления листбокса
@@ -39,6 +43,14 @@ namespace ObjectOrientedPractics.View.Tabs
             CustomerslistBox.DisplayMember = "FullName";// что выводит в листбоксе
             CustomerslistBox.ValueMember = "Id";//как хранит
         }
+
+        private void InitializeAddressControl()
+        {
+            _addressControl.Location = new Point(10, 100); // Настройте позицию
+            _addressControl.Size = new Size(400, 150); // Настройте размер
+            this.Controls.Add(_addressControl);
+        }
+
         /// <summary>
         /// очищает полей ввода.
         /// </summary>
@@ -46,7 +58,7 @@ namespace ObjectOrientedPractics.View.Tabs
         {
             IdtextBoxc.Text = string.Empty;
             FullNametextBoxc.Text = string.Empty;
-            AddresstextBoxc.Text = string.Empty;
+            _addressControl.Address = new Address();
         }
 
         /// <summary>
@@ -60,7 +72,7 @@ namespace ObjectOrientedPractics.View.Tabs
             {
                 IdtextBoxc.Text = selectedCustomer.Id.ToString();
                 FullNametextBoxc.Text = selectedCustomer.FullName;
-                AddresstextBoxc.Text = selectedCustomer.Address;
+                _addressControl.Address = selectedCustomer.Address;
             }
             else
             {
@@ -83,7 +95,7 @@ namespace ObjectOrientedPractics.View.Tabs
             try
             {
                 string fullname = FullNametextBoxc.Text.Trim();
-                string address = AddresstextBoxc.Text.Trim();
+                Address address = _addressControl.Address;
 
                 Customer newCustomer = new Customer(fullname, address);
                 _customers.Add(newCustomer);
@@ -139,18 +151,6 @@ namespace ObjectOrientedPractics.View.Tabs
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="e"></param>
-        private void AddresstextBox_Validating(object sender, CancelEventArgs e)
-        {
-            if (string.IsNullOrWhiteSpace(AddresstextBoxc.Text))
-            {
-                AddresstextBoxc.BackColor = Color.LightCoral;
-                e.Cancel = true;
-            }
-            else
-            {
-                AddresstextBoxc.BackColor = Color.White;
-            }
-        }
 
         
     }

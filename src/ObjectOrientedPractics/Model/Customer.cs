@@ -13,14 +13,14 @@ namespace ObjectOrientedPractics.Model
         
         private readonly int _id;
         private string _fullname;
-        private string _address;
+        private Address _address;
         /// <summary>
         /// Конструктор.
         /// </summary>
         /// <param name="fullname"></param>
         /// <param name="address"></param>
         /// <param name="id"></param>
-        public Customer(string fullname, string address, int id = 0)
+        public Customer(string fullname, Address address, int id = 0)
         {
             if ( id == 0 )
             {
@@ -30,10 +30,8 @@ namespace ObjectOrientedPractics.Model
             {
                 _id = id;
             }
-
-            ValueValidator.ValidateCustomerValues(fullname, address);
             _fullname = fullname;
-            _address = address;
+            _address = address ?? new Address();
         }
         /// <summary>
         /// свойства для айди
@@ -54,15 +52,11 @@ namespace ObjectOrientedPractics.Model
         /// <summary>
         /// свойства для адреса
         /// </summary>
-        public string Address
+        public Address Address
         {
-            get => _address;
-            set
-            {
-                ValueValidator.AssertStringOnLength(value, 200, nameof(Address));
-                _address = value;
-            }
+            get { return _address; }
+            set { _address = value; }
         }
-       
+
     }
 }
