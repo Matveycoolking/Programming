@@ -1,4 +1,4 @@
-﻿using ObjectOrientedPractics.Services;
+﻿﻿using ObjectOrientedPractics.Services;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
@@ -10,7 +10,7 @@ namespace ObjectOrientedPractics.Model
 {
     internal class Customer
     {
-        
+
         private readonly int _id;
         private string _fullname;
         private Address _address;
@@ -22,7 +22,7 @@ namespace ObjectOrientedPractics.Model
         /// <param name="id"></param>
         public Customer(string fullname, Address address, int id = 0)
         {
-            if ( id == 0 )
+            if (id == 0)
             {
                 _id = IdGenerator.GetNextCustomerId();
             }
@@ -30,8 +30,10 @@ namespace ObjectOrientedPractics.Model
             {
                 _id = id;
             }
+
+            
             _fullname = fullname;
-            _address = address ?? new Address();
+            _address = address;
         }
         /// <summary>
         /// свойства для айди
@@ -52,10 +54,14 @@ namespace ObjectOrientedPractics.Model
         /// <summary>
         /// свойства для адреса
         /// </summary>
-        public Address Address
+        public Address Address 
         {
-            get { return _address; }
-            set { _address = value; }
+            get => _address;
+            set
+            {
+                
+                _address = value;
+            }
         }
 
     }

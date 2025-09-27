@@ -1,4 +1,4 @@
-﻿using ObjectOrientedPractics.Services;
+﻿﻿using ObjectOrientedPractics.Services;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -23,7 +23,7 @@ namespace ObjectOrientedPractics.Model
         /// <param name="info">информация</param>
         /// <param name="cost">цена</param>
         /// <param name="category">категория</param>
-        public Item(string name, string info, double cost, Category category,  int id = 0)
+        public Item(string name, string info, double cost, Category category, int id = 0)
         {
             if (id == 0)
             {
@@ -40,7 +40,7 @@ namespace ObjectOrientedPractics.Model
             _cost = cost;
             _category = category;
         }
-        
+
         /// <summary>
         /// автосвойства для Id 
         /// </summary>
@@ -54,7 +54,7 @@ namespace ObjectOrientedPractics.Model
             get => _name;
             set
             {
-                ValueValidator.AssertStringOnLength(value,200,nameof(Name));
+                ValueValidator.AssertStringOnLength(value, 200, nameof(Name));
                 _name = value;
             }
         }
@@ -68,7 +68,7 @@ namespace ObjectOrientedPractics.Model
             get => _info;
             set
             {
-                ValueValidator.AssertStringOnLength(value,1000,nameof(Info));
+                ValueValidator.AssertStringOnLength(value, 1000, nameof(Info));
                 _info = value;
             }
         }

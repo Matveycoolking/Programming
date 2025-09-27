@@ -1,4 +1,4 @@
-﻿using System;
+﻿﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -18,8 +18,8 @@ namespace ObjectOrientedPractics.Services
         /// <exception cref="ArgumentException"></exception>
         internal static void AssertStringOnLength(string value, int maxLength, string propertyName)
         {
-            
-            if(value != null && value.Length > maxLength)
+
+            if (value != null && value.Length > maxLength)
             {
                 throw new ArgumentException($"{propertyName} должен быть меньше {maxLength} символов. " +
                     $"Текущая длина: {value.Length} символов");
@@ -32,7 +32,7 @@ namespace ObjectOrientedPractics.Services
         /// <exception cref="ArgumentException"></exception>
         internal static void ValidateCost(double cost)
         {
-            if(cost<0 || cost>100_000)
+            if (cost < 0 || cost > 100_000)
             {
                 throw new ArgumentException("Incorrect Cost");
             }

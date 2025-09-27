@@ -35,7 +35,7 @@
             label5 = new Label();
             label6 = new Label();
             label7 = new Label();
-            IndexTextBox = new TextBox();
+            PostIndexTextBox = new TextBox();
             CountryTextBox = new TextBox();
             StreetTextBox = new TextBox();
             BuildingTextBox = new TextBox();
@@ -107,12 +107,13 @@
             label7.TabIndex = 6;
             label7.Text = "City:";
             // 
-            // IndexTextBox
+            // PostIndexTextBox
             // 
-            IndexTextBox.Location = new Point(133, 61);
-            IndexTextBox.Name = "IndexTextBox";
-            IndexTextBox.Size = new Size(163, 31);
-            IndexTextBox.TabIndex = 7;
+            PostIndexTextBox.Anchor = AnchorStyles.Top | AnchorStyles.Bottom | AnchorStyles.Left | AnchorStyles.Right;
+            PostIndexTextBox.Location = new Point(133, 61);
+            PostIndexTextBox.Name = "PostIndexTextBox";
+            PostIndexTextBox.Size = new Size(163, 31);
+            PostIndexTextBox.TabIndex = 7;
             // 
             // CountryTextBox
             // 
@@ -158,7 +159,7 @@
             Controls.Add(BuildingTextBox);
             Controls.Add(StreetTextBox);
             Controls.Add(CountryTextBox);
-            Controls.Add(IndexTextBox);
+            Controls.Add(PostIndexTextBox);
             Controls.Add(label7);
             Controls.Add(label6);
             Controls.Add(label5);
@@ -181,7 +182,7 @@
         private Label label5;
         private Label label6;
         private Label label7;
-        private TextBox IndexTextBox;
+        private TextBox PostIndexTextBox;
         private TextBox CountryTextBox;
         private TextBox StreetTextBox;
         private TextBox BuildingTextBox;

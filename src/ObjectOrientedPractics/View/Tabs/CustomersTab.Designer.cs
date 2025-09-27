@@ -73,7 +73,7 @@
             CustomerslistBox.Name = "CustomerslistBox";
             CustomerslistBox.Size = new Size(330, 530);
             CustomerslistBox.TabIndex = 1;
-            CustomerslistBox.SelectedIndexChanged += CustomerslistBox_SelectedIndexChanged;
+            CustomerslistBox.SelectedIndexChanged += CustomerslistBox_SelectedIndexChanged_1;
             // 
             // AddbuttonC
             // 
@@ -83,7 +83,7 @@
             AddbuttonC.TabIndex = 2;
             AddbuttonC.Text = "Add";
             AddbuttonC.UseVisualStyleBackColor = true;
-            AddbuttonC.Click += AddbuttonC_Click;
+            AddbuttonC.Click += AddbuttonC_Click_1;
             // 
             // Removebuttonc
             // 
@@ -93,7 +93,7 @@
             Removebuttonc.TabIndex = 3;
             Removebuttonc.Text = "Remove";
             Removebuttonc.UseVisualStyleBackColor = true;
-            Removebuttonc.Click += Removebuttonc_Click;
+            Removebuttonc.Click += Removebuttonc_Click_1;
             // 
             // SelectedCustomerlabel
             // 
