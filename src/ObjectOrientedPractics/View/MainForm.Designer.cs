@@ -63,6 +63,7 @@
             // 
             // itemsTab1
             // 
+            itemsTab1.AutoValidate = AutoValidate.EnableAllowFocusChange;
             itemsTab1.Dock = DockStyle.Fill;
             itemsTab1.Location = new Point(3, 3);
             itemsTab1.Name = "itemsTab1";
@@ -82,6 +83,7 @@
             // 
             // customersTab1
             // 
+            customersTab1.AutoValidate = AutoValidate.Disable;
             customersTab1.Dock = DockStyle.Fill;
             customersTab1.Location = new Point(3, 3);
             customersTab1.Name = "customersTab1";

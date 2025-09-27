@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace ObjectOrientedPractics.Model
 {
-    internal class Customer
+    public class Customer
     {
 
         private readonly int _id;

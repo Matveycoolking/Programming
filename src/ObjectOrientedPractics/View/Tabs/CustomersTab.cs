@@ -1,4 +1,4 @@
-﻿﻿using ObjectOrientedPractics.Model;
+﻿using ObjectOrientedPractics.Model;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -14,17 +14,76 @@ namespace ObjectOrientedPractics.View.Tabs
 {
     public partial class CustomersTab : UserControl
     {
-        List<Customer> _customers = new List<Customer>();
+        private List<Customer> _customers = new List<Customer>();
+
+        /// <summary>
+        /// Открытое свойство для доступа к списку покупателей вкладки
+        /// </summary>
+        [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
+        public List<Customer> Customers
+        {
+            get { return _customers; }
+            set
+            {
+                if (value != null)
+                {
+                    _customers.Clear();
+                    _customers.AddRange(value);
+                }
+                else
+                {
+                    _customers.Clear();
+                }
+                UpdateListBox();
+            }
+        }
+
         /// <summary>
         /// конструктор.
         /// </summary>
         public CustomersTab()
         {
             InitializeComponent();
-            UpdateListBox();
+            this.AutoValidate = AutoValidate.Disable;
 
-            FullNametextBoxc.Validating += FullNametextBox_Validating;
+            // ✅ Визуальная подсветка ТОЛЬКО при вводе некорректных данных
+            FullNametextBoxc.TextChanged += (s, e) => ValidateNameField();
+
+            UpdateListBox();
         }
+
+        /// <summary>
+        /// Валидация поля имени - подсвечиваем только если текст не пустой и невалидный
+        /// </summary>
+        private void ValidateNameField()
+        {
+            // ✅ Пустое поле - нормальный цвет, подсвечиваем только если текст есть и он неправильный
+            if (string.IsNullOrWhiteSpace(FullNametextBoxc.Text))
+            {
+                FullNametextBoxc.BackColor = Color.White; // Пустое поле - белый фон
+            }
+            else
+            {
+                bool isValid = FullNametextBoxc.Text.Length <= 200;
+                FullNametextBoxc.BackColor = isValid ? Color.White : Color.LightPink;
+            }
+        }
+
+        /// <summary>
+        /// Проверка всех полей перед добавлением
+        /// </summary>
+        private bool ValidateAllFields()
+        {
+            bool nameValid = !string.IsNullOrWhiteSpace(FullNametextBoxc.Text) && FullNametextBoxc.Text.Length <= 200;
+            bool addressValid = addressControl1.ValidateAddress();
+
+            // ✅ Подсвечиваем только если поле не пустое и невалидное
+            FullNametextBoxc.BackColor = string.IsNullOrWhiteSpace(FullNametextBoxc.Text) ? Color.White :
+                                       (nameValid ? Color.White : Color.LightPink);
+
+            return nameValid && addressValid;
+        }
+
         /// <summary>
         /// метод для обновления листбокса
         /// </summary>
@@ -35,9 +94,10 @@ namespace ObjectOrientedPractics.View.Tabs
             {
                 CustomerslistBox.Items.Add(customer);
             }
-            CustomerslistBox.DisplayMember = "FullName";// что выводит в листбоксе
-            CustomerslistBox.ValueMember = "Id";//как хранит
+            CustomerslistBox.DisplayMember = "FullName";
+            CustomerslistBox.ValueMember = "Id";
         }
+
         /// <summary>
         /// очищает полей ввода.
         /// </summary>
@@ -45,52 +105,39 @@ namespace ObjectOrientedPractics.View.Tabs
         {
             IdtextBoxc.Text = string.Empty;
             FullNametextBoxc.Text = string.Empty;
-            addressControl1.Address = new Address();
-        }
+            addressControl1.ClearFields();
 
-        
-
-        /// <summary>
-        /// Валидация и смена цвета для имени
-        /// </summary>
-        /// <param name="sender"></param>
-        /// <param name="e"></param>
-        private void FullNametextBox_Validating(object sender, CancelEventArgs e)
-        {
-            if (string.IsNullOrWhiteSpace(FullNametextBoxc.Text))
-            {
-                FullNametextBoxc.BackColor = Color.LightCoral;
-                e.Cancel = true;
-            }
-            else
-            {
-                FullNametextBoxc.BackColor = Color.White;
-            }
+            // ✅ При очистке сбрасываем подсветку на белый цвет
+            FullNametextBoxc.BackColor = Color.White;
         }
 
         private void AddbuttonC_Click_1(object sender, EventArgs e)
         {
-            if (!ValidateChildren())
+            // ✅ Используем нашу ручную проверку вместо ValidateChildren()
+            if (!ValidateAllFields())
             {
-                MessageBox.Show("Исправьте ошибки в полях!", "Ошибка", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                MessageBox.Show("Пожалуйста, исправьте ошибки в полях! Проверьте имя и адрес.", "Ошибка валидации",
+                    MessageBoxButtons.OK, MessageBoxIcon.Error);
                 return;
             }
 
             try
             {
                 string fullname = FullNametextBoxc.Text.Trim();
-
                 Address address = addressControl1.Address;
+
                 Customer newCustomer = new Customer(fullname, address);
                 _customers.Add(newCustomer);
 
                 UpdateListBox();
-                ClearFields();
-                MessageBox.Show("Покупатель добавлен!", "Успех", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                ClearFields(); // ✅ После добавления очищаем поля - они станут белыми
+                MessageBox.Show("Покупатель добавлен!", "Успех",
+                    MessageBoxButtons.OK, MessageBoxIcon.Information);
             }
             catch (Exception ex)
             {
-                MessageBox.Show($"Ошибка: {ex.Message}", "Ошибка", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                MessageBox.Show($"Ошибка: {ex.Message}", "Ошибка",
+                    MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
         }
 
@@ -100,12 +147,14 @@ namespace ObjectOrientedPractics.View.Tabs
             {
                 _customers.Remove(selectedCustomer);
                 UpdateListBox();
-                ClearFields();
-                MessageBox.Show("Покупатель удалён!", "Успех", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                ClearFields(); // ✅ При удалении тоже очищаем поля
+                MessageBox.Show("Покупатель удалён!", "Успех",
+                    MessageBoxButtons.OK, MessageBoxIcon.Information);
             }
             else
             {
-                MessageBox.Show("Выберите покупателя для удаления.", "Внимание", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                MessageBox.Show("Выберите покупателя для удаления.", "Внимание",
+                    MessageBoxButtons.OK, MessageBoxIcon.Warning);
             }
         }
 
@@ -116,6 +165,9 @@ namespace ObjectOrientedPractics.View.Tabs
                 IdtextBoxc.Text = selectedCustomer.Id.ToString();
                 FullNametextBoxc.Text = selectedCustomer.FullName;
                 addressControl1.Address = selectedCustomer.Address;
+
+                // ✅ При загрузке данных поле валидно - белый фон
+                FullNametextBoxc.BackColor = Color.White;
             }
             else
             {
@@ -124,11 +176,8 @@ namespace ObjectOrientedPractics.View.Tabs
         }
 
         /// <summary>
-        /// валидация и смена цвета для адреса
+        /// Кнопка очистки полей
         /// </summary>
-        /// <param name="sender"></param>
-        /// <param name="e"></param>
-
-
+       
     }
 }

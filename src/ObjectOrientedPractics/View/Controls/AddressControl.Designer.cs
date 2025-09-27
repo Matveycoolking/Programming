@@ -114,6 +114,7 @@
             PostIndexTextBox.Name = "PostIndexTextBox";
             PostIndexTextBox.Size = new Size(163, 31);
             PostIndexTextBox.TabIndex = 7;
+            PostIndexTextBox.TextChanged += PostIndexTextBox_TextChanged;
             // 
             // CountryTextBox
             // 

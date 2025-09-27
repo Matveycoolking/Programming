@@ -35,7 +35,6 @@
             SelectedCustomerlabel = new Label();
             Idlabelc = new Label();
             FullNamelabelc = new Label();
-            Addresslabelc = new Label();
             IdtextBoxc = new TextBox();
             FullNametextBoxc = new TextBox();
             panel2 = new Panel();
@@ -123,15 +122,6 @@
             FullNamelabelc.TabIndex = 6;
             FullNamelabelc.Text = "Full Name:";
             // 
-            // Addresslabelc
-            // 
-            Addresslabelc.AutoSize = true;
-            Addresslabelc.Location = new Point(21, 107);
-            Addresslabelc.Name = "Addresslabelc";
-            Addresslabelc.Size = new Size(81, 25);
-            Addresslabelc.TabIndex = 7;
-            Addresslabelc.Text = "Address:";
-            // 
             // IdtextBoxc
             // 
             IdtextBoxc.Location = new Point(132, 18);
@@ -197,7 +187,6 @@
             panel1.Controls.Add(panel4);
             panel1.Controls.Add(FullNamelabelc);
             panel1.Controls.Add(Idlabelc);
-            panel1.Controls.Add(Addresslabelc);
             panel1.Controls.Add(IdtextBoxc);
             panel1.Dock = DockStyle.Fill;
             panel1.Location = new Point(0, 0);
@@ -216,6 +205,7 @@
             // 
             // addressControl1
             // 
+            addressControl1.AutoValidate = AutoValidate.Disable;
             addressControl1.Dock = DockStyle.Fill;
             addressControl1.Location = new Point(0, 0);
             addressControl1.Name = "addressControl1";
@@ -261,7 +251,6 @@
         private Label SelectedCustomerlabel;
         private Label Idlabelc;
         private Label FullNamelabelc;
-        private Label Addresslabelc;
         private TextBox IdtextBoxc;
         private TextBox FullNametextBoxc;
         private Panel panel2;
