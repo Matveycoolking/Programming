@@ -10,6 +10,7 @@ namespace ObjectOrientedPractics.Services
     {
         private static int _currentItemId = 1;
         private static int _currentCustomerId = 1;
+        private static int _currentOrderId = 1;
 
         /// <summary>
         /// переход к след айди.
@@ -27,6 +28,12 @@ namespace ObjectOrientedPractics.Services
         {
             return _currentCustomerId++;
         }
+
+        public static int GetNextOrderId()
+        {
+            return _currentOrderId++;
+        }
+
         /// <summary>
         /// перезапуск айди
         /// </summary>
@@ -44,5 +51,10 @@ namespace ObjectOrientedPractics.Services
         {
             _currentCustomerId = startValue;
         }
-     }
+
+        public static void ResetOrderId(int startValue = 1)
+        {
+            _currentOrderId = startValue;
+        }
+    }
 }

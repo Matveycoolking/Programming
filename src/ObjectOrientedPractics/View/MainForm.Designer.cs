@@ -34,15 +34,19 @@
             itemsTab1 = new ObjectOrientedPractics.View.Tabs.ItemsTab();
             CustomresTab = new TabPage();
             customersTab1 = new ObjectOrientedPractics.View.Tabs.CustomersTab();
+            CartsTab = new TabPage();
+            cartsTab1 = new ObjectOrientedPractics.View.Tabs.CartsTab();
             tabControl1.SuspendLayout();
             tabPage1.SuspendLayout();
             CustomresTab.SuspendLayout();
+            CartsTab.SuspendLayout();
             SuspendLayout();
             // 
             // tabControl1
             // 
             tabControl1.Controls.Add(tabPage1);
             tabControl1.Controls.Add(CustomresTab);
+            tabControl1.Controls.Add(CartsTab);
             tabControl1.Dock = DockStyle.Fill;
             tabControl1.Location = new Point(0, 0);
             tabControl1.Name = "tabControl1";
@@ -76,7 +80,7 @@
             CustomresTab.Location = new Point(4, 34);
             CustomresTab.Name = "CustomresTab";
             CustomresTab.Padding = new Padding(3);
-            CustomresTab.Size = new Size(1138, 625);
+            CustomresTab.Size = new Size(192, 62);
             CustomresTab.TabIndex = 1;
             CustomresTab.Text = "Customers";
             CustomresTab.UseVisualStyleBackColor = true;
@@ -87,8 +91,28 @@
             customersTab1.Dock = DockStyle.Fill;
             customersTab1.Location = new Point(3, 3);
             customersTab1.Name = "customersTab1";
-            customersTab1.Size = new Size(1132, 619);
+            customersTab1.Size = new Size(186, 56);
             customersTab1.TabIndex = 0;
+            // 
+            // CartsTab
+            // 
+            CartsTab.Controls.Add(cartsTab1);
+            CartsTab.Location = new Point(4, 34);
+            CartsTab.Name = "CartsTab";
+            CartsTab.Padding = new Padding(3);
+            CartsTab.Size = new Size(1138, 625);
+            CartsTab.TabIndex = 2;
+            CartsTab.Text = "Carts";
+            CartsTab.UseVisualStyleBackColor = true;
+            // 
+            // cartsTab1
+            // 
+            cartsTab1.AutoSize = true;
+            cartsTab1.Dock = DockStyle.Fill;
+            cartsTab1.Location = new Point(3, 3);
+            cartsTab1.Name = "cartsTab1";
+            cartsTab1.Size = new Size(1132, 619);
+            cartsTab1.TabIndex = 0;
             // 
             // MainForm
             // 
@@ -102,6 +126,8 @@
             tabControl1.ResumeLayout(false);
             tabPage1.ResumeLayout(false);
             CustomresTab.ResumeLayout(false);
+            CartsTab.ResumeLayout(false);
+            CartsTab.PerformLayout();
             ResumeLayout(false);
         }
 
@@ -112,5 +138,7 @@
         private TabPage CustomresTab;
         private View.Tabs.CustomersTab customersTab1;
         private View.Tabs.ItemsTab itemsTab1;
+        private TabPage CartsTab;
+        private View.Tabs.CartsTab cartsTab1;
     }
 }

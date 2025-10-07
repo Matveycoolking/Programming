@@ -14,6 +14,8 @@ namespace ObjectOrientedPractics.Model
         private readonly int _id;
         private string _fullname;
         private Address _address;
+        private Cart _cart;
+        private List<Order> _orders;
 
 
 
@@ -43,6 +45,8 @@ namespace ObjectOrientedPractics.Model
             _fullname = fullname;
             // СОЗДАЕМ адрес внутри конструктора - это композиция
             _address = new Address(index, country, city, street, building, apartment);
+            _cart = new Cart(); // композиция т.к при удаление покупателя удалиться и корзина
+            _orders = new List<Order>();
         }
         /// <summary>
         /// конструктор при копирование.
@@ -61,6 +65,8 @@ namespace ObjectOrientedPractics.Model
                 other.Address.Building,
                 other.Address.Apartment
             );
+            _cart = new Cart();
+            _orders = new List<Order>();
         }
         /// <summary>
         /// свойства для айди
@@ -86,7 +92,23 @@ namespace ObjectOrientedPractics.Model
             get => _address;
             private set => _address = value;
         }
+        /// <summary>
+        /// свойсвта для корзины.
+        /// </summary>
+        public Cart Cart
+        {
+            get => _cart;
+            private set => _cart = value;
+        }
 
+        /// <summary>
+        /// Список заказов покупателя.
+        /// </summary>
+        public List<Order> Orders
+        {
+            get => _orders;
+            private set => _orders = value;
+        }
 
         /// <summary>
         ///  Метод для обновления адреса (вместо сеттера)
