@@ -40,12 +40,13 @@ namespace ObjectOrientedPractics.View.Controls
         {
             InitializeComponent();
 
-            // ✅ ОТКЛЮЧАЕМ автоматическую валидацию
+            
             this.AutoValidate = AutoValidate.Disable;
 
-            // ✅ Визуальная подсветка при вводе
+            
             InitializeVisualValidation();
         }
+
 
         /// <summary>
         /// Визуальная подсветка полей вместо блокирующей валидации

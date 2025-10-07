@@ -14,13 +14,22 @@ namespace ObjectOrientedPractics.Model
         private readonly int _id;
         private string _fullname;
         private Address _address;
+
+
+
         /// <summary>
-        /// Конструктор.
+        /// Конструктор с параметрами адреса (КОМПОЗИЦИЯ)
         /// </summary>
         /// <param name="fullname"></param>
-        /// <param name="address"></param>
+        /// <param name="index"></param>
+        /// <param name="country"></param>
+        /// <param name="city"></param>
+        /// <param name="street"></param>
+        /// <param name="building"></param>
+        /// <param name="apartment"></param>
         /// <param name="id"></param>
-        public Customer(string fullname, Address address, int id = 0)
+        public Customer(string fullname, int index, string country, string city,
+                       string street, string building, string apartment, int id = 0)
         {
             if (id == 0)
             {
@@ -31,9 +40,27 @@ namespace ObjectOrientedPractics.Model
                 _id = id;
             }
 
-            
             _fullname = fullname;
-            _address = address;
+            // СОЗДАЕМ адрес внутри конструктора - это композиция
+            _address = new Address(index, country, city, street, building, apartment);
+        }
+        /// <summary>
+        /// конструктор при копирование.
+        /// </summary>
+        /// <param name="other"></param>
+        public Customer(Customer other)
+        {
+            _id = other.Id;
+            _fullname = other.FullName;
+            // СОЗДАЕМ новый адрес на основе существующего
+            _address = new Address(
+                other.Address.Index,
+                other.Address.Country,
+                other.Address.City,
+                other.Address.Street,
+                other.Address.Building,
+                other.Address.Apartment
+            );
         }
         /// <summary>
         /// свойства для айди
@@ -57,12 +84,23 @@ namespace ObjectOrientedPractics.Model
         public Address Address 
         {
             get => _address;
-            set
-            {
-                
-                _address = value;
-            }
+            private set => _address = value;
         }
 
+
+        /// <summary>
+        ///  Метод для обновления адреса (вместо сеттера)
+        /// </summary>
+        /// <param name="index"></param>
+        /// <param name="country"></param>
+        /// <param name="city"></param>
+        /// <param name="street"></param>
+        /// <param name="building"></param>
+        /// <param name="apartment"></param>
+        public void UpdateAddress(int index, string country, string city,
+                                 string street, string building, string apartment)
+        {
+            _address = new Address(index, country, city, street, building, apartment);
+        }
     }
 }

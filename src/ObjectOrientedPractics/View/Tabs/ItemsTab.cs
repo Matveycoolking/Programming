@@ -41,7 +41,7 @@ namespace ObjectOrientedPractics.View.Tabs
 
             this.AutoValidate = AutoValidate.Disable;
 
-            // ✅ Визуальная подсветка ТОЛЬКО при вводе некорректных данных
+            
             NametextBox.TextChanged += (s, e) => ValidateNameField();
             DescriptiontextBox.TextChanged += (s, e) => ValidateDescriptionField();
             CosttextBox.TextChanged += (s, e) => ValidateCostField();
@@ -54,7 +54,7 @@ namespace ObjectOrientedPractics.View.Tabs
         /// </summary>
         private void ValidateNameField()
         {
-            // ✅ Пустое поле - нормальный цвет, подсвечиваем только если текст есть и он неправильный
+            
             if (string.IsNullOrWhiteSpace(NametextBox.Text))
             {
                 NametextBox.BackColor = Color.White; // Пустое поле - белый фон
@@ -71,7 +71,7 @@ namespace ObjectOrientedPractics.View.Tabs
         /// </summary>
         private void ValidateDescriptionField()
         {
-            // ✅ Пустое описание - нормально, подсвечиваем только если превышает лимит
+           
             if (string.IsNullOrWhiteSpace(DescriptiontextBox.Text))
             {
                 DescriptiontextBox.BackColor = Color.White;
@@ -88,7 +88,7 @@ namespace ObjectOrientedPractics.View.Tabs
         /// </summary>
         private void ValidateCostField()
         {
-            // ✅ Пустое поле - нормальный цвет, подсвечиваем только если текст есть и он не число
+           
             if (string.IsNullOrWhiteSpace(CosttextBox.Text))
             {
                 CosttextBox.BackColor = Color.White;
@@ -110,7 +110,7 @@ namespace ObjectOrientedPractics.View.Tabs
             bool costValid = !string.IsNullOrWhiteSpace(CosttextBox.Text) &&
                            double.TryParse(CosttextBox.Text, out double cost) && cost >= 0;
 
-            // ✅ Подсвечиваем только если поле не пустое и невалидное
+            
             NametextBox.BackColor = string.IsNullOrWhiteSpace(NametextBox.Text) ? Color.White :
                                   (nameValid ? Color.White : Color.LightPink);
 
@@ -143,7 +143,7 @@ namespace ObjectOrientedPractics.View.Tabs
             CosttextBox.Text = string.Empty;
             CategorycomboBox1.SelectedIndex = 0;
 
-            // ✅ При очистке сбрасываем подсветку на белый цвет
+           
             NametextBox.BackColor = Color.White;
             DescriptiontextBox.BackColor = Color.White;
             CosttextBox.BackColor = Color.White;
@@ -162,7 +162,11 @@ namespace ObjectOrientedPractics.View.Tabs
             ItemsListBox.DisplayMember = "Name";
             ItemsListBox.ValueMember = "Id";
         }
-
+        /// <summary>
+        /// Редактор изменений в листбоксе предметов.
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void ItemsListBox_SelectedIndexChanged(object sender, EventArgs e)
         {
             if (ItemsListBox.SelectedItem is Item selectedItem)
@@ -173,7 +177,7 @@ namespace ObjectOrientedPractics.View.Tabs
                 CosttextBox.Text = selectedItem.Cost.ToString("F2");
                 CategorycomboBox1.SelectedItem = selectedItem.Category;
 
-                // ✅ При загрузке данных поля валидны - белый фон
+                
                 NametextBox.BackColor = Color.White;
                 DescriptiontextBox.BackColor = Color.White;
                 CosttextBox.BackColor = Color.White;
@@ -183,7 +187,11 @@ namespace ObjectOrientedPractics.View.Tabs
                 ClearFields();
             }
         }
-
+        /// <summary>
+        /// кнопка по добавлению элементов.
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void AddButton_Click(object sender, EventArgs e)
         {
             if (!ValidateAllFields())
@@ -204,7 +212,7 @@ namespace ObjectOrientedPractics.View.Tabs
                 _items.Add(newItem);
 
                 UpdateListBox();
-                ClearFields(); // ✅ После добавления очищаем поля - они станут белыми
+                ClearFields(); 
                 MessageBox.Show("Товар добавлен!", "Успех",
                     MessageBoxButtons.OK, MessageBoxIcon.Information);
             }
@@ -214,14 +222,18 @@ namespace ObjectOrientedPractics.View.Tabs
                     MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
         }
-
+        /// <summary>
+        /// кнопка по удалению элементов.
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void RemoveButton_Click(object sender, EventArgs e)
         {
             if (ItemsListBox.SelectedItem is Item selectedItem)
             {
                 _items.Remove(selectedItem);
                 UpdateListBox();
-                ClearFields(); // ✅ При удалении тоже очищаем поля
+                ClearFields();
                 MessageBox.Show("Товар удален!", "Успех",
                     MessageBoxButtons.OK, MessageBoxIcon.Information);
             }
