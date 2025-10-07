@@ -67,7 +67,7 @@
             // 
             // itemsTab1
             // 
-            itemsTab1.AutoValidate = AutoValidate.EnableAllowFocusChange;
+            itemsTab1.AutoValidate = AutoValidate.Disable;
             itemsTab1.Dock = DockStyle.Fill;
             itemsTab1.Location = new Point(3, 3);
             itemsTab1.Name = "itemsTab1";

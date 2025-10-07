@@ -22,7 +22,7 @@ namespace ObjectOrientedPractics.Model
             get { return _customers; }
             set { _customers = value; }
         }
-        public Store() 
+        public Store()
         {
             _items = new List<Item>();
             _customers = new List<Customer>();

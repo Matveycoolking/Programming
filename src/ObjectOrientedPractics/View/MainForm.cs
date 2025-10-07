@@ -1,4 +1,4 @@
-using ObjectOrientedPractics.Model;
+п»їusing ObjectOrientedPractics.Model;
 using ObjectOrientedPractics.View.Tabs;
 
 namespace ObjectOrientedPractics
@@ -15,53 +15,35 @@ namespace ObjectOrientedPractics
         }
         private void InitializeTabs()
         {
-            // Создаем вкладку товаров и передаем список из Store
-            var itemsTab = new ItemsTab();
-            itemsTab.Items = _store.Items; // Присваиваем список товаров из Store
-            itemsTab.Dock = DockStyle.Fill;
-            itemsTab1.Controls.Add(itemsTab);
-
-            // Создаем вкладку покупателей и передаем список из Store
-            var customersTab = new CustomersTab();
-            customersTab.Customers = _store.Customers; // Присваиваем список покупателей из Store
-            customersTab.Dock = DockStyle.Fill;
-            customersTab1.Controls.Add(customersTab);
-
-            //Создаем вкладку корзин
-           var cartsTab = new CartsTab();
-            cartsTab.Dock = DockStyle.Fill;
-            CartsTab.Controls.Add(cartsTab); // Добавляем на вкладку cartsTab1
-
-            // Передаем данные в cartsTab
-            cartsTab.Items = _store.Items;
-            cartsTab.Customers = _store.Customers;
-
-            // Подписываемся на события
-            cartsTab.SelectedItemChanged += (s, e) =>
+            try
             {
-                var selectedItem = cartsTab.SelectedItem;
-                if (selectedItem != null)
-                {
-                    MessageBox.Show($"Выбран товар: {selectedItem.Name}\nЦена: {selectedItem.Cost:C2}\nКатегория: {selectedItem.Category}",
-                        "Информация о товаре");
-                }
-            };
+                // РЎРЅР°С‡Р°Р»Р° СЃРѕР·РґР°РµРј РІСЃРµ РІРєР»Р°РґРєРё
+                var itemsTab = new ItemsTab();
+                var customersTab = new CustomersTab();
+                var cartsTab = new CartsTab();
 
-            cartsTab.SelectedCustomerChanged += (s, e) =>
+                // РџРћРўРћРњ СѓСЃС‚Р°РЅР°РІР»РёРІР°РµРј РґР°РЅРЅС‹Рµ
+                itemsTab.Items = _store.Items;
+                customersTab.Customers = _store.Customers;
+                cartsTab.Items = _store.Items;
+                cartsTab.Customers = _store.Customers;
+
+                // РџРћРўРћРњ РґРѕР±Р°РІР»СЏРµРј РЅР° С„РѕСЂРјСѓ
+                itemsTab.Dock = DockStyle.Fill;
+                itemsTab1.Controls.Add(itemsTab);
+
+                customersTab.Dock = DockStyle.Fill;
+                customersTab1.Controls.Add(customersTab);
+
+                cartsTab.Dock = DockStyle.Fill;
+                cartsTab1.Controls.Add(cartsTab);
+            }
+            catch (Exception ex)
             {
-                var selectedCustomer = cartsTab.SelectedCustomer;
-                if (selectedCustomer != null)
-                {
-                    string cartInfo = $"Товаров в корзине: {selectedCustomer.Cart.Items.Count}\n" +
-                                    $"Общая стоимость: {selectedCustomer.Cart.Amount:C2}";
-                    MessageBox.Show($"Выбран покупатель: {selectedCustomer.FullName}\n{cartInfo}",
-                        "Информация о покупателе");
-                }
-            };
-
-            
-        }       
-
+                MessageBox.Show($"РћС€РёР±РєР° РёРЅРёС†РёР°Р»РёР·Р°С†РёРё РІРєР»Р°РґРѕРє: {ex.Message}", "РћС€РёР±РєР°",
+                                MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+        }
         private void itemsTab1_Load(object sender, EventArgs e)
         {
 

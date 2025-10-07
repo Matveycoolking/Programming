@@ -1,4 +1,4 @@
-﻿﻿using ObjectOrientedPractics.Services;
+﻿using ObjectOrientedPractics.Services;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
@@ -87,7 +87,7 @@ namespace ObjectOrientedPractics.Model
         /// <summary>
         /// свойства для адреса
         /// </summary>
-        public Address Address 
+        public Address Address
         {
             get => _address;
             private set => _address = value;

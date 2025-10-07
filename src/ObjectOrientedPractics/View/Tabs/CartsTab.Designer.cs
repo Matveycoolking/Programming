@@ -29,11 +29,11 @@
         private void InitializeComponent()
         {
             tableLayoutPanel1 = new TableLayoutPanel();
-            ItemslistBox1 = new ListBox();
+            ItemsListBox = new ListBox();
             panel2 = new Panel();
             AddToCartbutton1 = new Button();
             panel3 = new Panel();
-            CustomercomboBox = new ComboBox();
+            CustomersComboBox = new ComboBox();
             CustomerLable1 = new Label();
             panel4 = new Panel();
             Pricelabel1 = new Label();
@@ -58,7 +58,7 @@
             tableLayoutPanel1.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 41.7330666F));
             tableLayoutPanel1.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 58.2669334F));
             tableLayoutPanel1.ColumnStyles.Add(new ColumnStyle(SizeType.Absolute, 20F));
-            tableLayoutPanel1.Controls.Add(ItemslistBox1, 0, 1);
+            tableLayoutPanel1.Controls.Add(ItemsListBox, 0, 1);
             tableLayoutPanel1.Controls.Add(panel2, 0, 2);
             tableLayoutPanel1.Controls.Add(panel3, 1, 0);
             tableLayoutPanel1.Controls.Add(panel4, 1, 1);
@@ -73,14 +73,15 @@
             tableLayoutPanel1.Size = new Size(1024, 537);
             tableLayoutPanel1.TabIndex = 0;
             // 
-            // ItemslistBox1
+            // ItemsListBox
             // 
-            ItemslistBox1.Dock = DockStyle.Fill;
-            ItemslistBox1.FormattingEnabled = true;
-            ItemslistBox1.Location = new Point(3, 54);
-            ItemslistBox1.Name = "ItemslistBox1";
-            ItemslistBox1.Size = new Size(413, 425);
-            ItemslistBox1.TabIndex = 2;
+            ItemsListBox.Dock = DockStyle.Fill;
+            ItemsListBox.FormattingEnabled = true;
+            ItemsListBox.Location = new Point(3, 54);
+            ItemsListBox.Name = "ItemsListBox";
+            ItemsListBox.Size = new Size(413, 425);
+            ItemsListBox.TabIndex = 2;
+            ItemsListBox.SelectedIndexChanged += ItemsListBox_SelectedIndexChanged;
             // 
             // panel2
             // 
@@ -103,7 +104,7 @@
             // 
             // panel3
             // 
-            panel3.Controls.Add(CustomercomboBox);
+            panel3.Controls.Add(CustomersComboBox);
             panel3.Controls.Add(CustomerLable1);
             panel3.Dock = DockStyle.Fill;
             panel3.Location = new Point(422, 3);
@@ -111,14 +112,15 @@
             panel3.Size = new Size(579, 45);
             panel3.TabIndex = 4;
             // 
-            // CustomercomboBox
+            // CustomersComboBox
             // 
-            CustomercomboBox.Anchor = AnchorStyles.Top | AnchorStyles.Left | AnchorStyles.Right;
-            CustomercomboBox.FormattingEnabled = true;
-            CustomercomboBox.Location = new Point(113, 8);
-            CustomercomboBox.Name = "CustomercomboBox";
-            CustomercomboBox.Size = new Size(463, 33);
-            CustomercomboBox.TabIndex = 1;
+            CustomersComboBox.Anchor = AnchorStyles.Top | AnchorStyles.Left | AnchorStyles.Right;
+            CustomersComboBox.FormattingEnabled = true;
+            CustomersComboBox.Location = new Point(113, 8);
+            CustomersComboBox.Name = "CustomersComboBox";
+            CustomersComboBox.Size = new Size(463, 33);
+            CustomersComboBox.TabIndex = 1;
+            CustomersComboBox.SelectedIndexChanged += CustomersComboBox_SelectedIndexChanged;
             // 
             // CustomerLable1
             // 
@@ -253,12 +255,12 @@
         private TableLayoutPanel tableLayoutPanel1;
         private Panel panel1;
         private Label itemslabel1;
-        private ListBox ItemslistBox1;
+        private ListBox ItemsListBox;
         private Panel panel2;
         private Button AddToCartbutton1;
         private Panel panel3;
         private Label CustomerLable1;
-        private ComboBox CustomercomboBox;
+        private ComboBox CustomersComboBox;
         private Panel panel4;
         private Label Amountlabel1;
         private TextBox textBox1;

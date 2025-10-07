@@ -46,7 +46,7 @@ namespace ObjectOrientedPractics.View.Tabs
             InitializeComponent();
             this.AutoValidate = AutoValidate.Disable;
 
-            
+
             FullNametextBoxc.TextChanged += (s, e) => ValidateNameField();
 
             UpdateListBox();
@@ -57,7 +57,7 @@ namespace ObjectOrientedPractics.View.Tabs
         /// </summary>
         private void ValidateNameField()
         {
-            
+
             if (string.IsNullOrWhiteSpace(FullNametextBoxc.Text))
             {
                 FullNametextBoxc.BackColor = Color.White; // Пустое поле - белый фон
@@ -77,7 +77,7 @@ namespace ObjectOrientedPractics.View.Tabs
             bool nameValid = !string.IsNullOrWhiteSpace(FullNametextBoxc.Text) && FullNametextBoxc.Text.Length <= 200;
             bool addressValid = addressControl1.ValidateAddress();
 
-            
+
             FullNametextBoxc.BackColor = string.IsNullOrWhiteSpace(FullNametextBoxc.Text) ? Color.White :
                                        (nameValid ? Color.White : Color.LightPink);
 
@@ -107,7 +107,7 @@ namespace ObjectOrientedPractics.View.Tabs
             FullNametextBoxc.Text = string.Empty;
             addressControl1.ClearFields();
 
-            
+
             FullNametextBoxc.BackColor = Color.White;
         }
         /// <summary>
@@ -167,7 +167,7 @@ namespace ObjectOrientedPractics.View.Tabs
             {
                 _customers.Remove(selectedCustomer);
                 UpdateListBox();
-                ClearFields(); 
+                ClearFields();
                 MessageBox.Show("Покупатель удалён!", "Успех",
                     MessageBoxButtons.OK, MessageBoxIcon.Information);
             }

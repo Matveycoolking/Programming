@@ -21,8 +21,51 @@ namespace ObjectOrientedPractics.View.Tabs
             InitializeComponent();
             _items = new List<Item>();
             _customers = new List<Customer>();
+            //CreateSampleData();
         }
-        
+        /// <summary>
+        /// Метод для создания демонстрационных данных.
+        /// </summary>
+        //public void CreateSampleData()
+        //{
+        //    // Создаем демонстрационные товары
+        //    _items = new List<Item>
+        //    {
+        //        new Item("iPhone 15 Pro", "Флагманский смартфон Apple", 999.90, Category.Electronics),
+        //        new Item("MacBook Air M2", "Ноутбук Apple с чипом M2", 1299.99, Category.Electronics),
+        //        new Item("Джинсы Levi's", "Классические джинсы 501", 89.99, Category.Clothing),
+        //        new Item("Научная фантастика", "Сборник лучших НФ рассказов", 24.50, Category.Books),
+        //        new Item("Кофеварка", "Автоматическая кофеварка Delonghi", 199.99, Category.Home),
+        //        new Item("Беспроводные наушники", "Sony WH-1000XM4", 349.99, Category.Electronics),
+        //        new Item("Футболка хлопковая", "Белая футболка 100% хлопок", 19.99, Category.Clothing),
+        //        new Item("Программирование на C#", "Учебник по C# для начинающих", 45.00, Category.Books)
+        //    };
+
+        //    // Создаем демонстрационных покупателей
+        //    _customers = new List<Customer>
+        //    {
+        //        new Customer("Иван Иванов", 123456, "Россия", "Москва", "Ленина", "10", "25"),
+        //        new Customer("Петр Петров", 654321, "Россия", "Санкт-Петербург", "Невский", "15", "8"),
+        //        new Customer("Мария Сидорова", 111222, "Россия", "Казань", "Баумана", "22", "13"),
+        //        new Customer("Анна Козлова", 333444, "Россия", "Екатеринбург", "Мира", "5", "41"),
+        //        new Customer("Сергей Смирнов", 555666, "Россия", "Новосибирск", "Красный", "18", "7")
+        //    };
+
+        //    // Добавляем товары в корзины некоторых покупателей для демонстрации
+        //    _customers[0].Cart.Items.Add(_items[0]); // iPhone в корзине Ивана
+        //    _customers[0].Cart.Items.Add(_items[2]); // Джинсы в корзине Ивана
+
+        //    _customers[1].Cart.Items.Add(_items[1]); // MacBook в корзине Петра
+        //    _customers[1].Cart.Items.Add(_items[4]); // Кофеварка в корзине Петра
+        //    _customers[1].Cart.Items.Add(_items[6]); // Футболка в корзине Петра
+
+        //    _customers[2].Cart.Items.Add(_items[3]); // Книга в корзине Марии
+        //    _customers[2].Cart.Items.Add(_items[7]); // Учебник в корзине Марии
+
+        //    // Обновляем интерфейс
+        //    UpdateItemsListBox();
+        //    UpdateCustomersComboBox();
+        //}
 
 
         /// <summary>
@@ -38,6 +81,7 @@ namespace ObjectOrientedPractics.View.Tabs
                 UpdateItemsListBox();
             }
         }
+        
 
         /// <summary>
         /// Список покупателей (привязан к ComboBox).
@@ -52,16 +96,17 @@ namespace ObjectOrientedPractics.View.Tabs
                 UpdateCustomersComboBox();
             }
         }
+        
 
         /// <summary>
         /// Обновляет данные в ListBox товаров.
         /// </summary>
         private void UpdateItemsListBox()
         {
-            ItemslistBox1.Items.Clear();
+            ItemsListBox.Items.Clear();
             foreach (var item in _items)
             {
-                ItemslistBox1.Items.Add($"{item.Name} - {item.Cost:C}");
+                ItemsListBox.Items.Add($"{item.Name} - {item.Cost:C}");
             }
         }
 
@@ -70,15 +115,15 @@ namespace ObjectOrientedPractics.View.Tabs
         /// </summary>
         private void UpdateCustomersComboBox()
         {
-            CustomercomboBox.Items.Clear();
+            CustomersComboBox.Items.Clear();
             foreach (var customer in _customers)
             {
-                CustomercomboBox.Items.Add($"{customer.FullName} (ID: {customer.Id})");
+                CustomersComboBox.Items.Add($"{customer.FullName} (ID: {customer.Id})");
             }
 
-            if (CustomercomboBox.Items.Count > 0)
+            if (CustomersComboBox.Items.Count > 0)
             {
-                CustomercomboBox.SelectedIndex = 0;
+                CustomersComboBox.SelectedIndex = 0;
             }
         }
 
@@ -89,9 +134,9 @@ namespace ObjectOrientedPractics.View.Tabs
         {
             get
             {
-                if (ItemslistBox1.SelectedIndex >= 0 && ItemslistBox1.SelectedIndex < _items.Count)
+                if (ItemsListBox.SelectedIndex >= 0 && ItemsListBox.SelectedIndex < _items.Count)
                 {
-                    return _items[ItemslistBox1.SelectedIndex];
+                    return _items[ItemsListBox.SelectedIndex];
                 }
                 return null;
             }
@@ -104,9 +149,9 @@ namespace ObjectOrientedPractics.View.Tabs
         {
             get
             {
-                if (CustomercomboBox.SelectedIndex >= 0 && CustomercomboBox.SelectedIndex < _customers.Count)
+                if (CustomersComboBox.SelectedIndex >= 0 && CustomersComboBox.SelectedIndex < _customers.Count)
                 {
-                    return _customers[CustomercomboBox.SelectedIndex];
+                    return _customers[CustomersComboBox.SelectedIndex];
                 }
                 return null;
             }
@@ -115,6 +160,7 @@ namespace ObjectOrientedPractics.View.Tabs
         // События для уведомления об изменениях выбора
         public event EventHandler SelectedItemChanged;
         public event EventHandler SelectedCustomerChanged;
+
 
         private void ItemsListBox_SelectedIndexChanged(object sender, EventArgs e)
         {

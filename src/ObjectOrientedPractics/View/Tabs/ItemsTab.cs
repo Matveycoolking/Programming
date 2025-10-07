@@ -41,7 +41,7 @@ namespace ObjectOrientedPractics.View.Tabs
 
             this.AutoValidate = AutoValidate.Disable;
 
-            
+
             NametextBox.TextChanged += (s, e) => ValidateNameField();
             DescriptiontextBox.TextChanged += (s, e) => ValidateDescriptionField();
             CosttextBox.TextChanged += (s, e) => ValidateCostField();
@@ -54,7 +54,7 @@ namespace ObjectOrientedPractics.View.Tabs
         /// </summary>
         private void ValidateNameField()
         {
-            
+
             if (string.IsNullOrWhiteSpace(NametextBox.Text))
             {
                 NametextBox.BackColor = Color.White; // Пустое поле - белый фон
@@ -71,7 +71,7 @@ namespace ObjectOrientedPractics.View.Tabs
         /// </summary>
         private void ValidateDescriptionField()
         {
-           
+
             if (string.IsNullOrWhiteSpace(DescriptiontextBox.Text))
             {
                 DescriptiontextBox.BackColor = Color.White;
@@ -88,7 +88,7 @@ namespace ObjectOrientedPractics.View.Tabs
         /// </summary>
         private void ValidateCostField()
         {
-           
+
             if (string.IsNullOrWhiteSpace(CosttextBox.Text))
             {
                 CosttextBox.BackColor = Color.White;
@@ -110,7 +110,7 @@ namespace ObjectOrientedPractics.View.Tabs
             bool costValid = !string.IsNullOrWhiteSpace(CosttextBox.Text) &&
                            double.TryParse(CosttextBox.Text, out double cost) && cost >= 0;
 
-            
+
             NametextBox.BackColor = string.IsNullOrWhiteSpace(NametextBox.Text) ? Color.White :
                                   (nameValid ? Color.White : Color.LightPink);
 
@@ -143,7 +143,7 @@ namespace ObjectOrientedPractics.View.Tabs
             CosttextBox.Text = string.Empty;
             CategorycomboBox1.SelectedIndex = 0;
 
-           
+
             NametextBox.BackColor = Color.White;
             DescriptiontextBox.BackColor = Color.White;
             CosttextBox.BackColor = Color.White;
@@ -177,7 +177,7 @@ namespace ObjectOrientedPractics.View.Tabs
                 CosttextBox.Text = selectedItem.Cost.ToString("F2");
                 CategorycomboBox1.SelectedItem = selectedItem.Category;
 
-                
+
                 NametextBox.BackColor = Color.White;
                 DescriptiontextBox.BackColor = Color.White;
                 CosttextBox.BackColor = Color.White;
@@ -212,7 +212,7 @@ namespace ObjectOrientedPractics.View.Tabs
                 _items.Add(newItem);
 
                 UpdateListBox();
-                ClearFields(); 
+                ClearFields();
                 MessageBox.Show("Товар добавлен!", "Успех",
                     MessageBoxButtons.OK, MessageBoxIcon.Information);
             }
