@@ -1,42 +1,52 @@
 ﻿using ObjectOrientedPractics.Model;
 using ObjectOrientedPractics.View.Tabs;
+using System;
+using System.Collections.Generic;
+using System.ComponentModel;
+using System.Data;
+using System.Drawing;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+using System.Windows.Forms;
 
 namespace ObjectOrientedPractics
 {
     public partial class MainForm : Form
     {
-        private CartsTab itemsCustomersControl;
         private Store _store;
+
         public MainForm()
         {
             InitializeComponent();
             _store = new Store();
             InitializeTabs();
         }
+
         private void InitializeTabs()
         {
             try
             {
-                // Сначала создаем все вкладки
-                var itemsTab = new ItemsTab();
-                var customersTab = new CustomersTab();
-                var cartsTab = new CartsTab();
+                // Инициализируем списки в Store
+                _store.Items = _store.Items ?? new List<Item>();
+                _store.Customers = _store.Customers ?? new List<Customer>();
 
-                // ПОТОМ устанавливаем данные
-                itemsTab.Items = _store.Items;
-                customersTab.Customers = _store.Customers;
-                cartsTab.Items = _store.Items;
-                cartsTab.Customers = _store.Customers;
+                // Используем уже созданные в дизайнере контролы и передаем им данные
+                itemsTab1.Items = _store.Items;
+                customersTab1.Customers = _store.Customers;
+                cartsTab1.Items = _store.Items;
+                cartsTab1.Customers = _store.Customers;
 
-                // ПОТОМ добавляем на форму
-                itemsTab.Dock = DockStyle.Fill;
-                itemsTab1.Controls.Add(itemsTab);
+                // Подписываемся на событие изменения товаров
+                itemsTab1.ItemsChanged += (s, e) =>
+                {
+                    // При изменении товаров автоматически обновляем Store.Items
+                    // так как это один и тот же список
+                };
 
-                customersTab.Dock = DockStyle.Fill;
-                customersTab1.Controls.Add(customersTab);
+                // Обработчик переключения вкладок
+                tabControl1.SelectedIndexChanged += TabControl1_SelectedIndexChanged;
 
-                cartsTab.Dock = DockStyle.Fill;
-                cartsTab1.Controls.Add(cartsTab);
             }
             catch (Exception ex)
             {
@@ -44,9 +54,17 @@ namespace ObjectOrientedPractics
                                 MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
         }
+
+        private void TabControl1_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            if (tabControl1.SelectedIndex == 2) // Вкладка Carts
+            {
+                cartsTab1.RefreshData();
+            }
+        }
+
         private void itemsTab1_Load(object sender, EventArgs e)
         {
-
         }
     }
 }

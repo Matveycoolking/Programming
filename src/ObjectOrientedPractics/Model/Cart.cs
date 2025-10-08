@@ -55,5 +55,13 @@ namespace ObjectOrientedPractics.Model
                 return totalAmount;
             }
         }
+        /// <summary>
+        /// Вычисляет общую стоимость всех товаров в корзине
+        /// </summary>
+        /// <returns>Общая стоимость</returns>
+        public decimal GetTotalAmount()
+        {
+            return _items.Sum(item => (decimal)item.Cost);
+        }
     }
 }

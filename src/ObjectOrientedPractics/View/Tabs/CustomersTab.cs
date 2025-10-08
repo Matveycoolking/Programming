@@ -14,7 +14,7 @@ namespace ObjectOrientedPractics.View.Tabs
 {
     public partial class CustomersTab : UserControl
     {
-        private List<Customer> _customers = new List<Customer>();
+        private List<Customer> _customers;
 
         /// <summary>
         /// Открытое свойство для доступа к списку покупателей вкладки
@@ -25,15 +25,7 @@ namespace ObjectOrientedPractics.View.Tabs
             get { return _customers; }
             set
             {
-                if (value != null)
-                {
-                    _customers.Clear();
-                    _customers.AddRange(value);
-                }
-                else
-                {
-                    _customers.Clear();
-                }
+                _customers = value ?? new List<Customer>();
                 UpdateListBox();
             }
         }
@@ -49,7 +41,7 @@ namespace ObjectOrientedPractics.View.Tabs
 
             FullNametextBoxc.TextChanged += (s, e) => ValidateNameField();
 
-            UpdateListBox();
+            
         }
 
         /// <summary>
@@ -90,12 +82,15 @@ namespace ObjectOrientedPractics.View.Tabs
         private void UpdateListBox()
         {
             CustomerslistBox.Items.Clear();
-            foreach (var customer in _customers)
-            {
-                CustomerslistBox.Items.Add(customer);
+            if (_customers != null)
+            {               
+                foreach (var customer in _customers)
+                {
+                    CustomerslistBox.Items.Add(customer);
+                }
+                CustomerslistBox.DisplayMember = "FullName";
+                CustomerslistBox.ValueMember = "Id";
             }
-            CustomerslistBox.DisplayMember = "FullName";
-            CustomerslistBox.ValueMember = "Id";
         }
 
         /// <summary>

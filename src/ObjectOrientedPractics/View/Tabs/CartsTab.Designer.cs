@@ -36,12 +36,12 @@
             CustomersComboBox = new ComboBox();
             CustomerLable1 = new Label();
             panel4 = new Panel();
-            Pricelabel1 = new Label();
+            CartlistBox = new ListBox();
+            Pricelabel = new Label();
             Clearbutton = new Button();
             Removebutton = new Button();
             Createbutton1 = new Button();
             Amountlabel1 = new Label();
-            textBox1 = new TextBox();
             Cartlabel1 = new Label();
             panel1 = new Panel();
             itemslabel1 = new Label();
@@ -101,6 +101,7 @@
             AddToCartbutton1.TabIndex = 0;
             AddToCartbutton1.Text = "Add To Cart";
             AddToCartbutton1.UseVisualStyleBackColor = true;
+            AddToCartbutton1.Click += AddToCartbutton1_Click;
             // 
             // panel3
             // 
@@ -134,12 +135,12 @@
             // 
             // panel4
             // 
-            panel4.Controls.Add(Pricelabel1);
+            panel4.Controls.Add(CartlistBox);
+            panel4.Controls.Add(Pricelabel);
             panel4.Controls.Add(Clearbutton);
             panel4.Controls.Add(Removebutton);
             panel4.Controls.Add(Createbutton1);
             panel4.Controls.Add(Amountlabel1);
-            panel4.Controls.Add(textBox1);
             panel4.Controls.Add(Cartlabel1);
             panel4.Dock = DockStyle.Fill;
             panel4.Location = new Point(422, 54);
@@ -147,15 +148,24 @@
             panel4.Size = new Size(579, 425);
             panel4.TabIndex = 5;
             // 
-            // Pricelabel1
+            // CartlistBox
             // 
-            Pricelabel1.AutoSize = true;
-            Pricelabel1.Font = new Font("Segoe UI", 15F, FontStyle.Bold);
-            Pricelabel1.Location = new Point(459, 216);
-            Pricelabel1.Name = "Pricelabel1";
-            Pricelabel1.Size = new Size(35, 41);
-            Pricelabel1.TabIndex = 6;
-            Pricelabel1.Text = "0";
+            CartlistBox.Anchor = AnchorStyles.Top | AnchorStyles.Left | AnchorStyles.Right;
+            CartlistBox.FormattingEnabled = true;
+            CartlistBox.Location = new Point(25, 41);
+            CartlistBox.Name = "CartlistBox";
+            CartlistBox.Size = new Size(528, 129);
+            CartlistBox.TabIndex = 7;
+            // 
+            // Pricelabel
+            // 
+            Pricelabel.AutoSize = true;
+            Pricelabel.Font = new Font("Segoe UI", 15F, FontStyle.Bold);
+            Pricelabel.Location = new Point(459, 216);
+            Pricelabel.Name = "Pricelabel";
+            Pricelabel.Size = new Size(35, 41);
+            Pricelabel.TabIndex = 6;
+            Pricelabel.Text = "0";
             // 
             // Clearbutton
             // 
@@ -165,6 +175,7 @@
             Clearbutton.TabIndex = 5;
             Clearbutton.Text = "Clear Cart";
             Clearbutton.UseVisualStyleBackColor = true;
+            Clearbutton.Click += Clearbutton_Click;
             // 
             // Removebutton
             // 
@@ -174,6 +185,7 @@
             Removebutton.TabIndex = 4;
             Removebutton.Text = "Remove Item";
             Removebutton.UseVisualStyleBackColor = true;
+            Removebutton.Click += Removebutton_Click;
             // 
             // Createbutton1
             // 
@@ -183,6 +195,7 @@
             Createbutton1.TabIndex = 3;
             Createbutton1.Text = "Create Order";
             Createbutton1.UseVisualStyleBackColor = true;
+            Createbutton1.Click += Createbutton1_Click;
             // 
             // Amountlabel1
             // 
@@ -193,15 +206,6 @@
             Amountlabel1.Size = new Size(86, 25);
             Amountlabel1.TabIndex = 2;
             Amountlabel1.Text = "Amount:";
-            // 
-            // textBox1
-            // 
-            textBox1.Anchor = AnchorStyles.Top | AnchorStyles.Left | AnchorStyles.Right;
-            textBox1.Location = new Point(25, 32);
-            textBox1.Multiline = true;
-            textBox1.Name = "textBox1";
-            textBox1.Size = new Size(538, 150);
-            textBox1.TabIndex = 1;
             // 
             // Cartlabel1
             // 
@@ -263,11 +267,11 @@
         private ComboBox CustomersComboBox;
         private Panel panel4;
         private Label Amountlabel1;
-        private TextBox textBox1;
         private Label Cartlabel1;
-        private Label Pricelabel1;
+        private Label Pricelabel;
         private Button Clearbutton;
         private Button Removebutton;
         private Button Createbutton1;
+        private ListBox CartlistBox;
     }
 }

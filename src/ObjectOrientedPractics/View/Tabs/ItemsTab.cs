@@ -14,6 +14,8 @@ namespace ObjectOrientedPractics.View.Tabs
     public partial class ItemsTab : UserControl
     {
         private List<Item> _items = new List<Item>();
+        public event EventHandler ItemsChanged;
+
 
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
         public List<Item> Items
@@ -21,15 +23,7 @@ namespace ObjectOrientedPractics.View.Tabs
             get { return _items; }
             set
             {
-                if (value != null)
-                {
-                    _items.Clear();
-                    _items.AddRange(value);
-                }
-                else
-                {
-                    _items.Clear();
-                }
+                _items = value ?? new List<Item>();
                 UpdateListBox();
             }
         }
@@ -46,7 +40,7 @@ namespace ObjectOrientedPractics.View.Tabs
             DescriptiontextBox.TextChanged += (s, e) => ValidateDescriptionField();
             CosttextBox.TextChanged += (s, e) => ValidateCostField();
 
-            UpdateListBox();
+          
         }
 
         /// <summary>
@@ -155,12 +149,17 @@ namespace ObjectOrientedPractics.View.Tabs
         private void UpdateListBox()
         {
             ItemsListBox.Items.Clear();
-            foreach (var item in _items)
+            if (_items != null)
             {
-                ItemsListBox.Items.Add(item);
+
+
+                foreach (var item in _items)
+                {
+                    ItemsListBox.Items.Add(item);
+                }
+                ItemsListBox.DisplayMember = "Name";
+                ItemsListBox.ValueMember = "Id";
             }
-            ItemsListBox.DisplayMember = "Name";
-            ItemsListBox.ValueMember = "Id";
         }
         /// <summary>
         /// Редактор изменений в листбоксе предметов.
@@ -213,6 +212,7 @@ namespace ObjectOrientedPractics.View.Tabs
 
                 UpdateListBox();
                 ClearFields();
+                ItemsChanged?.Invoke(this, EventArgs.Empty);
                 MessageBox.Show("Товар добавлен!", "Успех",
                     MessageBoxButtons.OK, MessageBoxIcon.Information);
             }
@@ -234,6 +234,7 @@ namespace ObjectOrientedPractics.View.Tabs
                 _items.Remove(selectedItem);
                 UpdateListBox();
                 ClearFields();
+                ItemsChanged?.Invoke(this, EventArgs.Empty);
                 MessageBox.Show("Товар удален!", "Успех",
                     MessageBoxButtons.OK, MessageBoxIcon.Information);
             }

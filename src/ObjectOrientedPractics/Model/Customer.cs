@@ -124,5 +124,7 @@ namespace ObjectOrientedPractics.Model
         {
             _address = new Address(index, country, city, street, building, apartment);
         }
+
+
     }
 }
