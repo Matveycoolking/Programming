@@ -241,34 +241,19 @@ namespace ObjectOrientedPractics.View.Tabs
         {
             if (CurrentCustomer != null && CurrentCustomer.Cart != null && CurrentCustomer.Cart.Items.Count > 0)
             {
-                // Создаем экземпляр класса Order
-                var order = new Order();
+                // Создаем заказ с помощью конструктора
+                var order = new Order(CurrentCustomer.Cart, CurrentCustomer.Address);
 
-                order.Status = OrderStatus.New;
-
-                // Копируем адрес доставки текущего покупателя
-                order.Address = new Address(
-                    CurrentCustomer.Address.Index,
-                    CurrentCustomer.Address.Country,
-                    CurrentCustomer.Address.City,
-                    CurrentCustomer.Address.Street,
-                    CurrentCustomer.Address.Building,
-                    CurrentCustomer.Address.Apartment
-                );
-
-                // Помещаем все товары из корзины в заказ
-                order.Items.AddRange(CurrentCustomer.Cart.Items);
-
-                // Очищаем корзину пользователя
-                CurrentCustomer.Cart.Items.Clear();
-
-                // Помещаем объект заказа в список заказов пользователя
+                // Добавляем заказ в список заказов покупателя
                 CurrentCustomer.Orders.Add(order);
+
+                // Очищаем корзину ПОСЛЕ создания заказа
+                CurrentCustomer.Cart.Items.Clear();
 
                 // Обновляем интерфейс
                 UpdateCartListBox();
 
-                MessageBox.Show("Order created successfully!", "Success",
+                MessageBox.Show($"Order #{order.Id} created successfully with {order.Items.Count} items!", "Success",
                     MessageBoxButtons.OK, MessageBoxIcon.Information);
             }
             else
@@ -284,20 +269,26 @@ namespace ObjectOrientedPractics.View.Tabs
         /// <param name="e"></param>
         private void Clearbutton_Click(object sender, EventArgs e)
         {
-            if (CurrentCustomer != null && CurrentCustomer.Cart != null)
+            if (CurrentCustomer != null && CurrentCustomer.Cart != null && CurrentCustomer.Cart.Items.Count > 0)
             {
-                // Очищаем корзину текущего покупателя
+                // Создаем заказ с помощью конструктора
+                var order = new Order(CurrentCustomer.Cart, CurrentCustomer.Address);
+
+                // Добавляем заказ в список заказов покупателя
+                CurrentCustomer.Orders.Add(order);
+
+                // Очищаем корзину ПОСЛЕ создания заказа
                 CurrentCustomer.Cart.Items.Clear();
 
-                // Обновляем отображение корзины
+                // Обновляем интерфейс
                 UpdateCartListBox();
 
-                MessageBox.Show("Cart cleared successfully!", "Success",
+                MessageBox.Show($"Order #{order.Id} created successfully with {order.Items.Count} items!", "Success",
                     MessageBoxButtons.OK, MessageBoxIcon.Information);
             }
             else
             {
-                MessageBox.Show("Please select a customer first!", "Warning",
+                MessageBox.Show("Please select a customer and add items to cart first!", "Warning",
                     MessageBoxButtons.OK, MessageBoxIcon.Warning);
             }
         }

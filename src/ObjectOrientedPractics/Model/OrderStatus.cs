@@ -11,37 +11,37 @@ namespace ObjectOrientedPractics.Model
         /// <summary>
         /// Новый заказ.
         /// </summary>
-        New,
+        New=0,
 
         /// <summary>
         /// Обрабатывается.
         /// </summary>
-        Processing,
+        Processing=1,
 
         /// <summary>
         /// Собирается на складе.
         /// </summary>
-        Assembly,
+        Assembly=2,
 
         /// <summary>
         /// Отправлен.
         /// </summary>
-        Sent,
+        Sent=3,
 
         /// <summary>
         /// Доставлен.
         /// </summary>
-        Delivered,
+        Delivered=4,
 
         /// <summary>
         /// Возврат.
         /// </summary>
-        Returned,
+        Returned=5,
 
         /// <summary>
         /// Отменен (со стороны магазина).
         /// </summary>
-        Abandoned
+        Abandoned=6
 
     }
 }

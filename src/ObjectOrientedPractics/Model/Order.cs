@@ -38,9 +38,16 @@ namespace ObjectOrientedPractics.Model
             _id = IdGenerator.GetNextOrderId();
             _date = DateTime.Now;
             _address = address;
-            _items = new List<Item>(cart.Items); // Копируем товары из корзины
-            _amount = cart.Amount; // Используем стоимость из корзины
-            _status= OrderStatus.New;
+            _items = new List<Item>();
+            if (cart?.Items != null)
+            {
+                foreach (var item in cart.Items)
+                {
+                    _items.Add(item); // Добавляем товары в заказ
+                }
+            }
+            _amount = cart?.Amount ?? 0.0; // Используем стоимость из корзины
+            _status = OrderStatus.New;
         }
 
         /// <summary>

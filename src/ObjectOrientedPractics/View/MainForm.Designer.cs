@@ -36,10 +36,13 @@
             customersTab1 = new ObjectOrientedPractics.View.Tabs.CustomersTab();
             CartsTab = new TabPage();
             cartsTab1 = new ObjectOrientedPractics.View.Tabs.CartsTab();
+            OrdersTabPage = new TabPage();
+            ordersTab1 = new ObjectOrientedPractics.View.Tabs.OrdersTab();
             tabControl1.SuspendLayout();
             tabPage1.SuspendLayout();
             CustomresTab.SuspendLayout();
             CartsTab.SuspendLayout();
+            OrdersTabPage.SuspendLayout();
             SuspendLayout();
             // 
             // tabControl1
@@ -47,11 +50,12 @@
             tabControl1.Controls.Add(tabPage1);
             tabControl1.Controls.Add(CustomresTab);
             tabControl1.Controls.Add(CartsTab);
+            tabControl1.Controls.Add(OrdersTabPage);
             tabControl1.Dock = DockStyle.Fill;
             tabControl1.Location = new Point(0, 0);
             tabControl1.Name = "tabControl1";
             tabControl1.SelectedIndex = 0;
-            tabControl1.Size = new Size(1146, 663);
+            tabControl1.Size = new Size(1146, 703);
             tabControl1.TabIndex = 0;
             // 
             // tabPage1
@@ -60,7 +64,7 @@
             tabPage1.Location = new Point(4, 34);
             tabPage1.Name = "tabPage1";
             tabPage1.Padding = new Padding(3);
-            tabPage1.Size = new Size(1138, 625);
+            tabPage1.Size = new Size(1138, 665);
             tabPage1.TabIndex = 0;
             tabPage1.Text = "Items";
             tabPage1.UseVisualStyleBackColor = true;
@@ -71,7 +75,7 @@
             itemsTab1.Dock = DockStyle.Fill;
             itemsTab1.Location = new Point(3, 3);
             itemsTab1.Name = "itemsTab1";
-            itemsTab1.Size = new Size(1132, 619);
+            itemsTab1.Size = new Size(1132, 659);
             itemsTab1.TabIndex = 0;
             // 
             // CustomresTab
@@ -100,7 +104,7 @@
             CartsTab.Location = new Point(4, 34);
             CartsTab.Name = "CartsTab";
             CartsTab.Padding = new Padding(3);
-            CartsTab.Size = new Size(1138, 625);
+            CartsTab.Size = new Size(192, 62);
             CartsTab.TabIndex = 2;
             CartsTab.Text = "Carts";
             CartsTab.UseVisualStyleBackColor = true;
@@ -111,14 +115,33 @@
             cartsTab1.Dock = DockStyle.Fill;
             cartsTab1.Location = new Point(3, 3);
             cartsTab1.Name = "cartsTab1";
-            cartsTab1.Size = new Size(1132, 619);
+            cartsTab1.Size = new Size(186, 56);
             cartsTab1.TabIndex = 0;
+            // 
+            // OrdersTabPage
+            // 
+            OrdersTabPage.Controls.Add(ordersTab1);
+            OrdersTabPage.Location = new Point(4, 34);
+            OrdersTabPage.Name = "OrdersTabPage";
+            OrdersTabPage.Padding = new Padding(3);
+            OrdersTabPage.Size = new Size(1138, 665);
+            OrdersTabPage.TabIndex = 3;
+            OrdersTabPage.Text = "Orders";
+            OrdersTabPage.UseVisualStyleBackColor = true;
+            // 
+            // ordersTab1
+            // 
+            ordersTab1.Dock = DockStyle.Fill;
+            ordersTab1.Location = new Point(3, 3);
+            ordersTab1.Name = "ordersTab1";
+            ordersTab1.Size = new Size(1132, 659);
+            ordersTab1.TabIndex = 0;
             // 
             // MainForm
             // 
             AutoScaleDimensions = new SizeF(10F, 25F);
             AutoScaleMode = AutoScaleMode.Font;
-            ClientSize = new Size(1146, 663);
+            ClientSize = new Size(1146, 703);
             Controls.Add(tabControl1);
             Icon = (Icon)resources.GetObject("$this.Icon");
             Name = "MainForm";
@@ -128,6 +151,7 @@
             CustomresTab.ResumeLayout(false);
             CartsTab.ResumeLayout(false);
             CartsTab.PerformLayout();
+            OrdersTabPage.ResumeLayout(false);
             ResumeLayout(false);
         }
 
@@ -140,5 +164,7 @@
         private View.Tabs.ItemsTab itemsTab1;
         private TabPage CartsTab;
         private View.Tabs.CartsTab cartsTab1;
+        private TabPage OrdersTabPage;
+        private View.Tabs.OrdersTab ordersTab1;
     }
 }

@@ -37,6 +37,8 @@ namespace ObjectOrientedPractics
                 cartsTab1.Items = _store.Items;
                 cartsTab1.Customers = _store.Customers;
 
+                ordersTab1.Customers = _store.Customers;
+
                 // Подписываемся на событие изменения товаров
                 itemsTab1.ItemsChanged += (s, e) =>
                 {
@@ -60,6 +62,10 @@ namespace ObjectOrientedPractics
             if (tabControl1.SelectedIndex == 2) // Вкладка Carts
             {
                 cartsTab1.RefreshData();
+            }
+            else if (tabControl1.SelectedIndex == 3)
+            {
+                ordersTab1.RefreshData();
             }
         }
 

@@ -189,6 +189,17 @@ namespace ObjectOrientedPractics.View.Controls
             ClearVisualValidation();
         }
 
+        public void SetReadOnly(bool readOnly)
+        {
+            // Сделать все текстовые поля доступными только для чтения
+            PostIndexTextBox.ReadOnly = readOnly;
+            CountryTextBox.ReadOnly = readOnly;
+            CityTextBox.ReadOnly = readOnly;
+            StreetTextBox.ReadOnly = readOnly;
+            BuildingTextBox.ReadOnly = readOnly;
+            ApartmentTextBox.ReadOnly = readOnly;
+        }
+
         /// <summary>
         /// Сброс визуальной подсветки
         /// </summary>
