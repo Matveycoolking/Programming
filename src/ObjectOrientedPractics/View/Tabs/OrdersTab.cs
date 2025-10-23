@@ -24,14 +24,19 @@ namespace ObjectOrientedPractics.View.Tabs
             
 
         }
-        
+
+        /// <summary>
+        /// Обновление информации.
+        /// </summary>
         public void RefreshData()
         {
             UpdateDataGridView();
             SelectedOrder = null;
             ClearSelectedOrderPanel();
         }
-
+        /// <summary>
+        /// Свойства выбранного заказа.
+        /// </summary>
         private Order SelectedOrder
         {
             get => _selectedOrder;
@@ -41,13 +46,17 @@ namespace ObjectOrientedPractics.View.Tabs
                 UpdateSelectedOrderPanel();
             }
         }
-
+        /// <summary>
+        /// Инициализация комбобокса.
+        /// </summary>
         private void InitializeStatusComboBox()
         {
             comboBox1.DataSource = Enum.GetValues(typeof(OrderStatus));
             comboBox1.DropDownStyle = ComboBoxStyle.DropDownList;
         }
-
+        /// <summary>
+        /// Настройка интерфейса.
+        /// </summary>
         private void ConfigureDataGridView()
         {
             dataGridView1.AllowUserToAddRows = false;
@@ -67,7 +76,11 @@ namespace ObjectOrientedPractics.View.Tabs
             dataGridView1.ReadOnly = true;
             dataGridView1.SelectionChanged += DataGridView1_SelectionChanged;
         }
-
+        /// <summary>
+        /// Управление таблицей.
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void DataGridView1_SelectionChanged(object sender, EventArgs e)
         {
             if (dataGridView1.SelectedRows.Count > 0)
@@ -80,7 +93,11 @@ namespace ObjectOrientedPractics.View.Tabs
                 SelectedOrder = null;
             }
         }
-
+        /// <summary>
+        /// нахождение заказа по айди
+        /// </summary>
+        /// <param name="orderId"></param>
+        /// <returns></returns>
         private Order FindOrderById(int orderId)
         {
             if (_customers != null)
@@ -89,15 +106,19 @@ namespace ObjectOrientedPractics.View.Tabs
                 {
                     if (customer.Orders != null)
                     {
+                        // АГРЕГАЦИЯ: работаем с заказами через ссылки
                         var order = customer.Orders.FirstOrDefault(o => o.Id == orderId);
                         if (order != null)
+                            // Возвращаем ссылку на существующий заказ
                             return order;
                     }
                 }
             }
             return null;
         }
-
+        /// <summary>
+        /// Обновление панели заказа.
+        /// </summary>
         private void UpdateSelectedOrderPanel()
         {
             if (SelectedOrder != null)
@@ -125,20 +146,25 @@ namespace ObjectOrientedPractics.View.Tabs
                 SetPanelEnabled(false);
             }
         }
-
+        /// <summary>
+        /// Обновление предметов в листбоксе.
+        /// </summary>
         private void UpdateOrderItemsListBox()
         {
             OrderItemsListBox.Items.Clear();
 
             if (SelectedOrder != null && SelectedOrder.Items != null)
             {
+                // АГРЕГАЦИЯ: отображаем товары, которые существуют независимо от заказа
                 foreach (var item in SelectedOrder.Items)
                 {
                     OrderItemsListBox.Items.Add($"{item.Name} - {item.Cost:C}");
                 }
             }
         }
-
+        /// <summary>
+        /// Очищение панели заказов.
+        /// </summary>
         private void ClearSelectedOrderPanel()
         {
             textBox1.Text = string.Empty;
@@ -148,7 +174,10 @@ namespace ObjectOrientedPractics.View.Tabs
             OrderItemsListBox.Items.Clear();
             Pricelabel8.Text = "$0.00";
         }
-
+        /// <summary>
+        /// Установление панели состояния.
+        /// </summary>
+        /// <param name="enabled"></param>
         private void SetPanelEnabled(bool enabled)
         {
             textBox1.Enabled = enabled;
@@ -161,7 +190,9 @@ namespace ObjectOrientedPractics.View.Tabs
                 addressControl1.SetReadOnly(true);
             }
         }
-
+        /// <summary>
+        /// Свойства списка покупателей.
+        /// </summary>
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
         public List<Customer> Customers
         {
@@ -172,7 +203,9 @@ namespace ObjectOrientedPractics.View.Tabs
                 UpdateDataGridView();
             }
         }
-
+        /// <summary>
+        /// обновление показа таблицы.
+        /// </summary>
         private void UpdateDataGridView()
         {
             dataGridView1.Rows.Clear();
@@ -203,13 +236,21 @@ namespace ObjectOrientedPractics.View.Tabs
                 dataGridView1.Rows[0].Selected = true;
             }
         }
-
+        /// <summary>
+        /// Вывод адресса.
+        /// </summary>
+        /// <param name="address"></param>
+        /// <returns></returns>
         private string GetAddressString(Address address)
         {
             if (address == null) return "No address";
             return $"{address.Index}, {address.Country}, {address.City}, {address.Street}, {address.Building}, {address.Apartment}";
         }
-
+        /// <summary>
+        /// Настройка выбора предметов поведения комбобокса
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void comboBox1_SelectedIndexChanged(object sender, EventArgs e)
         {
             if (SelectedOrder != null && comboBox1.SelectedItem is OrderStatus newStatus)
@@ -218,7 +259,11 @@ namespace ObjectOrientedPractics.View.Tabs
                 UpdateStatusInDataGridView(SelectedOrder.Id, newStatus);
             }
         }
-
+        /// <summary>
+        /// обновление статуса.
+        /// </summary>
+        /// <param name="orderId"></param>
+        /// <param name="status"></param>
         private void UpdateStatusInDataGridView(int orderId, OrderStatus status)
         {
             foreach (DataGridViewRow row in dataGridView1.Rows)

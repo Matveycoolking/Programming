@@ -208,11 +208,13 @@ namespace ObjectOrientedPractics.View.Tabs
         }
         /// <summary>
         /// Обработчик кнопки добавления товара в корзину
+        /// АГРЕГАЦИЯ 
         /// </summary>
         private void AddToCartbutton1_Click(object sender, EventArgs e)
         {
             if (SelectedItem != null && CurrentCustomer != null)
             {
+                // Товар добавляется в корзину, но продолжает существовать независимо
                 CurrentCustomer.Cart.Items.Add(SelectedItem);
                 UpdateCartListBox();
             }
@@ -221,6 +223,7 @@ namespace ObjectOrientedPractics.View.Tabs
 
         /// <summary>
         /// Обработчик кнопки удаления товара из корзины
+        /// АГРЕГАЦИЯ
         /// </summary>
         private void Removebutton_Click(object sender, EventArgs e)
         {
@@ -228,6 +231,7 @@ namespace ObjectOrientedPractics.View.Tabs
             {
                 if (CartlistBox.SelectedIndex < CurrentCustomer.Cart.Items.Count)
                 {
+                    // Товар удаляется из корзины, но НЕ удаляется из системы
                     CurrentCustomer.Cart.Items.RemoveAt(CartlistBox.SelectedIndex);
                     UpdateCartListBox();
                 }
@@ -271,19 +275,14 @@ namespace ObjectOrientedPractics.View.Tabs
         {
             if (CurrentCustomer != null && CurrentCustomer.Cart != null && CurrentCustomer.Cart.Items.Count > 0)
             {
-                // Создаем заказ с помощью конструктора
-                var order = new Order(CurrentCustomer.Cart, CurrentCustomer.Address);
-
-                // Добавляем заказ в список заказов покупателя
-                CurrentCustomer.Orders.Add(order);
-
+                
                 // Очищаем корзину ПОСЛЕ создания заказа
                 CurrentCustomer.Cart.Items.Clear();
 
                 // Обновляем интерфейс
                 UpdateCartListBox();
 
-                MessageBox.Show($"Order #{order.Id} created successfully with {order.Items.Count} items!", "Success",
+                MessageBox.Show($"Order cleared successfully", "Success",
                     MessageBoxButtons.OK, MessageBoxIcon.Information);
             }
             else

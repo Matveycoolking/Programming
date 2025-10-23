@@ -11,9 +11,9 @@ namespace ObjectOrientedPractics.Model
     {
         private readonly int _id;
         private readonly DateTime _date;
-        private Address _address;
         private List<Item> _items;
         private double _amount;
+        private Address _address;
         private OrderStatus _status;
 
         /// <summary>
@@ -71,6 +71,7 @@ namespace ObjectOrientedPractics.Model
 
         /// <summary>
         /// Список товаров в заказе.
+        /// АГРЕГАЦИЯ: товары существуют независимо от заказа
         /// </summary>
         public List<Item> Items
         {

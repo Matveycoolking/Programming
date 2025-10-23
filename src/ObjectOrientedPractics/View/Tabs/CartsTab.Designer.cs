@@ -116,6 +116,7 @@
             // CustomersComboBox
             // 
             CustomersComboBox.Anchor = AnchorStyles.Top | AnchorStyles.Left | AnchorStyles.Right;
+            CustomersComboBox.DropDownStyle = ComboBoxStyle.DropDownList;
             CustomersComboBox.FormattingEnabled = true;
             CustomersComboBox.Location = new Point(113, 8);
             CustomersComboBox.Name = "CustomersComboBox";
