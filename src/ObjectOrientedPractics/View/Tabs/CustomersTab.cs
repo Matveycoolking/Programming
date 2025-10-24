@@ -101,7 +101,7 @@ namespace ObjectOrientedPractics.View.Tabs
             IdtextBoxc.Text = string.Empty;
             FullNametextBoxc.Text = string.Empty;
             addressControl1.ClearFields();
-
+            IsPriorityCheckBox.Checked = false; // Сбрасываем CheckBox
 
             FullNametextBoxc.BackColor = Color.White;
         }
@@ -136,6 +136,8 @@ namespace ObjectOrientedPractics.View.Tabs
                     address.Building,
                     address.Apartment
                 );
+
+                newCustomer.IsPriority = IsPriorityCheckBox.Checked;
 
                 _customers.Add(newCustomer);
 
@@ -186,6 +188,7 @@ namespace ObjectOrientedPractics.View.Tabs
 
                 // Заполняем контрол адреса данными из выбранного клиента через свойство Address
                 addressControl1.Address = selectedCustomer.Address;
+                IsPriorityCheckBox.Checked = selectedCustomer.IsPriority;
 
                 FullNametextBoxc.BackColor = Color.White;
             }
@@ -195,6 +198,19 @@ namespace ObjectOrientedPractics.View.Tabs
             }
         }
 
+        /// <summary>
+        /// Обработчик изменения состояния CheckBox Is Priority
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void IsPriorityCheckBox_CheckedChanged(object sender, EventArgs e)
+        {
+            // Если выбран покупатель, обновляем его свойство IsPriority
+            if (CustomerslistBox.SelectedItem is Customer selectedCustomer)
+            {
+                selectedCustomer.IsPriority = IsPriorityCheckBox.Checked;
+            }
+        }
 
 
     }

@@ -245,8 +245,19 @@ namespace ObjectOrientedPractics.View.Tabs
         {
             if (CurrentCustomer != null && CurrentCustomer.Cart != null && CurrentCustomer.Cart.Items.Count > 0)
             {
-                // Создаем заказ с помощью конструктора
-                var order = new Order(CurrentCustomer.Cart, CurrentCustomer.Address);
+                Order order;
+
+                // Проверяем, является ли покупатель приоритетным
+                if (CurrentCustomer.IsPriority)
+                {
+                    // Создаем приоритетный заказ
+                    order = new PriorityOrder(CurrentCustomer.Cart, CurrentCustomer.Address);
+                }
+                else
+                {
+                    // Создаем обычный заказ
+                    order = new Order(CurrentCustomer.Cart, CurrentCustomer.Address);
+                }
 
                 // Добавляем заказ в список заказов покупателя
                 CurrentCustomer.Orders.Add(order);
@@ -257,7 +268,8 @@ namespace ObjectOrientedPractics.View.Tabs
                 // Обновляем интерфейс
                 UpdateCartListBox();
 
-                MessageBox.Show($"Order #{order.Id} created successfully with {order.Items.Count} items!", "Success",
+                string orderType = CurrentCustomer.IsPriority ? "Priority Order" : "Order";
+                MessageBox.Show($"{orderType} #{order.Id} created successfully with {order.Items.Count} items!", "Success",
                     MessageBoxButtons.OK, MessageBoxIcon.Information);
             }
             else

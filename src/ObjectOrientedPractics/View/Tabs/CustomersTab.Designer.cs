@@ -41,6 +41,7 @@
             tableLayoutPanel1 = new TableLayoutPanel();
             splitContainer1 = new SplitContainer();
             panel1 = new Panel();
+            IsPriorityCheckBox = new CheckBox();
             panel5 = new Panel();
             addressControl1 = new ObjectOrientedPractics.View.Controls.AddressControl();
             panel4 = new Panel();
@@ -183,6 +184,7 @@
             // 
             // panel1
             // 
+            panel1.Controls.Add(IsPriorityCheckBox);
             panel1.Controls.Add(panel5);
             panel1.Controls.Add(panel4);
             panel1.Controls.Add(FullNamelabelc);
@@ -193,6 +195,16 @@
             panel1.Name = "panel1";
             panel1.Size = new Size(726, 429);
             panel1.TabIndex = 13;
+            // 
+            // IsPriorityCheckBox
+            // 
+            IsPriorityCheckBox.AutoSize = true;
+            IsPriorityCheckBox.Location = new Point(21, 114);
+            IsPriorityCheckBox.Name = "IsPriorityCheckBox";
+            IsPriorityCheckBox.Size = new Size(113, 29);
+            IsPriorityCheckBox.TabIndex = 14;
+            IsPriorityCheckBox.Text = "Is priority";
+            IsPriorityCheckBox.UseVisualStyleBackColor = true;
             // 
             // panel5
             // 
@@ -260,5 +272,6 @@
         private SplitContainer splitContainer1;
         private Controls.AddressControl addressControl1;
         private Panel panel5;
+        private CheckBox IsPriorityCheckBox;
     }
 }

@@ -39,6 +39,8 @@ namespace ObjectOrientedPractics
 
                 ordersTab1.Customers = _store.Customers;
 
+                //priorityOrdersTab.AvailableItems = _store.Items;
+
                 // Подписываемся на событие изменения товаров
                 itemsTab1.ItemsChanged += (s, e) =>
                 {
@@ -67,6 +69,10 @@ namespace ObjectOrientedPractics
             {
                 ordersTab1.RefreshData();
             }
+            //else if (tabControl1.SelectedIndex == 4)
+            //{
+            //    PriorityOrdersTab.RefreshData();
+            //}
         }
 
         private void itemsTab1_Load(object sender, EventArgs e)

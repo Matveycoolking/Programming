@@ -15,6 +15,7 @@ namespace ObjectOrientedPractics.Model
         private double _amount;
         private Address _address;
         private OrderStatus _status;
+        private bool _isPriority;
 
         /// <summary>
         /// Конструктор по умолчанию.
@@ -26,6 +27,7 @@ namespace ObjectOrientedPractics.Model
             _items = new List<Item>();
             _amount = 0.0;
             _status = OrderStatus.New;
+            _isPriority = false;
         }
 
         /// <summary>
@@ -48,6 +50,7 @@ namespace ObjectOrientedPractics.Model
             }
             _amount = cart?.Amount ?? 0.0; // Используем стоимость из корзины
             _status = OrderStatus.New;
+            _isPriority = false;
         }
 
         /// <summary>
@@ -98,6 +101,14 @@ namespace ObjectOrientedPractics.Model
         {
             get => _status;
             set => _status = value;
+        }
+        /// <summary>
+        /// Указывает, является ли заказ приоритетным
+        /// </summary>
+        public bool IsPriority
+        {
+            get => _isPriority;
+            set => _isPriority = value;
         }
 
         /// <summary>

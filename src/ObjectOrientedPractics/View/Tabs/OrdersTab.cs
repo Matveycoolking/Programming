@@ -15,23 +15,42 @@ namespace ObjectOrientedPractics.View.Tabs
     {
         private List<Customer> _customers;
         private Order _selectedOrder;
+        private PriorityOrder _selectedPriorityOrder;
 
         public OrdersTab()
         {
             InitializeComponent();
             ConfigureDataGridView();
             InitializeStatusComboBox();
-            
+            InitializePriorityOrderPanel();
 
         }
 
+        /// <summary>
+        /// Инициализация панели для приоритетных заказов
+        /// </summary>
+        private void InitializePriorityOrderPanel()
+        {
+            
+
+            // Настройка ComboBox для времени доставки
+            DeliveryTimeComboBox.DataSource = Enum.GetValues(typeof(DeliveryTimeRange));
+            DeliveryTimeComboBox.DropDownStyle = ComboBoxStyle.DropDownList;
+
+            DeliveryTimeComboBox.SelectedIndexChanged += DeliveryTimeComboBox_SelectedIndexChanged;
+
+            // Изначально скрываем панель
+            PriorityOrderPanel1.Visible = false;
+            PriorityOrderPanel2.Visible = false;
+        }
         /// <summary>
         /// Обновление информации.
         /// </summary>
         public void RefreshData()
         {
             UpdateDataGridView();
-            SelectedOrder = null;
+            _selectedOrder = null;
+            _selectedPriorityOrder = null;
             ClearSelectedOrderPanel();
         }
         /// <summary>
@@ -43,7 +62,30 @@ namespace ObjectOrientedPractics.View.Tabs
             set
             {
                 _selectedOrder = value;
+
+                // ОБНОВЛЕНО: Сохраняем заказ также в _selectedPriorityOrder если это PriorityOrder
+                if (_selectedOrder is PriorityOrder priorityOrder)
+                {
+                    _selectedPriorityOrder = priorityOrder;
+                }
+                else
+                {
+                    _selectedPriorityOrder = null;
+                }
+
                 UpdateSelectedOrderPanel();
+            }
+        }
+        private void DeliveryTimeComboBox_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            // Проверяем, что выбран приоритетный заказ и выбран валидный элемент
+            if (_selectedPriorityOrder != null && DeliveryTimeComboBox.SelectedItem is DeliveryTimeRange timeRange)
+            {
+                // Сохраняем новое время доставки в приоритетный заказ
+                _selectedPriorityOrder.DeliveryTimeRange = timeRange;
+
+                // Для отладки можно добавить вывод в консоль
+                Console.WriteLine($"Delivery time changed to: {timeRange}");
             }
         }
         /// <summary>
@@ -86,11 +128,27 @@ namespace ObjectOrientedPractics.View.Tabs
             if (dataGridView1.SelectedRows.Count > 0)
             {
                 int selectedOrderId = (int)dataGridView1.SelectedRows[0].Cells["Id"].Value;
-                SelectedOrder = FindOrderById(selectedOrderId);
+                var order = FindOrderById(selectedOrderId);
+
+                // ОБНОВЛЕНО: Сохраняем заказ в оба поля
+                _selectedOrder = order;
+
+                if (order is PriorityOrder priorityOrder)
+                {
+                    _selectedPriorityOrder = priorityOrder;
+                }
+                else
+                {
+                    _selectedPriorityOrder = null;
+                }
+
+                UpdateSelectedOrderPanel();
             }
             else
             {
-                SelectedOrder = null;
+                _selectedOrder = null;
+                _selectedPriorityOrder = null;
+                UpdateSelectedOrderPanel();
             }
         }
         /// <summary>
@@ -137,8 +195,9 @@ namespace ObjectOrientedPractics.View.Tabs
                 Pricelabel8.Text = SelectedOrder.Amount.ToString("C");
 
                 SetPanelEnabled(true);
+                UpdatePriorityOrderControls();
 
-                
+
             }
             else
             {
@@ -146,6 +205,31 @@ namespace ObjectOrientedPractics.View.Tabs
                 SetPanelEnabled(false);
             }
         }
+        /// <summary>
+        /// Обновление контролов для приоритетных заказов
+        /// </summary>
+        private void UpdatePriorityOrderControls()
+        {
+            if (_selectedPriorityOrder != null)
+            {
+                // Показываем панель для приоритетных заказов
+                PriorityOrderPanel1.Visible = true;
+                PriorityOrderPanel2.Visible = true;
+
+                // Устанавливаем значения
+                DeliveryTimeComboBox.SelectedItem = _selectedPriorityOrder.DeliveryTimeRange;
+
+                
+                DeliveryTimeComboBox.Enabled = true;
+            }
+            else
+            {
+                // Скрываем панель для обычных заказов
+                PriorityOrderPanel1.Visible = false;
+                PriorityOrderPanel2.Visible = false;
+            }
+        }
+
         /// <summary>
         /// Обновление предметов в листбоксе.
         /// </summary>
@@ -173,6 +257,8 @@ namespace ObjectOrientedPractics.View.Tabs
             addressControl1.ClearFields();
             OrderItemsListBox.Items.Clear();
             Pricelabel8.Text = "$0.00";
+            PriorityOrderPanel1.Visible = false;
+            PriorityOrderPanel2.Visible = false;
         }
         /// <summary>
         /// Установление панели состояния.
@@ -218,10 +304,11 @@ namespace ObjectOrientedPractics.View.Tabs
                     {
                         foreach (var order in customer.Orders)
                         {
+                            string priorityIndicator = order.IsPriority ? "★ " : "";
                             dataGridView1.Rows.Add(
                                 order.Id,
                                 order.Date.ToString("dd.MM.yyyy HH:mm"),
-                                order.Status.ToString(),
+                                priorityIndicator + order.Status.ToString(),
                                 customer.FullName,
                                 GetAddressString(order.Address),
                                 order.Amount.ToString("C")
@@ -274,6 +361,11 @@ namespace ObjectOrientedPractics.View.Tabs
                     break;
                 }
             }
+        }
+
+        private void comboBox2_SelectedIndexChanged(object sender, EventArgs e)
+        {
+
         }
     }
 }

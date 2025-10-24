@@ -20,6 +20,7 @@ namespace ObjectOrientedPractics.View.Controls
     public partial class AddressControl : UserControl
     {
         private Address _address = new Address();
+        public event EventHandler AddressChanged;
 
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
         public Address Address

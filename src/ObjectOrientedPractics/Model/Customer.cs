@@ -16,6 +16,7 @@ namespace ObjectOrientedPractics.Model
         private Address _address;
         private Cart _cart;
         private List<Order> _orders;
+        private bool _isPriority;
 
 
 
@@ -47,6 +48,7 @@ namespace ObjectOrientedPractics.Model
             _address = new Address(index, country, city, street, building, apartment);
             _cart = new Cart(); // композиция т.к при удаление покупателя удалиться и корзина
             _orders = new List<Order>();
+            _isPriority = false; // По умолчанию false
         }
         /// <summary>
         /// конструктор при копирование.
@@ -67,6 +69,7 @@ namespace ObjectOrientedPractics.Model
             );
             _cart = new Cart();
             _orders = new List<Order>();
+            _isPriority = other.IsPriority;
         }
         /// <summary>
         /// свойства для айди
@@ -108,6 +111,14 @@ namespace ObjectOrientedPractics.Model
         {
             get => _orders;
             private set => _orders = value;
+        }
+        /// <summary>
+        /// Указывает, является ли покупатель приоритетным
+        /// </summary>
+        public bool IsPriority
+        {
+            get => _isPriority;
+            set => _isPriority = value;
         }
 
         /// <summary>
