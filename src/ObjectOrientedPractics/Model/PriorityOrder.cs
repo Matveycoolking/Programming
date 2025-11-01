@@ -16,7 +16,7 @@ namespace ObjectOrientedPractics.Model
         /// </summary>
         public PriorityOrder()
         {
-            IsPriority = true; // Добавить эту строку
+            IsPriority = true; 
         }
 
         /// <summary>
@@ -26,7 +26,7 @@ namespace ObjectOrientedPractics.Model
         /// <param name="address">Адрес доставки.</param>
         public PriorityOrder(Cart cart, Address address) : base(cart, address)
         {
-            IsPriority = true; // Добавить эту строку
+            IsPriority = true; 
         }
 
         /// <summary>

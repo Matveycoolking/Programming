@@ -9,13 +9,13 @@ namespace ObjectOrientedPractics.Model
 {
     public class Order
     {
-        private readonly int _id;
-        private readonly DateTime _date;
-        private List<Item> _items;
-        private double _amount;
-        private Address _address;
-        private OrderStatus _status;
-        private bool _isPriority;
+        protected readonly int _id;
+        protected readonly DateTime _date;
+        protected List<Item> _items;
+        protected double _amount;
+        protected Address _address;
+        protected OrderStatus _status;
+        protected bool _isPriority;
 
         /// <summary>
         /// Конструктор по умолчанию.
