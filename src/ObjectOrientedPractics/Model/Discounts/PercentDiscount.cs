@@ -13,6 +13,7 @@ namespace ObjectOrientedPractics.Model.Discounts
         private Category _category;
         private double _totalSpentOnCategory;
         private int _discountPercent;
+        private static Random _random = new Random();
 
         /// <summary>
         /// Свойства
@@ -67,7 +68,7 @@ namespace ObjectOrientedPractics.Model.Discounts
         {
             Category = category;
             TotalSpentOnCategory = 0;
-            DiscountPercent = 1; // Начальная скидка 1%
+            DiscountPercent = _random.Next(1,10); // Начальная скидка 1%
         }
 
         /// <summary>

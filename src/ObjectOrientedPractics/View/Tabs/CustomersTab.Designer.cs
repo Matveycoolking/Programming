@@ -45,14 +45,21 @@
             panel5 = new Panel();
             addressControl1 = new ObjectOrientedPractics.View.Controls.AddressControl();
             panel4 = new Panel();
+            panel3 = new Panel();
+            RemoveDiscountButton = new Button();
+            ADiscountButton = new Button();
+            DiscountListBox = new ListBox();
+            label1 = new Label();
             panel2.SuspendLayout();
             tableLayoutPanel1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)splitContainer1).BeginInit();
             splitContainer1.Panel1.SuspendLayout();
+            splitContainer1.Panel2.SuspendLayout();
             splitContainer1.SuspendLayout();
             panel1.SuspendLayout();
             panel5.SuspendLayout();
             panel4.SuspendLayout();
+            panel3.SuspendLayout();
             SuspendLayout();
             // 
             // Customerlabel
@@ -178,8 +185,12 @@
             // splitContainer1.Panel1
             // 
             splitContainer1.Panel1.Controls.Add(panel1);
+            // 
+            // splitContainer1.Panel2
+            // 
+            splitContainer1.Panel2.Controls.Add(panel3);
             splitContainer1.Size = new Size(726, 530);
-            splitContainer1.SplitterDistance = 429;
+            splitContainer1.SplitterDistance = 370;
             splitContainer1.TabIndex = 14;
             // 
             // panel1
@@ -193,7 +204,7 @@
             panel1.Dock = DockStyle.Fill;
             panel1.Location = new Point(0, 0);
             panel1.Name = "panel1";
-            panel1.Size = new Size(726, 429);
+            panel1.Size = new Size(726, 370);
             panel1.TabIndex = 13;
             // 
             // IsPriorityCheckBox
@@ -233,6 +244,57 @@
             panel4.Size = new Size(581, 38);
             panel4.TabIndex = 12;
             // 
+            // panel3
+            // 
+            panel3.Controls.Add(RemoveDiscountButton);
+            panel3.Controls.Add(ADiscountButton);
+            panel3.Controls.Add(DiscountListBox);
+            panel3.Controls.Add(label1);
+            panel3.Dock = DockStyle.Fill;
+            panel3.Location = new Point(0, 0);
+            panel3.Name = "panel3";
+            panel3.Size = new Size(726, 156);
+            panel3.TabIndex = 0;
+            // 
+            // RemoveDiscountButton
+            // 
+            RemoveDiscountButton.Location = new Point(403, 83);
+            RemoveDiscountButton.Name = "RemoveDiscountButton";
+            RemoveDiscountButton.Size = new Size(112, 34);
+            RemoveDiscountButton.TabIndex = 3;
+            RemoveDiscountButton.Text = "Remove";
+            RemoveDiscountButton.UseVisualStyleBackColor = true;
+            RemoveDiscountButton.Click += RemoveDiscountButton_Click;
+            // 
+            // ADiscountButton
+            // 
+            ADiscountButton.Location = new Point(403, 43);
+            ADiscountButton.Name = "ADiscountButton";
+            ADiscountButton.Size = new Size(112, 34);
+            ADiscountButton.TabIndex = 2;
+            ADiscountButton.Text = "ADD";
+            ADiscountButton.UseVisualStyleBackColor = true;
+            ADiscountButton.Click += ADiscountButton_Click;
+            // 
+            // DiscountListBox
+            // 
+            DiscountListBox.Anchor = AnchorStyles.Top | AnchorStyles.Bottom | AnchorStyles.Left;
+            DiscountListBox.FormattingEnabled = true;
+            DiscountListBox.Location = new Point(40, 43);
+            DiscountListBox.Name = "DiscountListBox";
+            DiscountListBox.Size = new Size(357, 104);
+            DiscountListBox.TabIndex = 1;
+            // 
+            // label1
+            // 
+            label1.AutoSize = true;
+            label1.Font = new Font("Segoe UI", 9F, FontStyle.Bold);
+            label1.Location = new Point(40, 15);
+            label1.Name = "label1";
+            label1.Size = new Size(100, 25);
+            label1.TabIndex = 0;
+            label1.Text = "Discounts:";
+            // 
             // CustomersTab
             // 
             AutoScaleDimensions = new SizeF(10F, 25F);
@@ -244,6 +306,7 @@
             tableLayoutPanel1.ResumeLayout(false);
             tableLayoutPanel1.PerformLayout();
             splitContainer1.Panel1.ResumeLayout(false);
+            splitContainer1.Panel2.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)splitContainer1).EndInit();
             splitContainer1.ResumeLayout(false);
             panel1.ResumeLayout(false);
@@ -251,6 +314,8 @@
             panel5.ResumeLayout(false);
             panel4.ResumeLayout(false);
             panel4.PerformLayout();
+            panel3.ResumeLayout(false);
+            panel3.PerformLayout();
             ResumeLayout(false);
         }
 
@@ -273,5 +338,10 @@
         private Controls.AddressControl addressControl1;
         private Panel panel5;
         private CheckBox IsPriorityCheckBox;
+        private Panel panel3;
+        private Button RemoveDiscountButton;
+        private Button ADiscountButton;
+        private ListBox DiscountListBox;
+        private Label label1;
     }
 }

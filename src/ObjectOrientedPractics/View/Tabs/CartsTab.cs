@@ -80,6 +80,8 @@ namespace ObjectOrientedPractics.View.Tabs
                 _currentCustomer = value;
                 UpdateCartListBox();
                 UpdateTotalAmount();
+                UpdateDiscountsListBox(); // Обновляем список скидок
+                UpdateDiscountAmount(); // Обновляем сумму скидки
             }
         }
 
@@ -131,6 +133,7 @@ namespace ObjectOrientedPractics.View.Tabs
             }
 
             UpdateTotalAmount();
+            UpdateDiscountAmount();
         }
 
         /// <summary>
@@ -144,11 +147,57 @@ namespace ObjectOrientedPractics.View.Tabs
             }
             else
             {
-                Pricelabel.Text = "$0.00";
+                Pricelabel.Text = "$0.00"; 
             }
         }
 
-        
+        /// <summary>
+        /// Обновляет CheckedListBox со скидками покупателя
+        /// </summary>
+        private void UpdateDiscountsListBox()
+        {
+            checkedListBox1.Items.Clear();
+
+            if (CurrentCustomer != null)
+            {
+                foreach (var discount in CurrentCustomer.Discounts)
+                {
+                    checkedListBox1.Items.Add(discount.Info, true); // Все галочки включены по умолчанию
+                }
+            }
+        }
+
+        /// <summary>
+        /// Обновляет сумму скидки и итоговую стоимость
+        /// </summary>
+        private void UpdateDiscountAmount()
+        {
+            if (CurrentCustomer == null || CurrentCustomer.Cart == null || CurrentCustomer.Cart.Items.Count == 0)
+            {
+                
+                DiscountAmountLabel.Text = "$0.00";
+                TotalLabel.Text = "$0.00";
+                return;
+            }
+
+            decimal totalDiscount = 0;
+
+            // Рассчитываем скидку только для отмеченных скидок
+            for (int i = 0; i < checkedListBox1.Items.Count; i++)
+            {
+                if (checkedListBox1.GetItemChecked(i))
+                {
+                    var discount = CurrentCustomer.Discounts[i];
+                    totalDiscount += (decimal)discount.Calculate(CurrentCustomer.Cart.Items);
+                }
+            }
+
+            decimal totalAmount = CurrentCustomer.Cart.GetTotalAmount();
+            decimal finalAmount = totalAmount - totalDiscount;
+
+            DiscountAmountLabel.Text = totalDiscount.ToString("C");
+            TotalLabel.Text = finalAmount.ToString("C");
+        }
 
 
         /// <summary>
@@ -248,29 +297,37 @@ namespace ObjectOrientedPractics.View.Tabs
             {
                 Order order;
 
-                // Проверяем, является ли покупатель приоритетным
                 if (CurrentCustomer.IsPriority)
                 {
-                    // Создаем приоритетный заказ
                     order = new PriorityOrder(CurrentCustomer.Cart, CurrentCustomer.Address);
                 }
                 else
                 {
-                    // Создаем обычный заказ
                     order = new Order(CurrentCustomer.Cart, CurrentCustomer.Address);
                 }
 
-                // Добавляем заказ в список заказов покупателя
+                // 1. Для ВЫБРАННЫХ скидок вызывается Apply()
+                double appliedDiscount = ApplySelectedDiscounts();
+                order.DiscountAmount = appliedDiscount;
+
+                // 2. Для ВСЕХ скидок (вне зависимости от галочек) вызывается Update()
+                foreach (var discount in CurrentCustomer.Discounts)
+                {
+                    discount.Update(CurrentCustomer.Cart.Items);
+                }
+
+                // 3. Добавляем заказ
                 CurrentCustomer.Orders.Add(order);
 
-                // Очищаем корзину ПОСЛЕ создания заказа
+                // 4. Очищаем корзину
                 CurrentCustomer.Cart.Items.Clear();
 
-                // Обновляем интерфейс
+                // 5. Обновляем интерфейс
                 UpdateCartListBox();
+                UpdateDiscountsListBox(); // Обновляем Info в CheckedListBox
 
                 string orderType = CurrentCustomer.IsPriority ? "Priority Order" : "Order";
-                MessageBox.Show($"{orderType} #{order.Id} created successfully with {order.Items.Count} items!", "Success",
+                MessageBox.Show($"{orderType} #{order.Id} created successfully!\nDiscount applied: {appliedDiscount:C}", "Success",
                     MessageBoxButtons.OK, MessageBoxIcon.Information);
             }
             else
@@ -279,6 +336,30 @@ namespace ObjectOrientedPractics.View.Tabs
                     MessageBoxButtons.OK, MessageBoxIcon.Warning);
             }
         }
+
+
+        /// <summary>
+        /// Применяет выбранные скидки и возвращает общую сумму скидки
+        /// </summary>
+        private double ApplySelectedDiscounts()
+        {
+            double totalDiscount = 0;
+
+            if (CurrentCustomer != null && CurrentCustomer.Cart != null)
+            {
+                for (int i = 0; i < checkedListBox1.Items.Count; i++)
+                {
+                    if (checkedListBox1.GetItemChecked(i))
+                    {
+                        var discount = CurrentCustomer.Discounts[i];
+                        totalDiscount += discount.Apply(CurrentCustomer.Cart.Items); // Apply() для выбранных
+                    }
+                }
+            }
+
+            return totalDiscount;
+        }
+
         /// <summary>
         /// очищение корзины обработчик
         /// </summary>
@@ -288,7 +369,7 @@ namespace ObjectOrientedPractics.View.Tabs
         {
             if (CurrentCustomer != null && CurrentCustomer.Cart != null && CurrentCustomer.Cart.Items.Count > 0)
             {
-                
+
                 // Очищаем корзину ПОСЛЕ создания заказа
                 CurrentCustomer.Cart.Items.Clear();
 
@@ -303,6 +384,14 @@ namespace ObjectOrientedPractics.View.Tabs
                 MessageBox.Show("Please select a customer and add items to cart first!", "Warning",
                     MessageBoxButtons.OK, MessageBoxIcon.Warning);
             }
+        }
+
+        private void checkedListBox1_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            // Обновляем скидку после изменения галочки
+            this.BeginInvoke((MethodInvoker)delegate {
+                UpdateDiscountAmount();
+            });
         }
     }
 }

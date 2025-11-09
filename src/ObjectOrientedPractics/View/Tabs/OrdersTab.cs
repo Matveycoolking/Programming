@@ -194,7 +194,7 @@ namespace ObjectOrientedPractics.View.Tabs
 
                 UpdateOrderItemsListBox();
 
-                Pricelabel8.Text = SelectedOrder.Amount.ToString("C");
+                Pricelabel8.Text = SelectedOrder.Total.ToString("C");
 
                 SetPanelEnabled(true);
                 UpdatePriorityOrderControls();
@@ -313,7 +313,7 @@ namespace ObjectOrientedPractics.View.Tabs
                                 priorityIndicator + order.Status.ToString(),
                                 customer.FullName,
                                 GetAddressString(order.Address),
-                                order.Amount.ToString("C")
+                                order.Total.ToString("C")
                             );
                         }
                     }
