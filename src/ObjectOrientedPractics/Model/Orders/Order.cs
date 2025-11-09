@@ -1,11 +1,12 @@
-﻿using ObjectOrientedPractics.Services;
+﻿using ObjectOrientedPractics.Model.Enums;
+using ObjectOrientedPractics.Services;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace ObjectOrientedPractics.Model
+namespace ObjectOrientedPractics.Model.Orders
 {
     public class Order
     {
@@ -16,6 +17,7 @@ namespace ObjectOrientedPractics.Model
         protected Address _address;
         protected OrderStatus _status;
         protected bool _isPriority;
+        protected double _discountAmount;
 
         /// <summary>
         /// Конструктор по умолчанию.
@@ -28,6 +30,7 @@ namespace ObjectOrientedPractics.Model
             _amount = 0.0;
             _status = OrderStatus.New;
             _isPriority = false;
+            _discountAmount = 0.0;
         }
 
         /// <summary>
@@ -51,6 +54,7 @@ namespace ObjectOrientedPractics.Model
             _amount = cart?.Amount ?? 0.0; // Используем стоимость из корзины
             _status = OrderStatus.New;
             _isPriority = false;
+            _discountAmount = 0.0;
         }
 
         /// <summary>
@@ -110,6 +114,24 @@ namespace ObjectOrientedPractics.Model
             get => _isPriority;
             set => _isPriority = value;
         }
+       
+        /// <summary>
+        /// Размер примененной скидки
+        /// </summary>
+        public double DiscountAmount
+        {
+            get => _discountAmount;
+            set => _discountAmount = value;
+        }
+
+        /// <summary>
+        /// Конечная стоимость заказа с учетом скидки
+        /// </summary>
+        public double Total
+        {
+            get => _amount - _discountAmount;
+        }
+
 
         /// <summary>
         /// Обновляет общую стоимость заказа на основе списка товаров.

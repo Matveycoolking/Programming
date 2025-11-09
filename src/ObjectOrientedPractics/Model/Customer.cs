@@ -1,4 +1,6 @@
-﻿using ObjectOrientedPractics.Services;
+﻿using ObjectOrientedPractics.Model.Discounts;
+using ObjectOrientedPractics.Model.Orders;
+using ObjectOrientedPractics.Services;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
@@ -17,6 +19,7 @@ namespace ObjectOrientedPractics.Model
         private Cart _cart;
         private List<Order> _orders;
         private bool _isPriority;
+        private List<IDiscount> _discounts;
 
 
 
@@ -49,6 +52,8 @@ namespace ObjectOrientedPractics.Model
             _cart = new Cart(); // композиция т.к при удаление покупателя удалиться и корзина
             _orders = new List<Order>();
             _isPriority = false; // По умолчанию false
+            _discounts = new List<IDiscount>();
+            _discounts.Add(new PointsDiscount());
         }
         /// <summary>
         /// конструктор при копирование.
@@ -70,6 +75,8 @@ namespace ObjectOrientedPractics.Model
             _cart = new Cart();
             _orders = new List<Order>();
             _isPriority = other.IsPriority;
+            _discounts = new List<IDiscount>();
+            _discounts.Add(new PointsDiscount());
         }
         /// <summary>
         /// свойства для айди
@@ -119,6 +126,15 @@ namespace ObjectOrientedPractics.Model
         {
             get => _isPriority;
             set => _isPriority = value;
+        }
+
+        /// <summary>
+        /// Список скидок покупателя.
+        /// </summary>
+        public List<IDiscount> Discounts
+        {
+            get => _discounts;
+            private set => _discounts = value;
         }
 
         /// <summary>
