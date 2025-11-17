@@ -51,8 +51,13 @@
             panel7 = new Panel();
             panel8 = new Panel();
             panel9 = new Panel();
+            OrderComboBox = new ComboBox();
+            Orderlabel = new Label();
             AddButton = new Button();
             RemoveButton = new Button();
+            panel11 = new Panel();
+            FindTextBox = new TextBox();
+            Findlabel = new Label();
             panel4 = new Panel();
             panel1.SuspendLayout();
             tableLayoutPanel1.SuspendLayout();
@@ -64,6 +69,7 @@
             panel7.SuspendLayout();
             panel8.SuspendLayout();
             panel9.SuspendLayout();
+            panel11.SuspendLayout();
             SuspendLayout();
             // 
             // SelectedItemLabel
@@ -73,7 +79,7 @@
             SelectedItemLabel.Font = new Font("Segoe UI", 9F, FontStyle.Bold);
             SelectedItemLabel.Location = new Point(460, 0);
             SelectedItemLabel.Name = "SelectedItemLabel";
-            SelectedItemLabel.Size = new Size(128, 24);
+            SelectedItemLabel.Size = new Size(128, 25);
             SelectedItemLabel.TabIndex = 4;
             SelectedItemLabel.Text = "Selected Item";
             // 
@@ -133,7 +139,7 @@
             // Namelabel
             // 
             Namelabel.AutoSize = true;
-            Namelabel.Location = new Point(21, 192);
+            Namelabel.Location = new Point(9, 152);
             Namelabel.Name = "Namelabel";
             Namelabel.Size = new Size(63, 25);
             Namelabel.TabIndex = 11;
@@ -142,7 +148,7 @@
             // Descriptionlabel
             // 
             Descriptionlabel.AutoSize = true;
-            Descriptionlabel.Location = new Point(18, 328);
+            Descriptionlabel.Location = new Point(9, 285);
             Descriptionlabel.Name = "Descriptionlabel";
             Descriptionlabel.Size = new Size(106, 25);
             Descriptionlabel.TabIndex = 12;
@@ -155,7 +161,7 @@
             ItemsLabel.Font = new Font("Segoe UI", 9F, FontStyle.Bold);
             ItemsLabel.Location = new Point(3, 0);
             ItemsLabel.Name = "ItemsLabel";
-            ItemsLabel.Size = new Size(59, 24);
+            ItemsLabel.Size = new Size(59, 25);
             ItemsLabel.TabIndex = 1;
             ItemsLabel.Text = "Items";
             // 
@@ -165,7 +171,7 @@
             ItemsListBox.FormattingEnabled = true;
             ItemsListBox.Location = new Point(0, 0);
             ItemsListBox.Name = "ItemsListBox";
-            ItemsListBox.Size = new Size(451, 459);
+            ItemsListBox.Size = new Size(451, 402);
             ItemsListBox.TabIndex = 0;
             ItemsListBox.SelectedIndexChanged += ItemsListBox_SelectedIndexChanged;
             // 
@@ -188,15 +194,15 @@
             tableLayoutPanel1.Controls.Add(panel2, 0, 1);
             tableLayoutPanel1.Controls.Add(panel6, 1, 1);
             tableLayoutPanel1.Controls.Add(SelectedItemLabel, 1, 0);
-            tableLayoutPanel1.Controls.Add(ItemsLabel, 0, 0);
             tableLayoutPanel1.Controls.Add(panel9, 0, 2);
+            tableLayoutPanel1.Controls.Add(panel11, 0, 0);
             tableLayoutPanel1.Dock = DockStyle.Fill;
             tableLayoutPanel1.Location = new Point(0, 0);
             tableLayoutPanel1.Name = "tableLayoutPanel1";
             tableLayoutPanel1.RowCount = 3;
-            tableLayoutPanel1.RowStyles.Add(new RowStyle(SizeType.Percent, 5.058366F));
-            tableLayoutPanel1.RowStyles.Add(new RowStyle(SizeType.Percent, 94.9416351F));
-            tableLayoutPanel1.RowStyles.Add(new RowStyle(SizeType.Absolute, 70F));
+            tableLayoutPanel1.RowStyles.Add(new RowStyle(SizeType.Percent, 13.0879345F));
+            tableLayoutPanel1.RowStyles.Add(new RowStyle(SizeType.Percent, 86.91206F));
+            tableLayoutPanel1.RowStyles.Add(new RowStyle(SizeType.Absolute, 90F));
             tableLayoutPanel1.Size = new Size(915, 560);
             tableLayoutPanel1.TabIndex = 20;
             // 
@@ -204,9 +210,9 @@
             // 
             panel2.Controls.Add(ItemsListBox);
             panel2.Dock = DockStyle.Fill;
-            panel2.Location = new Point(3, 27);
+            panel2.Location = new Point(3, 64);
             panel2.Name = "panel2";
-            panel2.Size = new Size(451, 459);
+            panel2.Size = new Size(451, 402);
             panel2.TabIndex = 21;
             // 
             // panel6
@@ -223,9 +229,9 @@
             panel6.Controls.Add(panel7);
             panel6.Controls.Add(panel8);
             panel6.Dock = DockStyle.Fill;
-            panel6.Location = new Point(460, 27);
+            panel6.Location = new Point(460, 64);
             panel6.Name = "panel6";
-            panel6.Size = new Size(452, 459);
+            panel6.Size = new Size(452, 402);
             panel6.TabIndex = 21;
             // 
             // Categorylabel
@@ -277,7 +283,7 @@
             // 
             panel7.Anchor = AnchorStyles.Top | AnchorStyles.Left | AnchorStyles.Right;
             panel7.Controls.Add(NametextBox);
-            panel7.Location = new Point(15, 220);
+            panel7.Location = new Point(3, 180);
             panel7.Name = "panel7";
             panel7.Size = new Size(406, 93);
             panel7.TabIndex = 19;
@@ -286,23 +292,43 @@
             // 
             panel8.Anchor = AnchorStyles.Top | AnchorStyles.Left | AnchorStyles.Right;
             panel8.Controls.Add(DescriptiontextBox);
-            panel8.Location = new Point(18, 356);
+            panel8.Location = new Point(9, 313);
             panel8.Name = "panel8";
             panel8.Size = new Size(406, 100);
             panel8.TabIndex = 20;
             // 
             // panel9
             // 
+            panel9.Controls.Add(OrderComboBox);
+            panel9.Controls.Add(Orderlabel);
             panel9.Controls.Add(AddButton);
             panel9.Controls.Add(RemoveButton);
-            panel9.Location = new Point(3, 492);
+            panel9.Dock = DockStyle.Fill;
+            panel9.Location = new Point(3, 472);
             panel9.Name = "panel9";
-            panel9.Size = new Size(300, 65);
+            panel9.Size = new Size(451, 85);
             panel9.TabIndex = 22;
+            // 
+            // OrderComboBox
+            // 
+            OrderComboBox.FormattingEnabled = true;
+            OrderComboBox.Location = new Point(94, 8);
+            OrderComboBox.Name = "OrderComboBox";
+            OrderComboBox.Size = new Size(298, 33);
+            OrderComboBox.TabIndex = 5;
+            // 
+            // Orderlabel
+            // 
+            Orderlabel.AutoSize = true;
+            Orderlabel.Location = new Point(11, 8);
+            Orderlabel.Name = "Orderlabel";
+            Orderlabel.Size = new Size(87, 25);
+            Orderlabel.TabIndex = 4;
+            Orderlabel.Text = "Order by:";
             // 
             // AddButton
             // 
-            AddButton.Location = new Point(3, 3);
+            AddButton.Location = new Point(11, 44);
             AddButton.Name = "AddButton";
             AddButton.Size = new Size(139, 41);
             AddButton.TabIndex = 2;
@@ -312,13 +338,40 @@
             // 
             // RemoveButton
             // 
-            RemoveButton.Location = new Point(148, 3);
+            RemoveButton.Location = new Point(156, 44);
             RemoveButton.Name = "RemoveButton";
             RemoveButton.Size = new Size(141, 41);
             RemoveButton.TabIndex = 3;
             RemoveButton.Text = "Remove";
             RemoveButton.UseVisualStyleBackColor = true;
             RemoveButton.Click += RemoveButton_Click;
+            // 
+            // panel11
+            // 
+            panel11.Controls.Add(FindTextBox);
+            panel11.Controls.Add(Findlabel);
+            panel11.Controls.Add(ItemsLabel);
+            panel11.Dock = DockStyle.Fill;
+            panel11.Location = new Point(3, 3);
+            panel11.Name = "panel11";
+            panel11.Size = new Size(451, 55);
+            panel11.TabIndex = 23;
+            // 
+            // FindTextBox
+            // 
+            FindTextBox.Location = new Point(68, 25);
+            FindTextBox.Name = "FindTextBox";
+            FindTextBox.Size = new Size(221, 31);
+            FindTextBox.TabIndex = 3;
+            // 
+            // Findlabel
+            // 
+            Findlabel.AutoSize = true;
+            Findlabel.Location = new Point(3, 25);
+            Findlabel.Name = "Findlabel";
+            Findlabel.Size = new Size(50, 25);
+            Findlabel.TabIndex = 2;
+            Findlabel.Text = "Find:";
             // 
             // panel4
             // 
@@ -353,6 +406,9 @@
             panel8.ResumeLayout(false);
             panel8.PerformLayout();
             panel9.ResumeLayout(false);
+            panel9.PerformLayout();
+            panel11.ResumeLayout(false);
+            panel11.PerformLayout();
             ResumeLayout(false);
             PerformLayout();
         }
@@ -384,5 +440,10 @@
         private Label Categorylabel;
         private Panel panel10;
         private ComboBox CategorycomboBox1;
+        private Panel panel11;
+        private TextBox FindTextBox;
+        private Label Findlabel;
+        private ComboBox OrderComboBox;
+        private Label Orderlabel;
     }
 }

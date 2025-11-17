@@ -1,4 +1,7 @@
-﻿using System;
+﻿using ObjectOrientedPractics.Model;
+using ObjectOrientedPractics.Model.Enums;
+using ObjectOrientedPractics.Services;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
@@ -7,8 +10,6 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
-using ObjectOrientedPractics.Model;
-using ObjectOrientedPractics.Model.Enums;
 
 namespace ObjectOrientedPractics.View.Tabs
 {
@@ -25,7 +26,7 @@ namespace ObjectOrientedPractics.View.Tabs
             set
             {
                 _items = value ?? new List<Item>();
-                UpdateListBox();
+                ApplySearchAndSort();
             }
         }
 
@@ -33,6 +34,7 @@ namespace ObjectOrientedPractics.View.Tabs
         {
             InitializeComponent();
             InitializeCategoryComboBox();
+            InitializeOrderComboBox();
 
             this.AutoValidate = AutoValidate.Disable;
 
@@ -41,8 +43,97 @@ namespace ObjectOrientedPractics.View.Tabs
             DescriptiontextBox.TextChanged += (s, e) => ValidateDescriptionField();
             CosttextBox.TextChanged += (s, e) => ValidateCostField();
 
-          
+            FindTextBox.TextChanged += FindTextBox_TextChanged;
+            OrderComboBox.SelectedIndexChanged += OrderComboBox_SelectedIndexChanged;
         }
+
+        /// <summary>
+        /// Инициализация ComboBox способов сортировки
+        /// </summary>
+        private void InitializeOrderComboBox()
+        {
+            // Заполняем ComboBox вариантами сортировки
+            OrderComboBox.Items.AddRange(new object[]
+            {
+                "Name (А-Я)",
+                "Cost (Ascending)",
+                "Cost (Descending)"
+            });
+
+            // Устанавливаем сортировку по имени по умолчанию
+            OrderComboBox.SelectedIndex = 0;
+            OrderComboBox.DropDownStyle = ComboBoxStyle.DropDownList;
+        }
+
+        /// <summary>
+        /// Обработчик изменения выбора в ComboBox сортировки
+        /// </summary>
+        private void OrderComboBox_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            ApplySearchAndSort();
+        }
+
+        /// <summary>
+        /// Обработчик изменения текста в поисковой строке
+        /// </summary>
+        private void FindTextBox_TextChanged(object sender, EventArgs e)
+        {
+            ApplySearchAndSort();
+        }
+
+
+        /// <summary>
+        /// Применяет поиск и сортировку товаров
+        /// </summary>
+        private void ApplySearchAndSort()
+        {
+            string searchText = FindTextBox.Text.Trim();
+
+            List<Item> itemsToDisplay;
+
+            // 1. Фильтрация
+            if (string.IsNullOrEmpty(searchText))
+            {
+                itemsToDisplay = _items;
+            }
+            else
+            {
+                itemsToDisplay = DataTools.FilterItems(_items, item =>
+                    item.Name.IndexOf(searchText, StringComparison.OrdinalIgnoreCase) >= 0
+                );
+            }
+
+            // 2. Сортировка
+            itemsToDisplay = ApplySorting(itemsToDisplay);
+
+            // 3. Обновление ListBox с сохранением выделения
+            UpdateListBox(itemsToDisplay);
+        }
+
+        /// <summary>
+        /// Применяет выбранную сортировку к списку товаров
+        /// </summary>
+        private List<Item> ApplySorting(List<Item> items)
+        {
+            if (OrderComboBox.SelectedIndex == -1)
+                return items;
+
+            // Сохраняем текущий выбранный элемент
+            var selectedItem = ItemsListBox.SelectedItem as Item;
+
+            switch (OrderComboBox.SelectedIndex)
+            {
+                case 0: // По имени (А-Я)
+                    return DataTools.SortItems(items, DataTools.SortByName);
+                case 1: // По цене (возрастание)
+                    return DataTools.SortItems(items, DataTools.SortByCostAscending);
+                case 2: // По цене (убывание)
+                    return DataTools.SortItems(items, DataTools.SortByCostDescending);
+                default:
+                    return items;
+            }
+        }
+
 
         /// <summary>
         /// Валидация поля названия - подсвечиваем только если текст не пустой и невалидный
@@ -145,23 +236,32 @@ namespace ObjectOrientedPractics.View.Tabs
         }
 
         /// <summary>
-        /// Обновляет листбокс.
+        /// Обновляет листбокс указанным списком товаров
         /// </summary>
-        private void UpdateListBox()
+        private void UpdateListBox(List<Item> itemsToDisplay)
         {
+            // Сохраняем текущее выделение
+            var selectedItem = ItemsListBox.SelectedItem;
+
             ItemsListBox.Items.Clear();
-            if (_items != null)
+
+            if (itemsToDisplay != null)
             {
-
-
-                foreach (var item in _items)
+                foreach (var item in itemsToDisplay)
                 {
                     ItemsListBox.Items.Add(item);
                 }
                 ItemsListBox.DisplayMember = "Name";
                 ItemsListBox.ValueMember = "Id";
+
+                // Пытаемся восстановить выделение, если элемент все еще в списке
+                if (selectedItem != null && ItemsListBox.Items.Contains(selectedItem))
+                {
+                    ItemsListBox.SelectedItem = selectedItem;
+                }
             }
         }
+
         /// <summary>
         /// Редактор изменений в листбоксе предметов.
         /// </summary>
@@ -187,6 +287,8 @@ namespace ObjectOrientedPractics.View.Tabs
                 ClearFields();
             }
         }
+
+       
         /// <summary>
         /// кнопка по добавлению элементов.
         /// </summary>
@@ -211,7 +313,7 @@ namespace ObjectOrientedPractics.View.Tabs
                 Item newItem = new Item(name, info, cost, category);
                 _items.Add(newItem);
 
-                UpdateListBox();
+                ApplySearchAndSort(); 
                 ClearFields();
                 ItemsChanged?.Invoke(this, EventArgs.Empty);
                 MessageBox.Show("Товар добавлен!", "Успех",
@@ -233,7 +335,8 @@ namespace ObjectOrientedPractics.View.Tabs
             if (ItemsListBox.SelectedItem is Item selectedItem)
             {
                 _items.Remove(selectedItem);
-                UpdateListBox();
+
+                ApplySearchAndSort();
                 ClearFields();
                 ItemsChanged?.Invoke(this, EventArgs.Empty);
                 MessageBox.Show("Товар удален!", "Успех",
