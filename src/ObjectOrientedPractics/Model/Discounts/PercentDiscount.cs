@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace ObjectOrientedPractics.Model.Discounts
 {
-    public class PercentDiscount : IDiscount
+    public class PercentDiscount : IDiscount, IComparable<PercentDiscount>
     {
         // Поля.
         private Category _category;
@@ -180,6 +180,22 @@ namespace ObjectOrientedPractics.Model.Discounts
                 case Category.Construction: return "Строительство";
                 default: return category.ToString();
             }
+        }
+
+        /// <summary>
+        /// Сравнивает текущий объект PercentDiscount с другим объектом PercentDiscount по проценту скидки.
+        /// </summary>
+        /// <param name="other">Объект PercentDiscount для сравнения с текущим объектом.</param>
+        /// <returns>
+        /// Меньше нуля: текущий объект имеет меньший процент скидки, чем другой объект.
+        /// Ноль: объекты имеют одинаковый процент скидки.
+        /// Больше нуля: текущий объект имеет больший процент скидки, чем другой объект.
+        /// </returns>
+        public int CompareTo(PercentDiscount other)
+        {
+            if (other is null) return 1; // null всегда меньше любого объекта
+
+            return _discountPercent.CompareTo(other._discountPercent);
         }
     }
 }

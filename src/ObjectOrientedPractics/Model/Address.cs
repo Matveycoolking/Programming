@@ -15,7 +15,7 @@ namespace ObjectOrientedPractics.Model
     /// Класс для представления почтового адреса.
     /// Содержит информацию о почтовом индексе, стране, городе, улице, доме и квартире.
     /// </summary>
-    public class Address
+    public class Address : ICloneable
     {
         private int _index;
         private string _country;
@@ -175,6 +175,61 @@ namespace ObjectOrientedPractics.Model
                     throw new ArgumentException("Номер квартиры не должен превышать 10 символов.");
                 }
                 _apartment = value;
+            }
+        }
+        /// <summary>
+        /// Создаёт копию класса Address.
+        /// </summary>
+        /// <returns></returns>
+        public object Clone()
+        {
+            return new Address(_index, _country, _city, _street, _building, _apartment);
+        }
+
+        /// <summary>
+        /// Определяет, равен ли указанный объект текущему объекту Address.
+        /// </summary>
+        /// <param name="obj">Объект для сравнения с текущим объектом.</param>
+        /// <returns>true, если указанный объект равен текущему объекту; в противном случае — false.</returns>
+        public override bool Equals(object obj)
+        {
+            return Equals(obj as Address);
+        }
+
+        /// <summary>
+        /// Определяет, равен ли указанный объект Address текущему объекту Address.
+        /// </summary>
+        /// <param name="other">Объект Address для сравнения с текущим объектом.</param>
+        /// <returns>true, если указанный объект равен текущему объекту; в противном случае — false.</returns>
+        public bool Equals(Address other)
+        {
+            if (other is null) return false;
+            if (ReferenceEquals(this, other)) return true;
+
+            return _index == other._index &&
+                   _country == other._country &&
+                   _city == other._city &&
+                   _street == other._street &&
+                   _building == other._building &&
+                   _apartment == other._apartment;
+        }
+
+        /// <summary>
+        /// Возвращает хэш-код для текущего объекта Address.
+        /// </summary>
+        /// <returns>Хэш-код для текущего объекта Address.</returns>
+        public override int GetHashCode()
+        {
+            unchecked
+            {
+                int hash = 17;
+                hash = hash * 23 + _index.GetHashCode();
+                hash = hash * 23 + (_country?.GetHashCode() ?? 0);
+                hash = hash * 23 + (_city?.GetHashCode() ?? 0);
+                hash = hash * 23 + (_street?.GetHashCode() ?? 0);
+                hash = hash * 23 + (_building?.GetHashCode() ?? 0);
+                hash = hash * 23 + (_apartment?.GetHashCode() ?? 0);
+                return hash;
             }
         }
 

@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace ObjectOrientedPractics.Model
 {
-    public class Item
+    public class Item : ICloneable, IEquatable<Item>, IComparable<Item>
     {
         private readonly int _id;
         private string _name;
@@ -96,5 +96,78 @@ namespace ObjectOrientedPractics.Model
             set => _category = value;
         }
 
+
+        /// <summary>
+        /// создаёт объект копию класса Item.
+        /// </summary>
+        /// <returns></returns>
+        public object Clone()
+        {
+            return new Item(_name, _info, _cost, _category);
+        }
+
+        /// <summary>
+        /// Определяет, равен ли указанный объект текущему объекту.
+        /// </summary>
+        /// <param name="obj">Объект для сравнения с текущим объектом.</param>
+        /// <returns>true, если указанный объект равен текущему объекту; в противном случае — false.</returns>
+        public override bool Equals(object obj)
+        {
+            if (obj is Item other)
+            {
+                return Equals(other);
+            }
+            return false;
+        }
+
+        /// <summary>
+        /// Определяет, равен ли указанный объект Item текущему объекту Item.
+        /// </summary>
+        /// <param name="other"></param>
+        /// <returns></returns>
+        public bool Equals(Item other)
+        {
+            if (other is null) return false;
+            if (ReferenceEquals(this, other)) return true;
+
+            return _id == other._id &&
+                   _name == other._name &&
+                   _info == other._info &&
+                   _cost == other._cost &&
+                   _category == other._category;
+        }
+
+        /// <summary>
+        /// Возвращает хэш-код для текущего объекта.
+        /// </summary>
+        public override int GetHashCode()
+        {
+            unchecked
+            {
+                int hash = 17;
+                hash = hash * 23 + _id.GetHashCode();
+                hash = hash * 23 + (_name?.GetHashCode() ?? 0);
+                hash = hash * 23 + (_info?.GetHashCode() ?? 0);
+                hash = hash * 23 + _cost.GetHashCode();
+                hash = hash * 23 + _category.GetHashCode();
+                return hash;
+            }
+        }
+
+        /// <summary>
+        /// Сравнивает текущий объект Item с другим объектом Item по стоимости.
+        /// </summary>
+        /// <param name="other">Объект Item для сравнения с текущим объектом.</param>
+        /// <returns>
+        /// Меньше нуля: текущий объект меньше другого объекта по стоимости.
+        /// Ноль: объекты равны по стоимости.
+        /// Больше нуля: текущий объект больше другого объекта по стоимости.
+        /// </returns>
+        public int CompareTo(Item other)
+        {
+            if (other is null) return 1; // null всегда меньше любого объекта
+
+            return _cost.CompareTo(other._cost);
+        }
     }
 }

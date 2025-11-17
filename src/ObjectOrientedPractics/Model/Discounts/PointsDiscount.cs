@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace ObjectOrientedPractics.Model.Discounts
 {
-    public class PointsDiscount : IDiscount
+    public class PointsDiscount : IDiscount, IComparable<PointsDiscount>
     {
         
         private int _points;
@@ -108,6 +108,22 @@ namespace ObjectOrientedPractics.Model.Discounts
             {
                 Points += earnedPoints;
             }
+        }
+
+        /// <summary>
+        /// Сравнивает текущий объект PointsDiscount с другим объектом PointsDiscount по количеству баллов.
+        /// </summary>
+        /// <param name="other">Объект PointsDiscount для сравнения с текущим объектом.</param>
+        /// <returns>
+        /// Меньше нуля: текущий объект имеет меньше баллов, чем другой объект.
+        /// Ноль: объекты имеют одинаковое количество баллов.
+        /// Больше нуля: текущий объект имеет больше баллов, чем другой объект.
+        /// </returns>
+        public int CompareTo(PointsDiscount other)
+        {
+            if (other is null) return 1; // null всегда меньше любого объекта
+
+            return _points.CompareTo(other._points);
         }
     }
 }

@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace ObjectOrientedPractics.Model
 {
-    public class Cart
+    public class Cart : ICloneable
     {
         /// <summary>
         /// Список товаров в корзине.
@@ -62,6 +62,16 @@ namespace ObjectOrientedPractics.Model
         public decimal GetTotalAmount()
         {
             return _items.Sum(item => (decimal)item.Cost);
+        }
+
+        public object Clone()
+        {
+            var clonedCart = new Cart();
+            foreach (var item in _items)
+            {
+                clonedCart.Items.Add((Item)item.Clone());
+            }
+            return clonedCart;
         }
     }
 }
