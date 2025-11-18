@@ -201,39 +201,26 @@ namespace ObjectOrientedPractics.Model.Orders
         }
 
         /// <summary>
-        /// Возвращает хэш-код для текущего объекта Order.
+        /// Операторы сравнения для естстесвенного синтаксиса.
         /// </summary>
-        /// <returns>Хэш-код для текущего объекта Order.</returns>
-        public override int GetHashCode()
+        /// <param name="left"></param>
+        /// <param name="right"></param>
+        /// <returns></returns>
+        public static bool operator ==(Order left, Order right)
         {
-            unchecked
-            {
-                int hash = 17;
-                hash = hash * 23 + _id.GetHashCode();
-                hash = hash * 23 + _date.GetHashCode();
-                hash = hash * 23 + _amount.GetHashCode();
-                hash = hash * 23 + _status.GetHashCode();
-                hash = hash * 23 + _isPriority.GetHashCode();
-                hash = hash * 23 + _discountAmount.GetHashCode();
+            if (left is null) return right is null;
+            return left.Equals(right);
+        }
 
-                // Включаем хэш адреса
-                hash = hash * 23 + (_address?.GetHashCode() ?? 0);
-
-                // Включаем хэш списка товаров
-                if (_items != null)
-                {
-                    foreach (var item in _items)
-                    {
-                        hash = hash * 23 + item.GetHashCode();
-                    }
-                }
-                else
-                {
-                    hash = hash * 23 + 0;
-                }
-
-                return hash;
-            }
+        /// <summary>
+        /// Операторы сравнения для естстесвенного синтаксиса.
+        /// </summary>
+        /// <param name="left"></param>
+        /// <param name="right"></param>
+        /// <returns></returns>
+        public static bool operator !=(Order left, Order right)
+        {
+            return !(left == right);
         }
     }
 }

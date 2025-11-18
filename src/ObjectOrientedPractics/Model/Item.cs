@@ -138,20 +138,26 @@ namespace ObjectOrientedPractics.Model
         }
 
         /// <summary>
-        /// Возвращает хэш-код для текущего объекта.
+        /// Операторы сравнения для естстесвенного синтаксиса.
         /// </summary>
-        public override int GetHashCode()
+        /// <param name="left"></param>
+        /// <param name="right"></param>
+        /// <returns></returns>
+        public static bool operator ==(Item left, Item right)
         {
-            unchecked
-            {
-                int hash = 17;
-                hash = hash * 23 + _id.GetHashCode();
-                hash = hash * 23 + (_name?.GetHashCode() ?? 0);
-                hash = hash * 23 + (_info?.GetHashCode() ?? 0);
-                hash = hash * 23 + _cost.GetHashCode();
-                hash = hash * 23 + _category.GetHashCode();
-                return hash;
-            }
+            if (left is null) return right is null;
+            return left.Equals(right);
+        }
+
+        /// <summary>
+        /// Операторы сравнения для естстесвенного синтаксиса.
+        /// </summary>
+        /// <param name="left"></param>
+        /// <param name="right"></param>
+        /// <returns></returns>
+        public static bool operator !=(Item left, Item right)
+        {
+            return !(left == right);
         }
 
         /// <summary>

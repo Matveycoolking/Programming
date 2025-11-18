@@ -15,7 +15,7 @@ namespace ObjectOrientedPractics.Model
     /// Класс для представления почтового адреса.
     /// Содержит информацию о почтовом индексе, стране, городе, улице, доме и квартире.
     /// </summary>
-    public class Address : ICloneable
+    public class Address : ICloneable, IEquatable<Address>
     {
         private int _index;
         private string _country;
@@ -215,22 +215,26 @@ namespace ObjectOrientedPractics.Model
         }
 
         /// <summary>
-        /// Возвращает хэш-код для текущего объекта Address.
+        /// Операторы сравнения для естстесвенного синтаксиса.
         /// </summary>
-        /// <returns>Хэш-код для текущего объекта Address.</returns>
-        public override int GetHashCode()
+        /// <param name="left"></param>
+        /// <param name="right"></param>
+        /// <returns></returns>
+        public static bool operator ==(Address left, Address right)
         {
-            unchecked
-            {
-                int hash = 17;
-                hash = hash * 23 + _index.GetHashCode();
-                hash = hash * 23 + (_country?.GetHashCode() ?? 0);
-                hash = hash * 23 + (_city?.GetHashCode() ?? 0);
-                hash = hash * 23 + (_street?.GetHashCode() ?? 0);
-                hash = hash * 23 + (_building?.GetHashCode() ?? 0);
-                hash = hash * 23 + (_apartment?.GetHashCode() ?? 0);
-                return hash;
-            }
+            if (left is null) return right is null;
+            return left.Equals(right);
+        }
+
+        /// <summary>
+        /// Операторы сравнения для естстесвенного синтаксиса.
+        /// </summary>
+        /// <param name="left"></param>
+        /// <param name="right"></param>
+        /// <returns></returns>
+        public static bool operator !=(Address left, Address right)
+        {
+            return !(left == right);
         }
 
         /// <summary>
