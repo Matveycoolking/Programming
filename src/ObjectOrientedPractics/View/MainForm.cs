@@ -36,18 +36,10 @@ namespace ObjectOrientedPractics
                 customersTab1.Customers = _store.Customers;
                 cartsTab1.Items = _store.Items;
                 cartsTab1.Customers = _store.Customers;
-
                 ordersTab1.Customers = _store.Customers;
 
-                //priorityOrdersTab.AvailableItems = _store.Items;
-
                 // Подписываемся на событие изменения товаров
-                itemsTab1.ItemsChanged += (s, e) =>
-                {
-                    // При изменении товаров автоматически обновляем Store.Items
-                    // так как это один и тот же список
-                };
-
+                itemsTab1.ItemsChanged += ItemsTab1_ItemsChanged;
                 // Обработчик переключения вкладок
                 tabControl1.SelectedIndexChanged += TabControl1_SelectedIndexChanged;
 
@@ -57,6 +49,19 @@ namespace ObjectOrientedPractics
                 MessageBox.Show($"Ошибка инициализации вкладок: {ex.Message}", "Ошибка",
                                 MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
+        }
+
+        /// <summary>
+        /// Обработчик события изменения товаров
+        /// </summary>
+        private void ItemsTab1_ItemsChanged(object sender, EventArgs e)
+        {
+            // При изменении товаров обновляем все вкладки, которые зависят от списка товаров
+            cartsTab1.RefreshData();
+            ordersTab1.RefreshData();
+
+            // Если есть другие вкладки, зависящие от товаров, добавляем их здесь
+            // priorityOrdersTab.RefreshData();
         }
 
         private void TabControl1_SelectedIndexChanged(object sender, EventArgs e)
@@ -69,10 +74,7 @@ namespace ObjectOrientedPractics
             {
                 ordersTab1.RefreshData();
             }
-            //else if (tabControl1.SelectedIndex == 4)
-            //{
-            //    PriorityOrdersTab.RefreshData();
-            //}
+            
         }
 
         private void itemsTab1_Load(object sender, EventArgs e)

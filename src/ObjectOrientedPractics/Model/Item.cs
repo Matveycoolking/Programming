@@ -16,6 +16,12 @@ namespace ObjectOrientedPractics.Model
         private double _cost;
         private Category _category;
 
+        // Объявление событий
+        public event EventHandler<EventArgs> NameChanged;
+        public event EventHandler<EventArgs> InfoChanged;
+        public event EventHandler<EventArgs> CostChanged;
+        public event EventHandler<EventArgs> CategoryChanged;
+
         /// <summary>
         /// Конструктор.
         /// </summary>
@@ -57,6 +63,7 @@ namespace ObjectOrientedPractics.Model
             {
                 ValueValidator.AssertStringOnLength(value, 200, nameof(Name));
                 _name = value;
+                OnNameChanged();
             }
         }
 
@@ -71,6 +78,7 @@ namespace ObjectOrientedPractics.Model
             {
                 ValueValidator.AssertStringOnLength(value, 1000, nameof(Info));
                 _info = value;
+                OnInfoChanged();
             }
         }
 
@@ -84,8 +92,10 @@ namespace ObjectOrientedPractics.Model
             {
                 ValueValidator.ValidateCost(value);
                 _cost = value;
+                OnCostChanged();
             }
         }
+
 
         /// <summary>
         /// Категория товара
@@ -94,6 +104,27 @@ namespace ObjectOrientedPractics.Model
         {
             get => _category;
             set => _category = value;
+        }
+
+        // Методы для вызова событий
+        protected virtual void OnNameChanged()
+        {
+            NameChanged?.Invoke(this, EventArgs.Empty);
+        }
+
+        protected virtual void OnInfoChanged()
+        {
+            InfoChanged?.Invoke(this, EventArgs.Empty);
+        }
+
+        protected virtual void OnCostChanged()
+        {
+            CostChanged?.Invoke(this, EventArgs.Empty);
+        }
+
+        protected virtual void OnCategoryChanged()
+        {
+            CategoryChanged?.Invoke(this, EventArgs.Empty);
         }
 
 

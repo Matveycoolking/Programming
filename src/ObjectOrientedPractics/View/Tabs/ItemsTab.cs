@@ -16,6 +16,7 @@ namespace ObjectOrientedPractics.View.Tabs
     public partial class ItemsTab : UserControl
     {
         private List<Item> _items = new List<Item>();
+        private Item _currentItem;
         public event EventHandler ItemsChanged;
 
 
@@ -38,14 +39,157 @@ namespace ObjectOrientedPractics.View.Tabs
 
             this.AutoValidate = AutoValidate.Disable;
 
+            // Подписываемся на события изменения текста для автоматического сохранения
+            NametextBox.TextChanged += NameTextBox_TextChanged;
+            DescriptiontextBox.TextChanged += DescriptionTextBox_TextChanged;
+            CosttextBox.TextChanged += CostTextBox_TextChanged;
+            CategorycomboBox1.SelectedIndexChanged += CategoryComboBox_SelectedIndexChanged;
 
-            NametextBox.TextChanged += (s, e) => ValidateNameField();
-            DescriptiontextBox.TextChanged += (s, e) => ValidateDescriptionField();
-            CosttextBox.TextChanged += (s, e) => ValidateCostField();
+            // Подписываемся на события потери фокуса для гарантированного сохранения
+            NametextBox.Leave += TextBox_Leave;
+            DescriptiontextBox.Leave += TextBox_Leave;
+            CosttextBox.Leave += TextBox_Leave;
 
             FindTextBox.TextChanged += FindTextBox_TextChanged;
             OrderComboBox.SelectedIndexChanged += OrderComboBox_SelectedIndexChanged;
         }
+
+        /// <summary>
+        /// Автоматическое сохранение при изменении названия
+        /// </summary>
+        private void NameTextBox_TextChanged(object sender, EventArgs e)
+        {
+            if (_currentItem != null && !string.IsNullOrEmpty(NametextBox.Text))
+            {
+                try
+                {
+                    _currentItem.Name = NametextBox.Text;
+                    OnItemsChanged(); // Уведомляем об изменении
+                }
+                catch (Exception ex)
+                {
+                    // Можно показать сообщение об ошибке или просто не сохранять
+                    Console.WriteLine($"Ошибка сохранения названия: {ex.Message}");
+                }
+            }
+            ValidateNameField();
+        }
+
+        /// <summary>
+        /// Автоматическое сохранение при изменении описания
+        /// </summary>
+        private void DescriptionTextBox_TextChanged(object sender, EventArgs e)
+        {
+            if (_currentItem != null)
+            {
+                try
+                {
+                    _currentItem.Info = DescriptiontextBox.Text;
+                    OnItemsChanged(); // Уведомляем об изменении
+                }
+                catch (Exception ex)
+                {
+                    Console.WriteLine($"Ошибка сохранения описания: {ex.Message}");
+                }
+            }
+            ValidateDescriptionField();
+        }
+
+        /// <summary>
+        /// Автоматическое сохранение при изменении цены
+        /// </summary>
+        private void CostTextBox_TextChanged(object sender, EventArgs e)
+        {
+            if (_currentItem != null && !string.IsNullOrEmpty(CosttextBox.Text))
+            {
+                try
+                {
+                    if (double.TryParse(CosttextBox.Text, out double cost))
+                    {
+                        _currentItem.Cost = cost;
+                        OnItemsChanged(); // Уведомляем об изменении
+                    }
+                }
+                catch (Exception ex)
+                {
+                    Console.WriteLine($"Ошибка сохранения цены: {ex.Message}");
+                }
+            }
+            ValidateCostField();
+        }
+
+        /// <summary>
+        /// Автоматическое сохранение при изменении категории
+        /// </summary>
+        private void CategoryComboBox_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            if (_currentItem != null && CategorycomboBox1.SelectedItem is Category category)
+            {
+                try
+                {
+                    _currentItem.Category = category;
+                    OnItemsChanged(); // Уведомляем об изменении
+                }
+                catch (Exception ex)
+                {
+                    Console.WriteLine($"Ошибка сохранения категории: {ex.Message}");
+                }
+            }
+        }
+
+        /// <summary>
+        /// Гарантированное сохранение при уходе с поля ввода
+        /// </summary>
+        private void TextBox_Leave(object sender, EventArgs e)
+        {
+            // Принудительно сохраняем изменения при потере фокуса
+            if (_currentItem != null)
+            {
+                SaveCurrentItem();
+            }
+        }
+
+        /// <summary>
+        /// Сохраняет текущий товар
+        /// </summary>
+        private void SaveCurrentItem()
+        {
+            if (_currentItem == null) return;
+
+            try
+            {
+                // Сохраняем название
+                if (!string.IsNullOrEmpty(NametextBox.Text))
+                {
+                    _currentItem.Name = NametextBox.Text;
+                }
+
+                // Сохраняем описание
+                _currentItem.Info = DescriptiontextBox.Text;
+
+                // Сохраняем цену
+                if (!string.IsNullOrEmpty(CosttextBox.Text) && 
+                    double.TryParse(CosttextBox.Text, out double cost))
+                {
+                    _currentItem.Cost = cost;
+                }
+
+                // Сохраняем категорию
+                if (CategorycomboBox1.SelectedItem is Category category)
+                {
+                    _currentItem.Category = category;
+                }
+
+                OnItemsChanged(); // Уведомляем об изменении
+                ApplySearchAndSort(); // Обновляем отображение
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show($"Ошибка сохранения: {ex.Message}", "Ошибка",
+                    MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+        }
+
 
         /// <summary>
         /// Инициализация ComboBox способов сортировки
@@ -223,6 +367,11 @@ namespace ObjectOrientedPractics.View.Tabs
         /// </summary>
         private void ClearFields()
         {
+            // Временно отписываемся от событий чтобы не вызывать сохранение
+            NametextBox.TextChanged -= NameTextBox_TextChanged;
+            DescriptiontextBox.TextChanged -= DescriptionTextBox_TextChanged;
+            CosttextBox.TextChanged -= CostTextBox_TextChanged;
+
             IdtextBox.Text = string.Empty;
             NametextBox.Text = string.Empty;
             DescriptiontextBox.Text = string.Empty;
@@ -233,6 +382,11 @@ namespace ObjectOrientedPractics.View.Tabs
             NametextBox.BackColor = Color.White;
             DescriptiontextBox.BackColor = Color.White;
             CosttextBox.BackColor = Color.White;
+
+            // Снова подписываемся на события
+            NametextBox.TextChanged += NameTextBox_TextChanged;
+            DescriptiontextBox.TextChanged += DescriptionTextBox_TextChanged;
+            CosttextBox.TextChanged += CostTextBox_TextChanged;
         }
 
         /// <summary>
@@ -240,26 +394,56 @@ namespace ObjectOrientedPractics.View.Tabs
         /// </summary>
         private void UpdateListBox(List<Item> itemsToDisplay)
         {
-            // Сохраняем текущее выделение
-            var selectedItem = ItemsListBox.SelectedItem;
+            // Сохраняем текущий элемент до обновления
+            Item currentSelectedItem = ItemsListBox.SelectedItem as Item;
 
-            ItemsListBox.Items.Clear();
+            // Временно отключаем события выбора
+            ItemsListBox.SelectedIndexChanged -= ItemsListBox_SelectedIndexChanged;
 
-            if (itemsToDisplay != null)
+            try
             {
-                foreach (var item in itemsToDisplay)
-                {
-                    ItemsListBox.Items.Add(item);
-                }
-                ItemsListBox.DisplayMember = "Name";
-                ItemsListBox.ValueMember = "Id";
+                ItemsListBox.BeginUpdate();
+                ItemsListBox.Items.Clear();
 
-                // Пытаемся восстановить выделение, если элемент все еще в списке
-                if (selectedItem != null && ItemsListBox.Items.Contains(selectedItem))
+                if (itemsToDisplay != null)
                 {
-                    ItemsListBox.SelectedItem = selectedItem;
+                    foreach (var item in itemsToDisplay)
+                    {
+                        ItemsListBox.Items.Add(item);
+                    }
+
+                    // Устанавливаем DisplayMember после заполнения
+                    ItemsListBox.DisplayMember = null; // Сначала сбрасываем
+                    ItemsListBox.DisplayMember = "Name";
+
+                    // Восстанавливаем выделение
+                    if (currentSelectedItem != null)
+                    {
+                        // Ищем элемент с таким же ID в новом списке
+                        var itemToSelect = itemsToDisplay.FirstOrDefault(item =>
+                            item.Id == currentSelectedItem.Id);
+
+                        if (itemToSelect != null)
+                        {
+                            ItemsListBox.SelectedItem = itemToSelect;
+                        }
+                    }
                 }
             }
+            finally
+            {
+                ItemsListBox.EndUpdate();
+                // Снова включаем события выбора
+                ItemsListBox.SelectedIndexChanged += ItemsListBox_SelectedIndexChanged;
+            }
+        }
+
+        /// <summary>
+        /// Вызывает событие ItemsChanged
+        /// </summary>
+        private void OnItemsChanged()
+        {
+            ItemsChanged?.Invoke(this, EventArgs.Empty);
         }
 
         /// <summary>
@@ -269,14 +453,31 @@ namespace ObjectOrientedPractics.View.Tabs
         /// <param name="e"></param>
         private void ItemsListBox_SelectedIndexChanged(object sender, EventArgs e)
         {
+            // Сохраняем предыдущий элемент перед переключением
+            if (_currentItem != null)
+            {
+                SaveCurrentItem();
+            }
+
             if (ItemsListBox.SelectedItem is Item selectedItem)
             {
+                _currentItem = selectedItem;
+
+                // Временно отписываемся чтобы не вызывать сохранение при загрузке данных
+                NametextBox.TextChanged -= NameTextBox_TextChanged;
+                DescriptiontextBox.TextChanged -= DescriptionTextBox_TextChanged;
+                CosttextBox.TextChanged -= CostTextBox_TextChanged;
+
                 IdtextBox.Text = selectedItem.Id.ToString();
                 NametextBox.Text = selectedItem.Name;
                 DescriptiontextBox.Text = selectedItem.Info;
                 CosttextBox.Text = selectedItem.Cost.ToString("F2");
                 CategorycomboBox1.SelectedItem = selectedItem.Category;
 
+                // Снова подписываемся
+                NametextBox.TextChanged += NameTextBox_TextChanged;
+                DescriptiontextBox.TextChanged += DescriptionTextBox_TextChanged;
+                CosttextBox.TextChanged += CostTextBox_TextChanged;
 
                 NametextBox.BackColor = Color.White;
                 DescriptiontextBox.BackColor = Color.White;
@@ -315,7 +516,7 @@ namespace ObjectOrientedPractics.View.Tabs
 
                 ApplySearchAndSort(); 
                 ClearFields();
-                ItemsChanged?.Invoke(this, EventArgs.Empty);
+                OnItemsChanged();
                 MessageBox.Show("Товар добавлен!", "Успех",
                     MessageBoxButtons.OK, MessageBoxIcon.Information);
             }
@@ -338,7 +539,7 @@ namespace ObjectOrientedPractics.View.Tabs
 
                 ApplySearchAndSort();
                 ClearFields();
-                ItemsChanged?.Invoke(this, EventArgs.Empty);
+                OnItemsChanged();
                 MessageBox.Show("Товар удален!", "Успех",
                     MessageBoxButtons.OK, MessageBoxIcon.Information);
             }

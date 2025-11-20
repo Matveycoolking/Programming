@@ -24,6 +24,9 @@ namespace ObjectOrientedPractics.Model
         private string _building;
         private string _apartment;
 
+        // Общее событие для изменений любого свойства
+        public event EventHandler<EventArgs> AddressChanged;
+
         /// <summary>
         /// Конструктор по умолчанию. Инициализирует поля значениями по умолчанию.
         /// </summary>
@@ -70,6 +73,7 @@ namespace ObjectOrientedPractics.Model
                     throw new ArgumentException("Индекс должен быть шестизначным числом.");
                 }
                 _index = value;
+                OnAddressChanged();
             }
         }
 
@@ -91,6 +95,7 @@ namespace ObjectOrientedPractics.Model
                     throw new ArgumentException("Название страны не должно превышать 50 символов.");
                 }
                 _country = value;
+                OnAddressChanged();
             }
         }
 
@@ -112,6 +117,7 @@ namespace ObjectOrientedPractics.Model
                     throw new ArgumentException("Название города не должно превышать 50 символов.");
                 }
                 _city = value;
+                OnAddressChanged();
             }
         }
 
@@ -133,6 +139,7 @@ namespace ObjectOrientedPractics.Model
                     throw new ArgumentException("Название улицы не должно превышать 100 символов.");
                 }
                 _street = value;
+                OnAddressChanged();
             }
         }
 
@@ -154,6 +161,7 @@ namespace ObjectOrientedPractics.Model
                     throw new ArgumentException("Номер дома не должен превышать 10 символов.");
                 }
                 _building = value;
+                OnAddressChanged();
             }
         }
 
@@ -175,8 +183,18 @@ namespace ObjectOrientedPractics.Model
                     throw new ArgumentException("Номер квартиры не должен превышать 10 символов.");
                 }
                 _apartment = value;
+                OnAddressChanged();
             }
         }
+
+        /// <summary>
+        /// Метод для вызова события AddressChanged.
+        /// </summary>
+        protected virtual void OnAddressChanged()
+        {
+            AddressChanged?.Invoke(this, EventArgs.Empty);
+        }
+
         /// <summary>
         /// Создаёт копию класса Address.
         /// </summary>
