@@ -61,8 +61,6 @@ namespace ObjectOrientedPractics.Services
             return sorter(items);
         }
 
-        // === МЕТОДЫ СОРТИРОВКИ ===
-
         /// <summary>
         /// Сортировка товаров по имени (алфавитный порядок).
         /// </summary>
