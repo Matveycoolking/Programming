@@ -59,9 +59,6 @@ namespace ObjectOrientedPractics
             // При изменении товаров обновляем все вкладки, которые зависят от списка товаров
             cartsTab1.RefreshData();
             ordersTab1.RefreshData();
-
-            // Если есть другие вкладки, зависящие от товаров, добавляем их здесь
-            // priorityOrdersTab.RefreshData();
         }
 
         private void TabControl1_SelectedIndexChanged(object sender, EventArgs e)
