@@ -5,8 +5,141 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:View"
         mc:Ignorable="d"
-        Title="MainWindow" Height="450" Width="800">
-    <Grid>
+        Title="Contacts" 
+        Height="450" 
+        Width="800"
+        WindowStartupLocation="CenterScreen">
 
+    <!-- Главный контейнер с отступами 15px со всех сторон -->
+    <Grid Margin="15">
+        <Grid.RowDefinitions>
+            <!-- Строка для заголовка -->
+            <RowDefinition Height="Auto"/>
+            <!-- Строка для двух колонок -->
+            <RowDefinition Height="*"/>
+            <!-- Строка для кнопок -->
+            <RowDefinition Height="Auto"/>
+        </Grid.RowDefinitions>
+
+        <!-- Заголовок окна -->
+        <TextBlock Text="Contacts" 
+                   FontSize="20" 
+                   FontWeight="Bold" 
+                   Margin="0,0,0,10"
+                   Grid.Row="0"/>
+
+        <!-- Основная область с двумя колонками -->
+        <Grid Grid.Row="1">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="10"/>
+                <ColumnDefinition Width="*"/>
+            </Grid.ColumnDefinitions>
+
+            <!-- ЛЕВАЯ КОЛОНКА - Edit Contact (с TextBox для ввода) -->
+            <Border BorderBrush="Gray" 
+                    BorderThickness="1" 
+                    Padding="10"
+                    Grid.Column="0">
+                <StackPanel>
+                    <!-- Заголовок Edit Contact -->
+                    <TextBlock Text="Edit Contact" 
+                               FontSize="16" 
+                               FontWeight="SemiBold" 
+                               Margin="0,0,0,10"/>
+
+                    <!-- Поле Name -->
+                    <TextBlock Text="Name:" Margin="0,0,0,3"/>
+                    <TextBox Margin="0,0,0,10" Height="25"/>
+
+                    <!-- Поле Phone Number -->
+                    <TextBlock Text="Phone Number:" Margin="0,0,0,3"/>
+                    <TextBox Margin="0,0,0,10" Height="25"/>
+
+                    <!-- Поле Email -->
+                    <TextBlock Text="Email:" Margin="0,0,0,3"/>
+                    <TextBox Margin="0,0,0,0" Height="25"/>
+                </StackPanel>
+            </Border>
+
+            <!-- Разделитель между колонками (пустое пространство шириной 10px) -->
+            <Grid Grid.Column="1"/>
+
+            <!-- ПРАВАЯ КОЛОНКА - Read Contact (с TextBlock для отображения) -->
+            <Border BorderBrush="Gray" 
+                    BorderThickness="1" 
+                    Padding="10"
+                    Grid.Column="2">
+                <StackPanel>
+                    <!-- Заголовок Read Contact -->
+                    <TextBlock Text="Read Contact" 
+                               FontSize="16" 
+                               FontWeight="SemiBold" 
+                               Margin="0,0,0,10"/>
+
+                    <!-- Поле Name (текст для отображения) -->
+                    <TextBlock Text="Name:" Margin="0,0,0,3"/>
+                    <Border BorderBrush="LightGray" 
+                            BorderThickness="1" 
+                            Margin="0,0,0,10"
+                            Height="25"
+                            Padding="5,2">
+                        <TextBlock Text="Смирнов Юрий" 
+                                   VerticalAlignment="Center" FontWeight="Bold"/>
+                    </Border>
+
+                    <!-- Поле Phone Number (текст для отображения) -->
+                    <TextBlock Text="Phone Number:" Margin="0,0,0,3"/>
+                    <Border BorderBrush="LightGray" 
+                            BorderThickness="1" 
+                            Margin="0,0,0,10"
+                            Height="25"
+                            Padding="5,2">
+                        <TextBlock Text="+7-913-111-22-33" 
+                                   VerticalAlignment="Center" FontWeight="Bold"/>
+                    </Border>
+
+                    <!-- Поле Email (текст для отображения) -->
+                    <TextBlock Text="Email:" Margin="0,0,0,3"/>
+                    <Border BorderBrush="LightGray" 
+                            BorderThickness="1" 
+                            Margin="0,0,0,0"
+                            Height="25"
+                            Padding="5,2">
+                        <TextBlock Text="yuri.smirnov@no.mail" 
+                                   VerticalAlignment="Center" FontWeight="Bold"/>
+                    </Border>
+                </StackPanel>
+            </Border>
+        </Grid>
+
+        <!-- Панель с кнопками внизу - расположены под правой колонкой -->
+        <Grid Grid.Row="2" Margin="0,15,0,0">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="10"/>
+                <ColumnDefinition Width="*"/>
+            </Grid.ColumnDefinitions>
+
+            <!-- Пустая левая часть -->
+            <Grid Grid.Column="0"/>
+
+            <!-- Разделитель -->
+            <Grid Grid.Column="1"/>
+
+            <!-- Правая часть с кнопками -->
+            <StackPanel Grid.Column="2" 
+                        Orientation="Horizontal" 
+                        HorizontalAlignment="Right">
+                <Button Content="Save" 
+                        Width="75" 
+                        Height="25" 
+                        Margin="3,0,3,0"/>
+                <Button Content="Load" 
+                        Width="75" 
+                        Height="25" 
+                        Margin="3,0,0,0"/>
+            </StackPanel>
+        </Grid>
     </Grid>
 </Window>
