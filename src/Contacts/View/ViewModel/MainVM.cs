@@ -1,20 +1,24 @@
 ﻿using System;
-using System.ComponentModel;
-using System.Runtime.CompilerServices;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.Linq;
+using System.Runtime.CompilerServices;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows.Input;
 using View.Model;
 
 namespace View.ViewModel
 {
         public class MainVM : INotifyPropertyChanged
         {
-            /// <summary>
-            /// Модель контакта, где хранятся все данные
-            /// </summary>
-            private Contact _contact;
+        public ICommand SaveCommand { get; }
+        public ICommand LoadCommand { get; }
+
+        /// <summary>
+        /// Модель контакта, где хранятся все данные
+        /// </summary>
+        private Contact _contact;
 
             /// <summary>
             /// Конструктор по умолчанию
@@ -23,7 +27,10 @@ namespace View.ViewModel
             {
             // Создаем контакт с данными по умолчанию (как на макете)
             _contact = new Contact("Смирнов Юрий", "+79234065501", "yuri.smirnov@inbox.ru");
-         
+
+            // Инициализация команд
+            SaveCommand = new SaveCommand(this);
+            LoadCommand = new LoadCommand(this);
             }
 
             /// <summary>

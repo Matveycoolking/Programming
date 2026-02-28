@@ -1,5 +1,6 @@
 ﻿using System.Text;
 using System.Windows;
+using View.ViewModel;
 using System.Windows.Controls;
 using System.Windows.Data;
 using System.Windows.Documents;
@@ -19,6 +20,7 @@ namespace View
         public MainWindow()
         {
             InitializeComponent();
+            DataContext = new MainVM();
         }
     }
 }

@@ -8,56 +8,19 @@ namespace View.Model
 {
     public class Contact
     {
-        private string _name;
-        private string _email;
-        private string _phoneNumber;
+        /// <summary>
+        /// автосвойства для удобства.
+        /// </summary>
+        public string Name { get; set; }
+        public string Email { get; set; }
+        public string PhoneNumber { get; set; }
 
-        public string Name
-        {
-            get
-            {
-                return _name;
-            }
-            set
-            {
-                if(string.IsNullOrWhiteSpace(value))
-                {
-                    throw new Exception("Имя не может быть пустым");
-                }
-                _name = value;
-            }
-        }
-        public string Email
-        {
-            get
-            {
-                return _email;
-            }
-            set
-            {
-                if (string.IsNullOrWhiteSpace(value))
-                {
-                    throw new Exception("Некорректный email");
-                }
-                _email = value;
-            }
-        }
-        public string PhoneNumber
-        {
-            get
-            {
-                return _phoneNumber;
-            }
-            set
-            {
-                if(string.IsNullOrWhiteSpace(value))
-                {
-                    throw new Exception("Некорректный номер телефона");
-                }
-                _phoneNumber = value;
-            }
-        }
-
+        /// <summary>
+        /// констурктор с параметрами.
+        /// </summary>
+        /// <param name="name"></param>
+        /// <param name="email"></param>
+        /// <param name="phoneNumber"></param>
         public Contact(string name, string email, string phoneNumber)
         {
             Name = name;
@@ -65,6 +28,10 @@ namespace View.Model
             PhoneNumber = phoneNumber;
         }
 
+
+        /// <summary>
+        /// конструктор по умолчанию.
+        /// </summary>
         public Contact()
         {
             Name = string.Empty;
