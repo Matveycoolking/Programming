@@ -25,10 +25,8 @@ namespace View.ViewModel
             /// </summary>
             public MainVM() 
             {
-            // Создаем контакт с данными по умолчанию (как на макете)
-            _contact = new Contact("Смирнов Юрий", "+79234065501", "yuri.smirnov@inbox.ru");
+           _contact = new Contact("Смирнов Юрий", "+79234065501", "yuri.smirnov@inbox.ru");
 
-            // Инициализация команд
             SaveCommand = new SaveCommand(this);
             LoadCommand = new LoadCommand(this);
             }

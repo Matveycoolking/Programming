@@ -31,7 +31,7 @@ namespace View.ViewModel
         /// </summary>
         public bool CanExecute(object parameter)
         {
-            return true; // Всегда можно сохранить
+            return true;
         }
 
         /// <summary>
@@ -39,7 +39,6 @@ namespace View.ViewModel
         /// </summary>
         public void Execute(object parameter)
         {
-            // Создаем контакт из текущих данных ViewModel
             Contact contactToSave = new Contact
             {
                 Name = _mainVM.Name,
@@ -47,10 +46,8 @@ namespace View.ViewModel
                 Email = _mainVM.Email
             };
 
-            // Сохраняем контакт через сериализатор
             bool result = ContactSerializer.SaveContact(contactToSave);
 
-            // Здесь можно добавить уведомление об успехе/ошибке
             if (result)
             {
                 System.Windows.MessageBox.Show("Контакт успешно сохранен!",

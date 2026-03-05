@@ -31,7 +31,7 @@ namespace View.ViewModel
         /// </summary>
         public bool CanExecute(object parameter)
         {
-            return true; // Всегда можно попытаться загрузить
+            return true;
         }
 
         /// <summary>
@@ -39,10 +39,8 @@ namespace View.ViewModel
         /// </summary>
         public void Execute(object parameter)
         {
-            // Загружаем контакт через сериализатор
             Contact loadedContact = ContactSerializer.LoadContact();
 
-            // Обновляем данные в ViewModel
             _mainVM.Name = loadedContact.Name;
             _mainVM.PhoneNumber = loadedContact.PhoneNumber;
             _mainVM.Email = loadedContact.Email;

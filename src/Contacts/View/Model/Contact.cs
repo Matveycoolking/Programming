@@ -9,7 +9,7 @@ namespace View.Model
     public class Contact
     {
         /// <summary>
-        /// автосвойства для удобства.
+        /// Автосвойства для удобства.
         /// </summary>
         public string Name { get; set; }
         public string Email { get; set; }
@@ -18,9 +18,9 @@ namespace View.Model
         /// <summary>
         /// констурктор с параметрами.
         /// </summary>
-        /// <param name="name"></param>
-        /// <param name="email"></param>
-        /// <param name="phoneNumber"></param>
+        /// <param name="name">Имя.</param>
+        /// <param name="email">Почта.</param>
+        /// <param name="phoneNumber">Телефонный номер.</param>
         public Contact(string name, string email, string phoneNumber)
         {
             Name = name;
