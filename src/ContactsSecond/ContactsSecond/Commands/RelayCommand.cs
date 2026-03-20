@@ -38,7 +38,7 @@ namespace View.Commands
             }
 
             /// <summary>
-            /// Проверка возможности выполнения команды
+            /// Проверка возможности выполнения команды.
             /// </summary>
             public bool CanExecute(object? parameter)
             {
@@ -46,7 +46,7 @@ namespace View.Commands
             }
 
             /// <summary>
-            /// Выполнение команды
+            /// Выполнение команды.
             /// </summary>
             public void Execute(object? parameter)
             {

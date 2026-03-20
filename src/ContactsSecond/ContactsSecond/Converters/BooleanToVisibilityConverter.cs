@@ -11,10 +11,18 @@ namespace View.Converters
 {
     /// <summary>
     /// Конвертер Boolean в Visibility
-    /// true -> Visible, false -> Collapsed
+    /// true = Visible, false = Collapsed
     /// </summary>
     public class BooleanToVisibilityConverter : IValueConverter
     {
+        /// <summary>
+        /// Конвертор в невидимость кнопки.
+        /// </summary>
+        /// <param name="value"></param>
+        /// <param name="targetType"></param>
+        /// <param name="parameter"></param>
+        /// <param name="culture"></param>
+        /// <returns></returns>
         public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
         {
             if (value is bool boolValue)
@@ -24,6 +32,14 @@ namespace View.Converters
             return Visibility.Collapsed;
         }
 
+        /// <summary>
+        /// Конвертор в видимость кнопки.
+        /// </summary>
+        /// <param name="value"></param>
+        /// <param name="targetType"></param>
+        /// <param name="parameter"></param>
+        /// <param name="culture"></param>
+        /// <returns></returns>
         public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture)
         {
             if (value is Visibility visibility)

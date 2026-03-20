@@ -216,7 +216,7 @@ namespace View.ViewModel
             }
         }
 
-        // Свойства для привязки данных (прокси к выбранному контакту)
+        // Свойства для привязки данных
         public string Name
         {
             get { return SelectedContact?.Name ?? string.Empty; }
@@ -284,7 +284,9 @@ namespace View.ViewModel
                 }
             }
         }
-
+        /// <summary>
+        /// Свойства состояния.
+        /// </summary>
         public bool IsInEditMode
         {
             get { return _isInEditMode; }
@@ -350,12 +352,20 @@ namespace View.ViewModel
             }
         }
 
-        // Реализация команд
+        /// <summary>
+        /// реализация комманд.
+        /// </summary>
+        /// <param name="parameter"></param>
+        /// <returns></returns>
         private bool CanExecuteAdd(object? parameter)
         {
             return IsAddEnabled;
         }
 
+        /// <summary>
+        /// реализаиця комманд.
+        /// </summary>
+        /// <param name="parameter"></param>
         private void ExecuteAdd(object? parameter)
         {
             // Создаем временный контакт
@@ -374,11 +384,20 @@ namespace View.ViewModel
             IsInAddMode = true;
         }
 
+        /// <summary>
+        /// реализация комманд.
+        /// </summary>
+        /// <param name="parameter"></param>
+        /// <returns></returns>
         private bool CanExecuteEdit(object? parameter)
         {
             return IsEditAndRemoveEnabled;
         }
-
+        
+        /// <summary>
+        /// реализация комманд.
+        /// </summary>
+        /// <param name="parameter"></param>
         private void ExecuteEdit(object? parameter)
         {
             if (_selectedContact != null)
