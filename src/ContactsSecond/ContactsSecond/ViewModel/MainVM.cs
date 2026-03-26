@@ -1,5 +1,6 @@
-﻿// View/ViewModel/MainVM.cs
-using System;
+﻿using System;
+using System.Collections;
+using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Linq;
@@ -14,7 +15,7 @@ namespace View.ViewModel
     /// <summary>
     /// Главная ViewModel приложения
     /// </summary>
-    public class MainVM : INotifyPropertyChanged
+    public class MainVM : INotifyPropertyChanged, INotifyDataErrorInfo
     {
         /// <summary>
         /// Коллекция контактов
@@ -62,6 +63,11 @@ namespace View.ViewModel
         private bool _isUpdating;
 
         /// <summary>
+        /// Словарь ошибок валидации
+        /// </summary>
+        private readonly Dictionary<string, List<string>> _errors = new();
+
+        /// <summary>
         /// Конструктор по умолчанию
         /// </summary>
         public MainVM()
@@ -72,12 +78,6 @@ namespace View.ViewModel
 
             // Загрузка данных из файла
             LoadData();
-
-            // Если данных нет (первый запуск), загружаем тестовые данные
-            if (_contacts.Count == 0)
-            {
-                LoadTestData();
-            }
 
             // Инициализация команд
             AddCommand = new RelayCommand(ExecuteAdd, CanExecuteAdd);
@@ -95,7 +95,7 @@ namespace View.ViewModel
         private void LoadData()
         {
             var loadedContacts = ContactSerializer.Load();
-            if (loadedContacts.Any())
+            if (loadedContacts.Count > 0)  
             {
                 _contacts = loadedContacts;
             }
@@ -107,28 +107,6 @@ namespace View.ViewModel
         public void SaveData()
         {
             ContactSerializer.Save(_contacts);
-        }
-
-        /// <summary>
-        /// Загрузка тестовых данных (только если нет сохраненных)
-        /// </summary>
-        private void LoadTestData()
-        {
-            var testContacts = new[]
-            {
-                new Contact("Абельцев Сергей", "abeltsev@mail.com", "+7 (901) 234-56-78"),
-                new Contact("Абраменков Дмитрий", "abramenkov@mail.com", "+7 (902) 345-67-89"),
-                new Contact("Аверчев Владимир", "averchev@mail.com", "+7 (903) 456-78-90"),
-                new Contact("Алфёров Жорес", "alferov@mail.com", "+7 (904) 567-89-01"),
-                new Contact("Бабичев Игорь", "babichev@mail.com", "+7 (905) 678-90-12"),
-                new Contact("Багаутдинов Габдуллахит", "bagautdinov@mail.com", "+7 (906) 789-01-23"),
-                new Contact("Безбородов Николай", "nikolai.bezborodov@no.mail", "+7 (999) 111-22-33")
-            };
-
-            foreach (var contact in testContacts)
-            {
-                _contacts.Add(contact);
-            }
         }
 
         /// <summary>
@@ -216,7 +194,7 @@ namespace View.ViewModel
             }
         }
 
-        // Свойства для привязки данных
+        // Свойства для привязки данных с валидацией
         public string Name
         {
             get { return SelectedContact?.Name ?? string.Empty; }
@@ -226,8 +204,9 @@ namespace View.ViewModel
                 {
                     SelectedContact.Name = value;
                     OnPropertyChanged();
+                    ValidateName(value);
 
-                    // Обновляем отображение в списке, но без вызова дополнительных событий
+                    // Обновляем отображение в списке
                     if (!_isUpdating)
                     {
                         _isUpdating = true;
@@ -247,6 +226,7 @@ namespace View.ViewModel
                 {
                     SelectedContact.Email = value;
                     OnPropertyChanged();
+                    ValidateEmail(value);
                 }
             }
         }
@@ -260,6 +240,7 @@ namespace View.ViewModel
                 {
                     SelectedContact.PhoneNumber = value;
                     OnPropertyChanged();
+                    ValidatePhoneNumber(value);
                 }
             }
         }
@@ -284,9 +265,7 @@ namespace View.ViewModel
                 }
             }
         }
-        /// <summary>
-        /// Свойства состояния.
-        /// </summary>
+
         public bool IsInEditMode
         {
             get { return _isInEditMode; }
@@ -320,12 +299,197 @@ namespace View.ViewModel
         public ICommand RemoveCommand { get; }
         public ICommand ApplyCommand { get; }
 
+        #region Валидация
+
+        /// <summary>
+        /// Проверка имени
+        /// </summary>
+        private void ValidateName(string? name)
+        {
+            var errors = new List<string>();
+
+            if (string.IsNullOrWhiteSpace(name))
+            {
+                errors.Add("Name cannot be empty");
+            }
+            else if (name.Length > 100)
+            {
+                errors.Add("Name must be less than 100 characters");
+            }
+
+            UpdateErrors(nameof(Name), errors);
+        }
+
+        /// <summary>
+        /// Проверка номера телефона
+        /// </summary>
+        private void ValidatePhoneNumber(string? phone)
+        {
+            var errors = new List<string>();
+
+            if (string.IsNullOrWhiteSpace(phone))
+            {
+                errors.Add("Phone number cannot be empty");
+            }
+            else if (phone.Length > 100)
+            {
+                errors.Add("Phone number must be less than 100 characters");
+            }
+            else if (!IsValidPhoneNumber(phone))
+            {
+                errors.Add("Phone number can only contain digits and + - ( ) characters. Example: +7 (999) 111-22-33");
+            }
+
+            UpdateErrors(nameof(PhoneNumber), errors);
+        }
+
+        /// <summary>
+        /// Проверка email
+        /// </summary>
+        private void ValidateEmail(string? email)
+        {
+            var errors = new List<string>();
+
+            if (string.IsNullOrWhiteSpace(email))
+            {
+                errors.Add("Email cannot be empty");
+            }
+            else if (email.Length > 100)
+            {
+                errors.Add("Email must be less than 100 characters");
+            }
+            else if (!email.Contains('@'))
+            {
+                errors.Add("Email must contain @ symbol");
+            }
+
+            UpdateErrors(nameof(Email), errors);
+        }
+
+        /// <summary>
+        /// Проверка корректности формата телефона
+        /// </summary>
+        private bool IsValidPhoneNumber(string phone)
+        {
+            foreach (char c in phone)
+            {
+                if (!char.IsDigit(c) && c != '+' && c != '-' && c != '(' && c != ')' && c != ' ')
+                {
+                    return false;
+                }
+            }
+            return true;
+        }
+
+        /// <summary>
+        /// Обновление ошибок для свойства
+        /// </summary>
+        private void UpdateErrors(string propertyName, List<string> errors)
+        {
+            bool hasErrors = errors.Count > 0;
+            bool hadErrors = _errors.ContainsKey(propertyName);
+
+            if (hasErrors)
+            {
+                _errors[propertyName] = errors;
+            }
+            else if (hadErrors)
+            {
+                _errors.Remove(propertyName);
+            }
+
+            if (hasErrors != hadErrors)
+            {
+                ErrorsChanged?.Invoke(this, new DataErrorsChangedEventArgs(propertyName));
+            }
+
+            OnPropertyChanged(nameof(HasErrors));
+            OnPropertyChanged(nameof(IsValid));
+
+            // Обновляем состояние команды Apply
+            CommandManager.InvalidateRequerySuggested();
+        }
+
+        /// <summary>
+        /// Проверка валидности всех полей текущего контакта
+        /// </summary>
+        public bool IsValid
+        {
+            get
+            {
+                if (_isInAddMode && _tempContact != null)
+                {
+                    return IsContactValid(_tempContact);
+                }
+                if (_isInEditMode && _selectedContact != null)
+                {
+                    return IsContactValid(_selectedContact);
+                }
+                return true;
+            }
+        }
+
+        /// <summary>
+        /// Проверка валидности конкретного контакта
+        /// </summary>
+        private bool IsContactValid(Contact contact)
+        {
+            // Временная очистка ошибок для проверки
+            var tempErrors = new Dictionary<string, List<string>>();
+
+            // Проверяем имя
+            var nameErrors = new List<string>();
+            if (string.IsNullOrWhiteSpace(contact.Name))
+                nameErrors.Add("Name cannot be empty");
+            else if (contact.Name.Length > 100)
+                nameErrors.Add("Name must be less than 100 characters");
+            if (nameErrors.Count > 0) tempErrors[nameof(Name)] = nameErrors;
+
+            // Проверяем телефон
+            var phoneErrors = new List<string>();
+            if (string.IsNullOrWhiteSpace(contact.PhoneNumber))
+                phoneErrors.Add("Phone number cannot be empty");
+            else if (contact.PhoneNumber.Length > 100)
+                phoneErrors.Add("Phone number must be less than 100 characters");
+            else if (!IsValidPhoneNumber(contact.PhoneNumber))
+                phoneErrors.Add("Phone number can only contain digits and + - ( ) characters");
+            if (phoneErrors.Count > 0) tempErrors[nameof(PhoneNumber)] = phoneErrors;
+
+            // Проверяем email
+            var emailErrors = new List<string>();
+            if (string.IsNullOrWhiteSpace(contact.Email))
+                emailErrors.Add("Email cannot be empty");
+            else if (contact.Email.Length > 100)
+                emailErrors.Add("Email must be less than 100 characters");
+            else if (!contact.Email.Contains('@'))
+                emailErrors.Add("Email must contain @ symbol");
+            if (emailErrors.Count > 0) tempErrors[nameof(Email)] = emailErrors;
+
+            return tempErrors.Count == 0;
+        }
+
+        // INotifyDataErrorInfo implementation
+        public bool HasErrors => _errors.Count > 0;
+
+        public event EventHandler<DataErrorsChangedEventArgs>? ErrorsChanged;
+
+        public IEnumerable GetErrors(string? propertyName)
+        {
+            if (string.IsNullOrEmpty(propertyName))
+            {
+                return Array.Empty<string>();
+            }
+
+            return _errors.TryGetValue(propertyName, out var errors) ? errors : Array.Empty<string>();
+        }
+
+        #endregion
+
         /// <summary>
         /// Обновление отфильтрованного списка
         /// </summary>
         private void UpdateFilteredContacts()
         {
-            // Предотвращаем рекурсию
             if (_isUpdating) return;
 
             try
@@ -352,20 +516,11 @@ namespace View.ViewModel
             }
         }
 
-        /// <summary>
-        /// реализация комманд.
-        /// </summary>
-        /// <param name="parameter"></param>
-        /// <returns></returns>
         private bool CanExecuteAdd(object? parameter)
         {
             return IsAddEnabled;
         }
 
-        /// <summary>
-        /// реализаиця комманд.
-        /// </summary>
-        /// <param name="parameter"></param>
         private void ExecuteAdd(object? parameter)
         {
             // Создаем временный контакт
@@ -380,24 +535,19 @@ namespace View.ViewModel
             OnPropertyChanged(nameof(Email));
             OnPropertyChanged(nameof(PhoneNumber));
 
+            // Очищаем ошибки валидации
+            _errors.Clear();
+            ErrorsChanged?.Invoke(this, new DataErrorsChangedEventArgs(null));
+
             // Переходим в режим добавления
             IsInAddMode = true;
         }
 
-        /// <summary>
-        /// реализация комманд.
-        /// </summary>
-        /// <param name="parameter"></param>
-        /// <returns></returns>
         private bool CanExecuteEdit(object? parameter)
         {
             return IsEditAndRemoveEnabled;
         }
-        
-        /// <summary>
-        /// реализация комманд.
-        /// </summary>
-        /// <param name="parameter"></param>
+
         private void ExecuteEdit(object? parameter)
         {
             if (_selectedContact != null)
@@ -409,6 +559,10 @@ namespace View.ViewModel
                     Email = _selectedContact.Email,
                     PhoneNumber = _selectedContact.PhoneNumber
                 };
+
+                // Очищаем ошибки валидации
+                _errors.Clear();
+                ErrorsChanged?.Invoke(this, new DataErrorsChangedEventArgs(null));
 
                 // Переходим в режим редактирования
                 IsInEditMode = true;
@@ -429,7 +583,6 @@ namespace View.ViewModel
 
                 if (_contacts.Count > 0)
                 {
-                    // Выбираем следующий или предыдущий контакт
                     if (currentIndex < _contacts.Count)
                         SelectedContact = _contacts[currentIndex];
                     else
@@ -440,52 +593,50 @@ namespace View.ViewModel
                     SelectedContact = null;
                 }
 
-                // Обновляем фильтр
                 UpdateFilteredContacts();
-
-                // Сохраняем изменения
                 SaveData();
             }
         }
 
         private bool CanExecuteApply(object? parameter)
         {
-            return true;
+            // Apply доступен только если нет ошибок валидации
+            return IsInAddOrEditMode && IsValid;
         }
 
         private void ExecuteApply(object? parameter)
         {
             if (_isInAddMode && _tempContact != null)
             {
-                // Добавляем новый контакт в коллекцию
                 _contacts.Add(_tempContact);
                 _selectedContact = _tempContact;
                 _tempContact = null;
 
                 IsInAddMode = false;
 
-                // Обновляем фильтр
                 UpdateFilteredContacts();
-
-                // Обновляем привязки
                 OnPropertyChanged(nameof(SelectedContact));
                 OnPropertyChanged(nameof(Name));
                 OnPropertyChanged(nameof(Email));
                 OnPropertyChanged(nameof(PhoneNumber));
 
-                // Сохраняем изменения
+                // Очищаем ошибки
+                _errors.Clear();
+                ErrorsChanged?.Invoke(this, new DataErrorsChangedEventArgs(null));
+
                 SaveData();
             }
             else if (_isInEditMode)
             {
-                // Выходим из режима редактирования
                 IsInEditMode = false;
                 _contactBeforeEdit = null;
 
-                // Обновляем фильтр
                 UpdateFilteredContacts();
 
-                // Сохраняем изменения
+                // Очищаем ошибки
+                _errors.Clear();
+                ErrorsChanged?.Invoke(this, new DataErrorsChangedEventArgs(null));
+
                 SaveData();
             }
         }
@@ -497,7 +648,6 @@ namespace View.ViewModel
         {
             if (_isInAddMode)
             {
-                // Просто выходим из режима добавления
                 _tempContact = null;
                 IsInAddMode = false;
                 _selectedContact = null;
@@ -509,22 +659,23 @@ namespace View.ViewModel
             }
             else if (_isInEditMode && _contactBeforeEdit != null && _selectedContact != null)
             {
-                // Восстанавливаем сохраненные данные
                 _selectedContact.Name = _contactBeforeEdit.Name;
                 _selectedContact.Email = _contactBeforeEdit.Email;
                 _selectedContact.PhoneNumber = _contactBeforeEdit.PhoneNumber;
 
-                // Обновляем отображение
                 OnPropertyChanged(nameof(Name));
                 OnPropertyChanged(nameof(Email));
                 OnPropertyChanged(nameof(PhoneNumber));
 
-                // Обновляем фильтр
                 UpdateFilteredContacts();
 
                 IsInEditMode = false;
                 _contactBeforeEdit = null;
             }
+
+            // Очищаем ошибки
+            _errors.Clear();
+            ErrorsChanged?.Invoke(this, new DataErrorsChangedEventArgs(null));
         }
 
         /// <summary>
