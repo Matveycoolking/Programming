@@ -85,7 +85,7 @@ namespace View.ViewModel
             public event PropertyChangedEventHandler PropertyChanged;
 
             /// <summary>
-            /// Метод для вызова события PropertyChanged
+            /// Метод для вызова события PropertyChangedь 
             /// </summary>
             /// <param name="prop">Имя свойства, которое изменилось</param>
             public void OnPropertyChanged([CallerMemberName] string prop = "")
