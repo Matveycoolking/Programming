@@ -64,7 +64,7 @@
                 <TextBox x:Name="SearchTextBox" 
                          Text="{Binding SearchText, UpdateSourceTrigger=PropertyChanged}"
                          Height="25" 
-                         Padding="5"
+                         Padding="3"
                          BorderBrush="#ccc"
                          BorderThickness="1"
                          Width="224"/>
