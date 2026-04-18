@@ -7,7 +7,6 @@
              d:DesignHeight="450" d:DesignWidth="800">
 
     <UserControl.Resources>
-        <!-- Базовый стиль для TextBox -->
         <Style x:Key="BaseTextBoxStyle" TargetType="TextBox">
             <Setter Property="Margin" Value="0,2,0,15"/>
             <Setter Property="Padding" Value="8,5"/>
@@ -17,27 +16,49 @@
             <Setter Property="VerticalContentAlignment" Value="Center"/>
             <Setter Property="FontSize" Value="12"/>
             <Setter Property="Background" Value="White"/>
+            <Setter Property="FocusVisualStyle" Value="{x:Null}"/>
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="TextBox">
+                        <Border x:Name="border" 
+                                BorderBrush="{TemplateBinding BorderBrush}" 
+                                BorderThickness="{TemplateBinding BorderThickness}" 
+                                Background="{TemplateBinding Background}" 
+                                SnapsToDevicePixels="True">
+                            <ScrollViewer x:Name="PART_ContentHost" 
+                                          Focusable="false" 
+                                          HorizontalScrollBarVisibility="Hidden" 
+                                          VerticalScrollBarVisibility="Hidden"/>
+                        </Border>
+                        <ControlTemplate.Triggers>
+                            <Trigger Property="IsEnabled" Value="False">
+                                <Setter TargetName="border" Property="Background" Value="#F4F4F4"/>
+                                <Setter TargetName="border" Property="BorderBrush" Value="#D0D0D0"/>
+                            </Trigger>
+                        </ControlTemplate.Triggers>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
         </Style>
 
-        <!-- Стиль для TextBox с валидацией -->
         <Style x:Key="ValidatingTextBoxStyle" TargetType="TextBox" BasedOn="{StaticResource BaseTextBoxStyle}">
             <Setter Property="Validation.ErrorTemplate">
                 <Setter.Value>
                     <ControlTemplate>
-                        <DockPanel>
-                            <Border BorderBrush="Red" BorderThickness="2" CornerRadius="2">
-                                <AdornedElementPlaceholder/>
-                            </Border>
-                        </DockPanel>
+                        <AdornedElementPlaceholder/>
                     </ControlTemplate>
                 </Setter.Value>
             </Setter>
             <Style.Triggers>
                 <Trigger Property="Validation.HasError" Value="True">
                     <Setter Property="Background" Value="#FFE6E6"/>
-                    <Setter Property="BorderBrush" Value="Red"/>
                     <Setter Property="BorderThickness" Value="2"/>
                     <Setter Property="ToolTip" Value="{Binding (Validation.Errors)[0].ErrorContent, RelativeSource={RelativeSource Self}}"/>
+                </Trigger>
+                <Trigger Property="Validation.HasError" Value="False">
+                    <Setter Property="Background" Value="White"/>
+                    <Setter Property="BorderBrush" Value="#ccc"/>
+                    <Setter Property="BorderThickness" Value="1"/>
                 </Trigger>
             </Style.Triggers>
         </Style>
@@ -45,15 +66,12 @@
         <Style x:Key="HeaderTextBlockStyle" TargetType="TextBlock">
             <Setter Property="Margin" Value="0,5,0,2"/>
             <Setter Property="FontSize" Value="12"/>
-            <Setter Property="Foreground" Value="#333"/>
             <Setter Property="FontWeight" Value="SemiBold"/>
         </Style>
 
         <Style TargetType="ToolTip">
             <Setter Property="Background" Value="#FFE6E6"/>
-            <Setter Property="BorderBrush" Value="Red"/>
             <Setter Property="BorderThickness" Value="1"/>
-            <Setter Property="Foreground" Value="#CC0000"/>
             <Setter Property="FontSize" Value="11"/>
             <Setter Property="Padding" Value="8,5"/>
         </Style>
@@ -80,7 +98,7 @@
                 Margin="0,0,20,0"
                 VerticalAlignment="Top"
                 Background="#F5F5F5">
-         <Image Source="/Image/pudge.png" Stretch="UniformToFill"/>
+            <Image Source="/Image/pudge.png" Stretch="UniformToFill"/>
         </Border>
 
         <StackPanel Grid.Row="0" Grid.Column="1" 
@@ -95,11 +113,14 @@
                      HorizontalAlignment="Left"/>
 
             <TextBlock Text="Phone Number:" Style="{StaticResource HeaderTextBlockStyle}"/>
-            <TextBox Text="{Binding PhoneNumber, UpdateSourceTrigger=PropertyChanged, ValidatesOnNotifyDataErrors=True}"
+            <TextBox x:Name="PhoneNumberTextBox"
+                     Text="{Binding PhoneNumber, UpdateSourceTrigger=PropertyChanged, ValidatesOnNotifyDataErrors=True}"
                      IsReadOnly="{Binding AreFieldsReadOnly}"
                      Style="{StaticResource ValidatingTextBoxStyle}"
                      Width="350" 
-                     HorizontalAlignment="Left"/>
+                     HorizontalAlignment="Left"
+                     PreviewTextInput="PhoneNumberTextBox_PreviewTextInput"
+                     DataObject.Pasting="PhoneNumberTextBox_Pasting"/>
 
             <TextBlock Text="Email:" Style="{StaticResource HeaderTextBlockStyle}"/>
             <TextBox Text="{Binding Email, UpdateSourceTrigger=PropertyChanged, ValidatesOnNotifyDataErrors=True}"
