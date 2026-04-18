@@ -1,19 +1,34 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using CommunityToolkit.Mvvm.ComponentModel;
 
-namespace View.Model
+namespace Model
 {
-    public class Contact
+    public class Contact : ObservableObject
     {
+        private string _name;
+        private string _email;
+        private string _phoneNumber;
+
         /// <summary>
-        /// Автосвойства для удобства.
+        /// Свойства контакта.
         /// </summary>
-        public string Name { get; set; }
-        public string Email { get; set; }
-        public string PhoneNumber { get; set; }
+        public string Name
+        {
+            get => _name;
+            set => SetProperty(ref _name, value);
+        }
+
+        public string Email
+        {
+            get => _email;
+            set => SetProperty(ref _email, value);
+        }
+
+        public string PhoneNumber
+        {
+            get => _phoneNumber;
+            set => SetProperty(ref _phoneNumber, value);
+        }
 
         /// <summary>
         /// констурктор с параметрами.
@@ -23,9 +38,9 @@ namespace View.Model
         /// <param name="phoneNumber">Телефонный номер.</param>
         public Contact(string name, string email, string phoneNumber)
         {
-            Name = name;
-            Email = email;
-            PhoneNumber = phoneNumber;
+            _name = name;
+            _email = email;
+            _phoneNumber = phoneNumber;
         }
 
 
@@ -34,9 +49,9 @@ namespace View.Model
         /// </summary>
         public Contact()
         {
-            Name = string.Empty;
-            PhoneNumber = string.Empty;
-            Email = string.Empty;
+            _name = string.Empty;
+            _phoneNumber = string.Empty;
+            _email = string.Empty;
         }
 
         /// <summary>

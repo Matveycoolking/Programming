@@ -3,15 +3,14 @@ using System.Collections;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Linq;
-using System.Runtime.CompilerServices;
-using System.Windows.Input;
-using View.Commands;
-using View.Model;
-using View.Model.Services;
+using CommunityToolkit.Mvvm.ComponentModel;
+using CommunityToolkit.Mvvm.Input;
+using Model;
+using Model.Services;
 
-namespace View.ViewModel
+namespace ViewModel
 {
-    public class MainVM : INotifyPropertyChanged, INotifyDataErrorInfo
+    public class MainVM : ObservableObject, INotifyDataErrorInfo
     {
         private ObservableCollection<Contact> _contacts;
         private ObservableCollection<Contact> _filteredContacts;
@@ -93,10 +92,8 @@ namespace View.ViewModel
             get { return _contacts; }
             set
             {
-                if (_contacts != value)
+                if (SetProperty(ref _contacts, value))
                 {
-                    _contacts = value;
-                    OnPropertyChanged();
                     UpdateFilteredContacts();
                 }
             }
@@ -110,11 +107,7 @@ namespace View.ViewModel
             get { return _filteredContacts; }
             private set
             {
-                if (_filteredContacts != value)
-                {
-                    _filteredContacts = value;
-                    OnPropertyChanged();
-                }
+                SetProperty(ref _filteredContacts, value);
             }
         }
 
@@ -136,15 +129,10 @@ namespace View.ViewModel
                     CancelEditing();
                 }
 
-                if (_selectedContact != value)
+                if (SetProperty(ref _selectedContact, value))
                 {
-                    _selectedContact = value;
-                    OnPropertyChanged();
-                    OnPropertyChanged(nameof(Name));
-                    OnPropertyChanged(nameof(Email));
-                    OnPropertyChanged(nameof(PhoneNumber));
-
-                    CommandManager.InvalidateRequerySuggested();
+                    OnSelectedContactChanged();
+                    NotifyCommandsCanExecuteChanged();
                 }
             }
         }
@@ -157,10 +145,8 @@ namespace View.ViewModel
             get { return _searchText; }
             set
             {
-                if (_searchText != value)
+                if (SetProperty(ref _searchText, value ?? string.Empty))
                 {
-                    _searchText = value ?? string.Empty;
-                    OnPropertyChanged();
                     UpdateFilteredContacts();
                 }
             }
@@ -171,10 +157,9 @@ namespace View.ViewModel
             get { return SelectedContact?.Name ?? string.Empty; }
             set
             {
-                if (SelectedContact != null && SelectedContact.Name != value)
+                if (SelectedContact != null
+                    && SetProperty(SelectedContact.Name, value, SelectedContact, static (contact, name) => contact.Name = name))
                 {
-                    SelectedContact.Name = value;
-                    OnPropertyChanged();
                     _currentValidator?.ValidateName();
 
                     if (!_isUpdating)
@@ -184,7 +169,7 @@ namespace View.ViewModel
                         _isUpdating = false;
                     }
 
-                    CommandManager.InvalidateRequerySuggested();
+                    NotifyCommandsCanExecuteChanged();
                     // Уведомляем об изменении ошибок
                     OnErrorsChanged(nameof(Name));
                 }
@@ -196,12 +181,11 @@ namespace View.ViewModel
             get { return SelectedContact?.Email ?? string.Empty; }
             set
             {
-                if (SelectedContact != null && SelectedContact.Email != value)
+                if (SelectedContact != null
+                    && SetProperty(SelectedContact.Email, value, SelectedContact, static (contact, email) => contact.Email = email))
                 {
-                    SelectedContact.Email = value;
-                    OnPropertyChanged();
                     _currentValidator?.ValidateEmail();
-                    CommandManager.InvalidateRequerySuggested();
+                    NotifyCommandsCanExecuteChanged();
                     OnErrorsChanged(nameof(Email));
                 }
             }
@@ -212,12 +196,11 @@ namespace View.ViewModel
             get { return SelectedContact?.PhoneNumber ?? string.Empty; }
             set
             {
-                if (SelectedContact != null && SelectedContact.PhoneNumber != value)
+                if (SelectedContact != null
+                    && SetProperty(SelectedContact.PhoneNumber, value, SelectedContact, static (contact, phoneNumber) => contact.PhoneNumber = phoneNumber))
                 {
-                    SelectedContact.PhoneNumber = value;
-                    OnPropertyChanged();
                     _currentValidator?.ValidatePhoneNumber();
-                    CommandManager.InvalidateRequerySuggested();
+                    NotifyCommandsCanExecuteChanged();
                     OnErrorsChanged(nameof(PhoneNumber));
                 }
             }
@@ -231,16 +214,10 @@ namespace View.ViewModel
             get { return _isInAddMode; }
             private set
             {
-                if (_isInAddMode != value)
+                if (SetProperty(ref _isInAddMode, value))
                 {
-                    _isInAddMode = value;
-                    OnPropertyChanged();
-                    OnPropertyChanged(nameof(IsInAddOrEditMode));
-                    OnPropertyChanged(nameof(IsApplyButtonVisible));
-                    OnPropertyChanged(nameof(IsEditAndRemoveEnabled));
-                    OnPropertyChanged(nameof(IsAddEnabled));
-                    OnPropertyChanged(nameof(AreFieldsReadOnly));
-                    CommandManager.InvalidateRequerySuggested();
+                    OnModeChanged();
+                    NotifyCommandsCanExecuteChanged();
                 }
             }
         }
@@ -253,16 +230,10 @@ namespace View.ViewModel
             get { return _isInEditMode; }
             private set
             {
-                if (_isInEditMode != value)
+                if (SetProperty(ref _isInEditMode, value))
                 {
-                    _isInEditMode = value;
-                    OnPropertyChanged();
-                    OnPropertyChanged(nameof(IsInAddOrEditMode));
-                    OnPropertyChanged(nameof(IsApplyButtonVisible));
-                    OnPropertyChanged(nameof(IsEditAndRemoveEnabled));
-                    OnPropertyChanged(nameof(IsAddEnabled));
-                    OnPropertyChanged(nameof(AreFieldsReadOnly));
-                    CommandManager.InvalidateRequerySuggested();
+                    OnModeChanged();
+                    NotifyCommandsCanExecuteChanged();
                 }
             }
         }
@@ -273,10 +244,10 @@ namespace View.ViewModel
         public bool IsAddEnabled => !IsInAddOrEditMode;
         public bool AreFieldsReadOnly => !IsInAddOrEditMode;
 
-        public ICommand AddCommand { get; }
-        public ICommand EditCommand { get; }
-        public ICommand RemoveCommand { get; }
-        public ICommand ApplyCommand { get; }
+        public IRelayCommand AddCommand { get; }
+        public IRelayCommand EditCommand { get; }
+        public IRelayCommand RemoveCommand { get; }
+        public IRelayCommand ApplyCommand { get; }
 
         #region Валидация 
 
@@ -296,11 +267,36 @@ namespace View.ViewModel
         /// Наличие ошибок.
         /// </summary>
         /// <param name="propertyName"></param>
-        private void OnErrorsChanged(string propertyName)
+        private void OnErrorsChanged(string? propertyName)
         {
             ErrorsChanged?.Invoke(this, new DataErrorsChangedEventArgs(propertyName));
             OnPropertyChanged(nameof(HasErrors));
-            CommandManager.InvalidateRequerySuggested();
+            NotifyCommandsCanExecuteChanged();
+        }
+
+        private void OnSelectedContactChanged()
+        {
+            OnPropertyChanged(nameof(Name));
+            OnPropertyChanged(nameof(Email));
+            OnPropertyChanged(nameof(PhoneNumber));
+            OnPropertyChanged(nameof(IsEditAndRemoveEnabled));
+        }
+
+        private void OnModeChanged()
+        {
+            OnPropertyChanged(nameof(IsInAddOrEditMode));
+            OnPropertyChanged(nameof(IsApplyButtonVisible));
+            OnPropertyChanged(nameof(IsEditAndRemoveEnabled));
+            OnPropertyChanged(nameof(IsAddEnabled));
+            OnPropertyChanged(nameof(AreFieldsReadOnly));
+        }
+
+        private void NotifyCommandsCanExecuteChanged()
+        {
+            AddCommand.NotifyCanExecuteChanged();
+            EditCommand.NotifyCanExecuteChanged();
+            RemoveCommand.NotifyCanExecuteChanged();
+            ApplyCommand.NotifyCanExecuteChanged();
         }
 
         #endregion
@@ -331,13 +327,13 @@ namespace View.ViewModel
         /// </summary>
         /// <param name="parameter"></param>
         /// <returns></returns>
-        private bool CanExecuteAdd(object? parameter) => IsAddEnabled;
+        private bool CanExecuteAdd() => IsAddEnabled;
 
         /// <summary>
         /// Выполнение добавления.
         /// </summary>
         /// <param name="parameter"></param>
-        private void ExecuteAdd(object? parameter)
+        private void ExecuteAdd()
         {
             _tempContact = new Contact();
             _selectedContact = _tempContact;
@@ -361,13 +357,13 @@ namespace View.ViewModel
         /// </summary>
         /// <param name="parameter"></param>
         /// <returns></returns>
-        private bool CanExecuteEdit(object? parameter) => IsEditAndRemoveEnabled;
+        private bool CanExecuteEdit() => IsEditAndRemoveEnabled;
 
        /// <summary>
        /// Выполнение редактирования 
        /// </summary>
        /// <param name="parameter"></param>
-        private void ExecuteEdit(object? parameter)
+        private void ExecuteEdit()
         {
             if (_selectedContact != null)
             {
@@ -395,13 +391,13 @@ namespace View.ViewModel
         /// </summary>
         /// <param name="parameter"></param>
         /// <returns></returns>
-        private bool CanExecuteRemove(object? parameter) => IsEditAndRemoveEnabled;
+        private bool CanExecuteRemove() => IsEditAndRemoveEnabled;
 
         /// <summary>
         /// Выполнение удаления.
         /// </summary>
         /// <param name="parameter"></param>
-        private void ExecuteRemove(object? parameter)
+        private void ExecuteRemove()
         {
             if (_selectedContact != null)
             {
@@ -424,12 +420,12 @@ namespace View.ViewModel
             }
         }
 
-        private bool CanExecuteApply(object? parameter)
+        private bool CanExecuteApply()
         {
             return IsInAddOrEditMode && (_currentValidator?.IsValid ?? false);
         }
 
-        private void ExecuteApply(object? parameter)
+        private void ExecuteApply()
         {
             if (_isInAddMode && _tempContact != null && (_currentValidator?.IsValid == true))
             {
@@ -490,13 +486,6 @@ namespace View.ViewModel
                 _contactBeforeEdit = null;
                 OnErrorsChanged(null);
             }
-        }
-
-        public event PropertyChangedEventHandler? PropertyChanged;
-
-        protected void OnPropertyChanged([CallerMemberName] string? propertyName = null)
-        {
-            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
         }
     }
 }

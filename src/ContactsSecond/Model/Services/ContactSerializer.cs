@@ -1,13 +1,9 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.IO;
-using System.Linq;
-using System.Text;
 using System.Text.Json;
-using System.Threading.Tasks;
 
-namespace View.Model.Services
+namespace Model.Services
 {
     /// <summary>
     /// Класс для сериализации и десериализации контактов
@@ -36,8 +32,8 @@ namespace View.Model.Services
             try
             {
                 // Создаем директорию, если её нет
-                string directory = Path.GetDirectoryName(FilePath);
-                if (!Directory.Exists(directory))
+                string? directory = Path.GetDirectoryName(FilePath);
+                if (!string.IsNullOrEmpty(directory) && !Directory.Exists(directory))
                 {
                     Directory.CreateDirectory(directory);
                 }
@@ -75,13 +71,9 @@ namespace View.Model.Services
                     // Читаем JSON из файла
                     string json = File.ReadAllText(FilePath);
 
-                    // Десериализуем в список
-                    var contacts = JsonSerializer.Deserialize<List<Contact>>(json);
-
-                    // Возвращаем как ObservableCollection
-                    return contacts != null
-                        ? new ObservableCollection<Contact>(contacts)
-                        : new ObservableCollection<Contact>();
+                    // Десериализуем сразу в ObservableCollection
+                    return JsonSerializer.Deserialize<ObservableCollection<Contact>>(json)
+                        ?? new ObservableCollection<Contact>();
                 }
             }
             catch (Exception ex)
