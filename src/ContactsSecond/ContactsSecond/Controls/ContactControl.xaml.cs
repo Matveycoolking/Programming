@@ -59,7 +59,7 @@ namespace ContactsSecond.Controls
 
                 if (!regex.IsMatch(text))
                 {
-                    e.CancelCommand(); // Отменяем вставку
+                    e.CancelCommand();
                 }
             }
             else

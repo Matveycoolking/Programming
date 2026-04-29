@@ -10,16 +10,28 @@ using Model.Services;
 
 namespace ViewModel
 {
-    public class MainVM : ObservableObject, INotifyDataErrorInfo
+    public partial class MainVM : ObservableObject, INotifyDataErrorInfo
     {
-        private ObservableCollection<Contact> _contacts;
-        private ObservableCollection<Contact> _filteredContacts;
+        [ObservableProperty]
+        private ObservableCollection<Contact> contacts;
+
+        [ObservableProperty]
+        private ObservableCollection<Contact> filteredContacts;
+
         private Contact? _selectedContact;
+
+        [ObservableProperty]
         private bool _isInAddMode;
+
+        [ObservableProperty]
         private bool _isInEditMode;
+
         private Contact? _contactBeforeEdit;
         private Contact? _tempContact;
+
+        [ObservableProperty]
         private string _searchText = string.Empty;
+
         private bool _isUpdating;
 
         /// <summary>
@@ -29,15 +41,10 @@ namespace ViewModel
 
         public MainVM()
         {
-            _contacts = new ObservableCollection<Contact>();
-            _filteredContacts = new ObservableCollection<Contact>();
+            contacts = new ObservableCollection<Contact>();
+            filteredContacts = new ObservableCollection<Contact>();
 
             LoadData();
-
-            AddCommand = new RelayCommand(ExecuteAdd, CanExecuteAdd);
-            EditCommand = new RelayCommand(ExecuteEdit, CanExecuteEdit);
-            RemoveCommand = new RelayCommand(ExecuteRemove, CanExecuteRemove);
-            ApplyCommand = new RelayCommand(ExecuteApply, CanExecuteApply);
 
             UpdateFilteredContacts();
         }
@@ -50,7 +57,7 @@ namespace ViewModel
             var loadedContacts = ContactSerializer.Load();
             if (loadedContacts.Count > 0)
             {
-                _contacts = loadedContacts;
+                Contacts = loadedContacts;
             }
         }
 
@@ -65,7 +72,7 @@ namespace ViewModel
                 return;
             }
 
-            ContactSerializer.Save(_contacts);
+            ContactSerializer.Save(Contacts);
         }
 
         /// <summary>
@@ -74,7 +81,7 @@ namespace ViewModel
         /// <returns></returns>
         private bool AreAllContactsValid()
         {
-            foreach (var contact in _contacts)
+            foreach (var contact in Contacts)
             {
                 if (!ContactValidator.IsContactValid(contact))
                 {
@@ -85,46 +92,19 @@ namespace ViewModel
         }
 
         /// <summary>
-        /// Сипсок контактов.
-        /// </summary>
-        public ObservableCollection<Contact> Contacts
-        {
-            get { return _contacts; }
-            set
-            {
-                if (SetProperty(ref _contacts, value))
-                {
-                    UpdateFilteredContacts();
-                }
-            }
-        }
-
-        /// <summary>
-        /// Список отфильтрованных контактов.
-        /// </summary>
-        public ObservableCollection<Contact> FilteredContacts
-        {
-            get { return _filteredContacts; }
-            private set
-            {
-                SetProperty(ref _filteredContacts, value);
-            }
-        }
-
-        /// <summary>
         /// Выбранный контакт.
         /// </summary>
         public Contact? SelectedContact
         {
             get
             {
-                if (_isInAddMode && _tempContact != null)
+                if (IsInAddMode && _tempContact != null)
                     return _tempContact;
                 return _selectedContact;
             }
             set
             {
-                if (_isInAddMode || _isInEditMode)
+                if (IsInAddMode || IsInEditMode)
                 {
                     CancelEditing();
                 }
@@ -133,21 +113,6 @@ namespace ViewModel
                 {
                     OnSelectedContactChanged();
                     NotifyCommandsCanExecuteChanged();
-                }
-            }
-        }
-
-        /// <summary>
-        /// Поиск текста.
-        /// </summary>
-        public string SearchText
-        {
-            get { return _searchText; }
-            set
-            {
-                if (SetProperty(ref _searchText, value ?? string.Empty))
-                {
-                    UpdateFilteredContacts();
                 }
             }
         }
@@ -197,7 +162,8 @@ namespace ViewModel
             set
             {
                 if (SelectedContact != null
-                    && SetProperty(SelectedContact.PhoneNumber, value, SelectedContact, static (contact, phoneNumber) => contact.PhoneNumber = phoneNumber))
+                    && SetProperty(SelectedContact.PhoneNumber, value, SelectedContact,
+                    static (contact, phoneNumber) => contact.PhoneNumber = phoneNumber))
                 {
                     _currentValidator?.ValidatePhoneNumber();
                     NotifyCommandsCanExecuteChanged();
@@ -206,48 +172,11 @@ namespace ViewModel
             }
         }
 
-        /// <summary>
-        /// Режим добавления.
-        /// </summary>
-        public bool IsInAddMode
-        {
-            get { return _isInAddMode; }
-            private set
-            {
-                if (SetProperty(ref _isInAddMode, value))
-                {
-                    OnModeChanged();
-                    NotifyCommandsCanExecuteChanged();
-                }
-            }
-        }
-
-        /// <summary>
-        /// Режим редактирования.
-        /// </summary>
-        public bool IsInEditMode
-        {
-            get { return _isInEditMode; }
-            private set
-            {
-                if (SetProperty(ref _isInEditMode, value))
-                {
-                    OnModeChanged();
-                    NotifyCommandsCanExecuteChanged();
-                }
-            }
-        }
-
-        public bool IsInAddOrEditMode => _isInAddMode || _isInEditMode;
+        public bool IsInAddOrEditMode => IsInAddMode || IsInEditMode;
         public bool IsApplyButtonVisible => IsInAddOrEditMode;
         public bool IsEditAndRemoveEnabled => !IsInAddOrEditMode && _selectedContact != null;
         public bool IsAddEnabled => !IsInAddOrEditMode;
         public bool AreFieldsReadOnly => !IsInAddOrEditMode;
-
-        public IRelayCommand AddCommand { get; }
-        public IRelayCommand EditCommand { get; }
-        public IRelayCommand RemoveCommand { get; }
-        public IRelayCommand ApplyCommand { get; }
 
         #region Валидация 
 
@@ -282,21 +211,42 @@ namespace ViewModel
             OnPropertyChanged(nameof(IsEditAndRemoveEnabled));
         }
 
-        private void OnModeChanged()
-        {
-            OnPropertyChanged(nameof(IsInAddOrEditMode));
-            OnPropertyChanged(nameof(IsApplyButtonVisible));
-            OnPropertyChanged(nameof(IsEditAndRemoveEnabled));
-            OnPropertyChanged(nameof(IsAddEnabled));
-            OnPropertyChanged(nameof(AreFieldsReadOnly));
-        }
-
         private void NotifyCommandsCanExecuteChanged()
         {
             AddCommand.NotifyCanExecuteChanged();
             EditCommand.NotifyCanExecuteChanged();
             RemoveCommand.NotifyCanExecuteChanged();
             ApplyCommand.NotifyCanExecuteChanged();
+        }
+
+        partial void OnContactsChanged(ObservableCollection<Contact> value)
+        {
+            UpdateFilteredContacts();
+        }
+
+        partial void OnSearchTextChanged(string value)
+        {
+            UpdateFilteredContacts();
+        }
+
+        partial void OnIsInAddModeChanged(bool value)
+        {
+            OnModeRelatedPropertiesChanged();
+        }
+
+        partial void OnIsInEditModeChanged(bool value)
+        {
+            OnModeRelatedPropertiesChanged();
+        }
+
+        private void OnModeRelatedPropertiesChanged()
+        {
+            OnPropertyChanged(nameof(IsInAddOrEditMode));
+            OnPropertyChanged(nameof(IsApplyButtonVisible));
+            OnPropertyChanged(nameof(IsEditAndRemoveEnabled));
+            OnPropertyChanged(nameof(IsAddEnabled));
+            OnPropertyChanged(nameof(AreFieldsReadOnly));
+            NotifyCommandsCanExecuteChanged();
         }
 
         #endregion
@@ -310,10 +260,10 @@ namespace ViewModel
             try
             {
                 _isUpdating = true;
-                var filtered = string.IsNullOrWhiteSpace(_searchText)
-                    ? _contacts
+                var filtered = string.IsNullOrWhiteSpace(SearchText)
+                    ? Contacts
                     : new ObservableCollection<Contact>(
-                        _contacts.Where(c => c.Name.IndexOf(_searchText, StringComparison.OrdinalIgnoreCase) >= 0));
+                        Contacts.Where(c => c.Name.IndexOf(SearchText, StringComparison.OrdinalIgnoreCase) >= 0));
                 FilteredContacts = new ObservableCollection<Contact>(filtered);
             }
             finally
@@ -325,15 +275,13 @@ namespace ViewModel
         /// <summary>
         /// Возможность выполнения добавления
         /// </summary>
-        /// <param name="parameter"></param>
-        /// <returns></returns>
         private bool CanExecuteAdd() => IsAddEnabled;
 
         /// <summary>
         /// Выполнение добавления.
         /// </summary>
-        /// <param name="parameter"></param>
-        private void ExecuteAdd()
+        [RelayCommand(CanExecute = nameof(CanExecuteAdd))]
+        private void Add()
         {
             _tempContact = new Contact();
             _selectedContact = _tempContact;
@@ -355,15 +303,13 @@ namespace ViewModel
         /// <summary>
         /// Возможность выполнения редактирования 
         /// </summary>
-        /// <param name="parameter"></param>
-        /// <returns></returns>
         private bool CanExecuteEdit() => IsEditAndRemoveEnabled;
 
        /// <summary>
        /// Выполнение редактирования 
        /// </summary>
-       /// <param name="parameter"></param>
-        private void ExecuteEdit()
+        [RelayCommand(CanExecute = nameof(CanExecuteEdit))]
+        private void Edit()
         {
             if (_selectedContact != null)
             {
@@ -389,26 +335,24 @@ namespace ViewModel
         /// <summary>
         /// Возможность выполнения удаления. 
         /// </summary>
-        /// <param name="parameter"></param>
-        /// <returns></returns>
         private bool CanExecuteRemove() => IsEditAndRemoveEnabled;
 
         /// <summary>
         /// Выполнение удаления.
         /// </summary>
-        /// <param name="parameter"></param>
-        private void ExecuteRemove()
+        [RelayCommand(CanExecute = nameof(CanExecuteRemove))]
+        private void Remove()
         {
             if (_selectedContact != null)
             {
-                int currentIndex = _contacts.IndexOf(_selectedContact);
-                _contacts.Remove(_selectedContact);
+                int currentIndex = Contacts.IndexOf(_selectedContact);
+                Contacts.Remove(_selectedContact);
 
-                if (_contacts.Count > 0)
+                if (Contacts.Count > 0)
                 {
-                    SelectedContact = currentIndex < _contacts.Count
-                        ? _contacts[currentIndex]
-                        : _contacts[_contacts.Count - 1];
+                    SelectedContact = currentIndex < Contacts.Count
+                        ? Contacts[currentIndex]
+                        : Contacts[Contacts.Count - 1];
                 }
                 else
                 {
@@ -425,12 +369,14 @@ namespace ViewModel
             return IsInAddOrEditMode && (_currentValidator?.IsValid ?? false);
         }
 
-        private void ExecuteApply()
+        [RelayCommand(CanExecute = nameof(CanExecuteApply))]
+        private void Apply()
         {
-            if (_isInAddMode && _tempContact != null && (_currentValidator?.IsValid == true))
+            if (IsInAddMode && _tempContact != null && (_currentValidator?.IsValid == true))
             {
-                _contacts.Add(_tempContact);
-                _selectedContact = _tempContact;
+                var tempContact = _tempContact;
+                Contacts.Add(tempContact);
+                _selectedContact = tempContact;
                 _tempContact = null;
                 _currentValidator = null;
                 IsInAddMode = false;
@@ -443,7 +389,7 @@ namespace ViewModel
                 OnErrorsChanged(null);
                 SaveData();
             }
-            else if (_isInEditMode && (_currentValidator?.IsValid == true))
+            else if (IsInEditMode && (_currentValidator?.IsValid == true))
             {
                 _currentValidator = null;
                 IsInEditMode = false;
@@ -457,7 +403,7 @@ namespace ViewModel
 
         private void CancelEditing()
         {
-            if (_isInAddMode)
+            if (IsInAddMode)
             {
                 _tempContact = null;
                 _currentValidator = null;
@@ -470,11 +416,14 @@ namespace ViewModel
                 OnPropertyChanged(nameof(PhoneNumber));
                 OnErrorsChanged(null);
             }
-            else if (_isInEditMode && _contactBeforeEdit != null && _selectedContact != null)
+            else if (IsInEditMode && _contactBeforeEdit != null && _selectedContact != null)
             {
-                _selectedContact.Name = _contactBeforeEdit.Name;
-                _selectedContact.Email = _contactBeforeEdit.Email;
-                _selectedContact.PhoneNumber = _contactBeforeEdit.PhoneNumber;
+                var contactBeforeEdit = _contactBeforeEdit;
+                var selectedContact = _selectedContact;
+
+                selectedContact.Name = contactBeforeEdit.Name;
+                selectedContact.Email = contactBeforeEdit.Email;
+                selectedContact.PhoneNumber = contactBeforeEdit.PhoneNumber;
 
                 OnPropertyChanged(nameof(Name));
                 OnPropertyChanged(nameof(Email));
